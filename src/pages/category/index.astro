@@ -6,8 +6,9 @@ const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
 
 // Fetch archive settings
 const allSettings = await getCollection('settings');
-const archiveSettings = allSettings.find(
-  (s) => s.id === 'en/archives' || s.id === 'en/archives.json'
+const archiveSettings = (
+  allSettings.find((s) => s.id === 'en/archives' || s.id === 'en/archives.json') ||
+  allSettings.find((s) => s.id === 'archives' || s.id === 'archives.json')
 )?.data?.categories;
 
 const title = archiveSettings?.seo_title || 'All Categories | Kukode';

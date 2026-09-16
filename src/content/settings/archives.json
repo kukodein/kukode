@@ -1,0 +1,31 @@
+{
+  "articles": {
+    "seo_title": "Articles & News | Kukode",
+    "seo_description": "Insights, tutorials, and news from the world of web development and digital business.",
+    "seo_image": "/image/default-thumbnail.jpg",
+    "header_title": "What can We help you with your business?",
+    "header_description": "Insights, tutorials, and news from the world of web development and digital business."
+  },
+  "portfolio": {
+    "seo_title": "Our Work & Selected Projects | Kukode",
+    "seo_description": "Explore our recent web development, e-commerce, and custom web application projects crafted by Kukode.",
+    "seo_image": "/image/default-thumbnail.jpg",
+    "header_title": "Work that speaks for itself.",
+    "header_description": "Every project is custom-coded for speed, search visibility, and real business results. Here are some of our recent client works."
+  },
+  "authors": {
+    "seo_title": "Authors & Contributors | Kukode",
+    "seo_description": "Meet the expert authors and technical contributors writing for Kukode.",
+    "seo_image": "/image/default-thumbnail.jpg",
+    "header_title": "Authors & Contributors",
+    "header_description": "Meet the minds behind Kukode's guides, tutorials, and technical insights."
+  },
+  "categories": {
+    "seo_title": "All Categories | Kukode",
+    "seo_description": "Browse articles and guides across all topics and categories on Kukode.",
+    "seo_image": "/image/default-thumbnail.jpg",
+    "header_title": "Explore by Category",
+    "header_description": "Browse articles, tutorials, and guides grouped by topics to help your digital journey."
+  }
+}
+
