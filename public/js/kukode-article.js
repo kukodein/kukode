@@ -1,22 +1,32 @@
-// Article-detail-page-only script — hanya di-load di halaman detail artikel,
-// bukan di halaman lain (sama pola-nya seperti kukode-home.js untuk homepage).
-GLightbox({
-  selector: '.glightbox',
-  touchNavigation: true,
-  loop: false,
-});
-
-document.addEventListener('DOMContentLoaded', function () {
+// Article-detail-page-only script — hanya di-load di halaman detail artikel
+function initArticlePage() {
   var article = document.querySelector('.article-body');
   var tocNav = document.getElementById('kk-toc-nav');
-  var tocSidebarCol = tocNav ? tocNav.closest('.col-lg-4') : null;
   if (!article || !tocNav) return;
 
+  // Init GLightbox if available
+  if (typeof GLightbox === 'function') {
+    try {
+      GLightbox({
+        selector: '.glightbox',
+        touchNavigation: true,
+        loop: false,
+      });
+    } catch (e) {
+      console.warn('GLightbox init error:', e);
+    }
+  }
+
+  // Clear existing TOC links if re-running
+  tocNav.innerHTML = '';
+
+  var tocSidebarCol = tocNav.closest('.col-lg-4');
   var headings = article.querySelectorAll('h2, h3');
   if (!headings.length) {
-    if (tocSidebarCol) tocSidebarCol.remove();
+    if (tocSidebarCol) tocSidebarCol.style.display = 'none';
     return;
   }
+  if (tocSidebarCol) tocSidebarCol.style.display = '';
 
   var usedIds = {};
   function slugify(text) {
@@ -46,14 +56,27 @@ document.addEventListener('DOMContentLoaded', function () {
     tocNav.appendChild(link);
   });
 
-  // Aktifkan Bootstrap Scrollspy secara manual (setelah link TOC dibuat), dengan
-  // rootMargin negatif di bawah supaya deteksi "aktif" terjadi saat heading
-  // berada di awal viewport, bukan di tengah layar.
+  // Re-enable Bootstrap ScrollSpy if available
   if (window.bootstrap && bootstrap.ScrollSpy) {
-    new bootstrap.ScrollSpy(document.body, {
-      target: '#kk-toc-nav',
-      rootMargin: '-100px 0px -70%',
-      // smoothScroll: true
-    });
+    try {
+      var oldSpy = bootstrap.ScrollSpy.getInstance(document.body);
+      if (oldSpy) oldSpy.dispose();
+      new bootstrap.ScrollSpy(document.body, {
+        target: '#kk-toc-nav',
+        rootMargin: '-100px 0px -70%',
+      });
+    } catch (e) {
+      console.warn('ScrollSpy init error:', e);
+    }
   }
-});
+}
+
+// Run immediately if DOM is ready, or on DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initArticlePage);
+} else {
+  initArticlePage();
+}
+
+// Support Astro ClientRouter page transitions
+document.addEventListener('astro:page-load', initArticlePage);

@@ -2,6 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
+// Get homepage content
+const homepageEntries = await getCollection('homepage');
+const homeData = homepageEntries.find(e => e.id === 'id' || e.id === 'id/index' || e.id.startsWith('id'));
+
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
 
 const schema = {
@@ -11,14 +15,202 @@ const schema = {
   "url": site,
 };
 
-// Get homepage content
-const homepageEntries = await getCollection('homepage');
-const homeData = homepageEntries.find(e => e.id === 'id' || e.id === 'id/index' || e.id.startsWith('id'));
-
 const title = homeData?.data?.seo_title || homeData?.data?.title || 'Kukode Digital Technology - Tingkatkan Web & Bisnis Anda';
 const description = homeData?.data?.seo_description || homeData?.data?.description || 'Kukode Digital Technology memberikan layanan untuk meningkatkan ekspansi perusahaan & kehadiran online Anda.';
 const seoImage = homeData?.data?.seo_image || '/image/default-thumbnail.jpg';
 
+// Hero
+const hero = homeData?.data?.hero || {};
+const heroBadgeText = hero.badge_text || 'Menerima Proyek Baru';
+const heroTitle = hero.title || homeData?.data?.hero_title || 'Kami membangun website yang benar-benar bekerja untuk bisnis Anda.';
+const heroDesc = hero.description || homeData?.data?.hero_description || 'Bukan sekadar tampilan menarik — setiap website yang kami buat cepat, profesional, dan dirancang untuk mengonversi. Anda berkomunikasi langsung dengan developer, dengan Kami, Kukode.';
+const heroCtaText = hero.cta_text || homeData?.data?.hero_cta_text || 'Hubungi Kami';
+const heroCtaLink = hero.cta_link || homeData?.data?.hero_cta_link || '#contact';
+const heroSecondaryCtaText = hero.secondary_cta_text || 'Lihat Karya Kami';
+const heroSecondaryCtaLink = hero.secondary_cta_link || '#portfolio';
+const heroImage = hero.image || homeData?.data?.hero_image || '/image/en-home-section-hero.png';
+const heroStat1 = hero.stat_1 || '⚡ Skor kecepatan rata-rata 98/100';
+const heroStat2 = hero.stat_2 || '🔍 SEO-ready sejak hari pertama';
+
+// Trusted By
+const trustedTitle = homeData?.data?.trusted?.title || 'Bisnis yang telah kami bantu go online';
+const trustedItems = homeData?.data?.trusted?.items || ['Acme', 'Northwind', 'Globex', 'Initech', 'Umbrella', 'Soylent'];
+
+// Marquee
+const marqueeItems = homeData?.data?.marquee?.items || [
+  'Company Profile', 'Landing Page', 'Toko Online', 'Redesign Website', 'WordPress',
+  'Next.js', 'UI/UX Figma', 'WooCommerce', 'SEO Ready', 'Mobile First'
+];
+
+// Numbers
+const numbersList = homeData?.data?.numbers?.items || [
+  { number: '120+', label: 'Website diluncurkan' },
+  { number: '98', label: 'Rata-rata skor kecepatan' },
+  { number: '5thn', label: 'Membangun website' },
+  { number: '99%', label: 'Klien ingin bekerja sama lagi' },
+];
+
+// About
+const about = homeData?.data?.about || {};
+const aboutEyebrow = about.eyebrow || 'Tentang Kukode';
+const aboutHeading = about.heading || 'Tim pengembangan web yang berpikir seperti pemilik bisnis.';
+const aboutP1 = about.p1 || 'Kami tidak hanya menulis kode. Kami memastikan setiap website adalah alat bisnis yang nyata. Setiap keputusan desain dan teknis dibuat dengan mempertimbangkan pengguna akhir dan target pertumbuhan Anda, bukan sekadar apa yang terlihat bagus di layar.';
+const aboutP2 = about.p2 || 'Berbasis di Indonesia, siap kerja remote, dan berkomitmen penuh pada setiap proyek. Anda berhubungan langsung dengan Kami — pihak yang merancang, mengode, dan menyelesaikan situs Anda.';
+const aboutImage = about.image || '/image/en-home-section-tentang.png';
+const aboutCtaText = about.cta_text || 'Pelajari lebih lanjut tentang kami';
+const aboutCtaLink = about.cta_link || '/id/about/';
+
+// Services
+const services = homeData?.data?.services || {};
+const servicesEyebrow = services.eyebrow || 'Layanan';
+const servicesHeading = services.heading || 'Apa yang bisa Kami bantu untuk bisnis Anda?';
+const servicesDesc = services.description || 'Dari website baru hingga pembaruan menyeluruh pada website yang sudah ada — setiap proyek kami bangun dengan standar tinggi yang sama.';
+const servicesItems = services.items || [
+  { icon: '💻', title: 'Pengembangan Web', description: 'Website dibuat khusus secara manual, dikode untuk memuat sangat cepat.', col_class: 'col-md-8' },
+  { icon: '🎨', title: 'Desain Web', description: 'Desain khusus yang mencerminkan identitas brand Anda.', col_class: 'col-md-4' },
+  { icon: '🛒', title: 'Toko Online', description: 'Website e-commerce siap menerima pesanan dan sistem pembayaran otomatis.', col_class: 'col-md-4' },
+  { icon: '🔍', title: 'Optimasi SEO', description: 'SEO on-page yang terpasang rapi sejak hari pertama pembuatan.', col_class: 'col-md-4' },
+  { icon: '🛠️', title: 'Pemeliharaan Website', description: 'Pembaruan rutin, monitoring performa, dan perbaikan berkelanjutan.', col_class: 'col-md-4' },
+  { icon: '🚀', title: 'Hosting & Deployment', description: 'Penyiapan hosting yang cepat, aman, dan sangat andal.', col_class: 'col-md-4' },
+  { icon: '📱', title: 'Ramah Ponsel (Mobile-First)', description: 'Dibangun untuk tampil dan bekerja sempurna di smartphone.', col_class: 'col-md-4' },
+  { icon: '📈', title: 'Analitik & Pelacakan', description: 'Ketahui dengan tepat bagaimana pengunjung menemukan dan menggunakan situs Anda.', col_class: 'col-md-4' },
+];
+
+// Process
+const processSection = homeData?.data?.process || {};
+const processEyebrow = processSection.eyebrow || 'Cara Kami Bekerja';
+const processHeading = processSection.heading || 'Sederhana, transparan, tanpa drama.';
+const processDesc = processSection.description || 'Dari percakapan pertama hingga hari peluncuran — Anda selalu tahu persis sejauh mana perkembangan proyek Anda.';
+const processSteps = processSection.items || [
+  { step_number: '1', title: 'Pertemuan Awal', description: 'Kita diskusikan bisnis Anda, target, dan apa yang kurang dari situs saat ini.' },
+  { step_number: '2', title: 'Desain', description: 'Anda akan melihat wireframe terlebih dahulu, lalu desain visual lengkap sesuai brand Anda.' },
+  { step_number: '3', title: 'Pengembangan', description: 'Kami bangun situs sebenarnya — cepat, responsif, dan siap untuk mesin pencari.' },
+  { step_number: '4', title: 'Pengujian & Review', description: 'Kami uji di berbagai perangkat, periksa kecepatan dan SEO, lalu mendemonstrasikannya bersama Anda.' },
+  { step_number: '5', title: 'Peluncuran & Dukungan', description: 'Situs Anda mengudara, dan kami tetap siap membantu kebutuhan lanjutan Anda.' },
+];
+
+// Portfolio
+const portfolio = homeData?.data?.portfolio || {};
+const portfolioEyebrow = portfolio.eyebrow || 'Karya Kami';
+const portfolioHeading = portfolio.heading || 'Karya yang membuktikan kualitasnya sendiri.';
+const portfolioCtaText = portfolio.cta_text || 'Lihat Semua Proyek';
+const portfolioCtaLink = portfolio.cta_link || '/id/portfolio/';
+const portfolioItems = portfolio.items || [
+  { title: 'Proyek Satu', category: 'Company Profile', image: 'https://picsum.photos/600/400?41', link: '#' },
+  { title: 'Proyek Dua', category: 'E-Commerce', image: 'https://picsum.photos/600/400?42', link: '#' },
+  { title: 'Proyek Tiga', category: 'Landing Page', image: 'https://picsum.photos/600/400?43', link: '#' },
+  { title: 'Proyek Empat', category: 'Blog', image: 'https://picsum.photos/600/400?44', link: '#' },
+  { title: 'Proyek Lima', category: 'Portofolio', image: 'https://picsum.photos/600/400?45', link: '#' },
+  { title: 'Proyek Enam', category: 'Aplikasi Web', image: 'https://picsum.photos/600/400?46', link: '#' },
+];
+
+// Tech Stack
+const stack = homeData?.data?.stack || {};
+const stackEyebrow = stack.eyebrow || 'Tech Stack';
+const stackHeading = stack.heading || 'Dibangun dengan alat yang tepat.';
+const stackDesc = stack.description || 'Bukan sekadar ikut tren. Setiap teknologi dipilih karena terbukti memberikan hasil terbaik bagi bisnis klien.';
+const stackCategories = stack.categories || [
+  { name: 'Frontend', tools: ['HTML5', 'CSS3 / SCSS', 'JavaScript', 'Tailwind CSS', 'Next.js'] },
+  { name: 'Backend & CMS', tools: ['WordPress', 'Elementor Pro', 'WooCommerce', 'PHP 8'] },
+  { name: 'Desain & Alat', tools: ['Figma', 'Canva Pro', 'Git / GitHub', 'Yoast SEO', 'Cloudflare'] },
+  { name: 'Pembayaran & API', tools: ['Midtrans', 'Xendit', 'WhatsApp API'] },
+  { name: 'Analitik & SEO', tools: ['Google Analytics', 'Search Console', 'PageSpeed'] },
+  { name: 'Hosting', tools: ['Niagahoster', 'Hostinger', 'cPanel'] },
+];
+
+// Testimonials
+const testimonials = homeData?.data?.testimonials || {};
+const testimonialsEyebrow = testimonials.eyebrow || 'Testimoni';
+const testimonialsHeading = testimonials.heading || 'Langsung dari klien yang telah bekerja sama dengan kami.';
+const testimonialsItems = testimonials.items || [
+  { quote: '"Website baru kami memuat kurang dari satu detik dan pertanyaan calon klien naik dua kali lipat di bulan pertama."', name: 'Budi Santoso', role: 'CEO, Perusahaan A', icon: '👨‍💼' },
+  { quote: '"Saya bisa update konten sendiri tanpa harus memanggil orang lain — itu saja sudah sangat berharga."', name: 'Sari Dewi', role: 'Pemilik, Toko B', icon: '👩' },
+  { quote: '"Mereka benar-benar menjelaskan apa yang dikerjakan dengan bahasa manusiawi, bukan cuma kirim tagihan."', name: 'Andi Wijaya', role: 'Marketing, Startup C', icon: '👨‍⚕️' },
+  { quote: '"Akhirnya punya website yang tampilannya pas dengan standar era sekarang, bukan seperti template tahun 2015."', name: 'Rina Putri', role: 'Founder, Brand D', icon: '👩' },
+];
+
+// Why Kukode
+const whyUs = homeData?.data?.why_us || {};
+const whyEyebrow = whyUs.eyebrow || 'Mengapa Kukode';
+const whyHeading = whyUs.heading || 'Inilah yang membuat kami benar-benar berbeda.';
+const whyDesc = whyUs.description || 'Alasan mengapa para klien kembali mempercayakan proyek mereka kepada kami.';
+const whyItems = whyUs.items || [
+  { icon: '🎯', title: 'Akses langsung ke developer', description: 'Tanpa perantara sales atau project manager yang memperlambat komunikasi.' },
+  { icon: '⚡', title: 'Selesai dalam hitungan minggu', description: 'Proses terstruktur dan terukur agar website segera mengudara.' },
+  { icon: '🔒', title: 'Aman secara bawaan', description: 'Hosting dan konfigurasi modern meminimalkan kerentanan keamanan.' },
+  { icon: '🎯', title: 'Fokus pada tujuan bisnis', description: 'Setiap bagian dibangun mengutamakan konten dan sasaran Anda.' },
+  { icon: '💬', title: 'Komunikasi jelas & lugas', description: 'Update berkala sehingga Anda selalu tahu proses yang sedang berjalan.' },
+  { icon: '📊', title: 'Ramah mesin pencari (SEO)', description: 'Menerapkan kaidah teknis SEO terbaik sejak hari pertama.' },
+  { icon: '🔄', title: 'Revisi yang fleksibel', description: 'Ruang evaluasi agar hasil akhir benar-benar memuaskan visi Anda.' },
+  { icon: '💰', title: 'Biaya transparan', description: 'Tanpa biaya tersembunyi — apa yang disepakati adalah apa yang dibayar.' },
+  { icon: '🤝', title: 'Dukungan setelah rilis', description: 'Kami tetap mendampingi setelah peluncuran agar situs berkembang optimal.' },
+];
+
+// Pricing
+const pricing = homeData?.data?.pricing || {};
+const pricingEyebrow = pricing.eyebrow || 'Paket Harga';
+const pricingHeading = pricing.heading || 'Investasi yang masuk akal untuk pertumbuhan bisnis.';
+const pricingDesc = pricing.description || 'Tidak ada proyek yang terlalu kecil atau terlalu besar. Semuanya disesuaikan dengan kebutuhan nyata Anda.';
+const pricingPlans = pricing.plans || [
+  {
+    name: 'Starter', price: 'IDR 800K', approx: '≈ USD 50 / proyek', is_popular: false,
+    description: 'Untuk bisnis yang baru memulai langkah di dunia digital.',
+    features: ['Landing page satu halaman', 'Desain responsif semua layar', 'Tombol WhatsApp & formulir kontak', 'Mockup Figma sebelum koding', 'Selesai dalam 3–5 hari kerja'],
+    cta_text: 'Konsultasi Sekarang', cta_link: '#contact'
+  },
+  {
+    name: 'Professional', price: 'IDR 1.5M', approx: '≈ USD 95 / proyek', is_popular: true, badge: 'Paling Populer',
+    description: 'Untuk bisnis yang ingin membangun citra kredibel dan memenangkan kepercayaan klien.',
+    features: ['Company profile 4–6 halaman', 'Mockup Figma + revisi desain', 'Pengaturan SEO on-page dasar', 'Integrasi Google Analytics', 'Revisi leluasa sesuai ruang lingkup', 'Selesai dalam 7–10 hari kerja'],
+    cta_text: 'Pilih Paket Ini', cta_link: '#contact'
+  },
+  {
+    name: 'E-Commerce', price: 'IDR 2.5M', approx: '≈ USD 158 / proyek', is_popular: false,
+    description: 'Untuk bisnis yang siap berjualan online tanpa potongan komisi pihak ketiga.',
+    features: ['Toko online WooCommerce lengkap', 'Katalog produk & manajemen stok', 'Integrasi payment gateway (otomatis)', 'Kalkulator ongkos kirim otomatis', 'Termasuk panduan pengelolaan admin'],
+    cta_text: 'Konsultasi Sekarang', cta_link: '#contact'
+  }
+];
+
+// FAQ
+const faq = homeData?.data?.faq || {};
+const faqEyebrow = faq.eyebrow || 'FAQ';
+const faqHeading = faq.heading || 'Pertanyaan yang sering ditanyakan.';
+const faqDesc = faq.description || 'Tidak menemukan pertanyaan Anda di sini? Silakan hubungi kami — kami membalas setiap pesan secara personal.';
+const faqCtaText = faq.cta_text || 'Kirim Pesan Langsung';
+const faqCtaLink = faq.cta_link || 'https://wa.me/62853293353541';
+const faqItems = faq.items || [
+  { question: 'Berapa lama waktu pengerjaan sebuah website?', answer: 'Biasanya berkisar antara 2–4 minggu tergantung pada tingkat kerumitan fitur dan kelengkapan materi.' },
+  { question: 'Apakah saya bisa mengajukan desain kustom sendiri?', answer: 'Tentu saja! Kami merancang desain khusus yang disesuaikan secara presisi dengan identitas brand Anda.' },
+  { question: 'Bagaimana sistem pembayarannya?', answer: 'Umumnya uang muka (DP) 50% di awal sebelum pengerjaan, dan pelunasan 50% setelah website selesai serta disetujui.' },
+  { question: 'Apakah harga sudah termasuk hosting dan domain?', answer: 'Tergantung paket yang dipilih — beberapa paket sudah include penyiapan hosting dan domain tahun pertama.' },
+  { question: 'Berapa kali kesempatan revisi yang didapatkan?', answer: 'Rata-rata 2–3 putaran revisi besar, dengan revisi minor yang fleksibel selama masa pengerjaan.' },
+  { question: 'Apakah ada pendampingan/support setelah website diluncurkan?', answer: 'Ya, kami menyediakan masa garansi dan dukungan teknis pasca rilis sesuai ketentuan paket.' },
+  { question: 'Bagaimana langkah awal untuk memulai?', answer: 'Cukup klik tombol hubungi kami atau chat via WhatsApp, dan kita bisa mulai berdiskusi mengenai kebutuhan Anda.' },
+  { question: 'Apakah bisa migrasi dari platform lain ke WordPress atau sebaliknya?', answer: 'Bisa banget — migrasi website dan optimasi ulang adalah salah satu keahlian utama tim kami.' }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+// CTA Band
+const ctaBand = homeData?.data?.cta || {};
+const ctaEyebrow = ctaBand.eyebrow || 'Mari Bicara';
+const ctaHeading = ctaBand.heading || 'Siap meluncurkan website Anda? Mari ngobrol dulu.';
+const ctaDesc = ctaBand.description || 'Konsultasi gratis tanpa ikatan. Ceritakan bisnis Anda dan kami akan membantu menemukan solusi terbaik.';
+const ctaBtnPrimaryText = ctaBand.primary_text || 'Hubungi Kami';
+const ctaBtnPrimaryLink = ctaBand.primary_link || '/id/contact/';
+const ctaBtnSecondaryText = ctaBand.secondary_text || 'Chat via WhatsApp';
+const ctaBtnSecondaryLink = ctaBand.secondary_link || 'https://wa.me/62853293353541';
+
+// Get latest posts
 const allPosts = await getCollection('posts', ({ id, data }) =>
   id.startsWith('id/') && !data.draft
 );
@@ -41,21 +233,21 @@ const latestPosts = allPosts
       <div class="container kk-hero-content">
         <div class="row align-items-center g-4">
           <div class="col-lg-6 text-start order-lg-1 order-2">
-            <div class="kk-badge-pill mb-4"><span class="kk-dot"></span>Menerima Proyek Baru</div>
-            <h1 class="mb-3">{homeData?.data?.hero_title || 'Kami membangun website yang benar-benar bekerja untuk bisnis Anda.'}</h1>
-            <p class="fs-5 text-muted-kk mb-4">{homeData?.data?.hero_description || 'Bukan sekadar tampilan menarik — setiap website yang kami buat cepat, profesional, dan dirancang untuk mengonversi. Anda berkomunikasi langsung dengan developer, dengan Kami, Kukode.'}</p>
+            <div class="kk-badge-pill mb-4"><span class="kk-dot"></span>{heroBadgeText}</div>
+            <h1 class="mb-3">{heroTitle}</h1>
+            <p class="fs-5 text-muted-kk mb-4">{heroDesc}</p>
             <div class="d-flex gap-3">
-              <a href={homeData?.data?.hero_cta_link || '#contact'} class="btn btn-primary">{homeData?.data?.hero_cta_text || 'Hubungi Kami'}</a>
-              <a href="#portfolio" class="btn btn-outline-kk">Lihat Karya Kami</a>
+              <a href={heroCtaLink} class="btn btn-primary">{heroCtaText}</a>
+              <a href={heroSecondaryCtaLink} class="btn btn-outline-kk">{heroSecondaryCtaText}</a>
             </div>
           </div>
           <div class="col-lg-6 order-lg-2 order-1">
             <div class="position-relative">
               <div class="kk-card p-2 border-0 bg-transparent">
-                <img src={homeData?.data?.hero_image || '/image/en-home-section-hero.png'} alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
+                <img src={heroImage} alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
               </div>
-              <div class="kk-float-card" style="position:absolute; top:100px; left:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">⚡ Skor kecepatan rata-rata 98/100</div>
-              <div class="kk-float-card" style="position:absolute; bottom:100px; right:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">🔍 SEO-ready sejak hari pertama</div>
+              <div class="kk-float-card" style="position:absolute; top:100px; left:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">{heroStat1}</div>
+              <div class="kk-float-card" style="position:absolute; bottom:100px; right:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">{heroStat2}</div>
             </div>
           </div>
         </div>
@@ -65,9 +257,9 @@ const latestPosts = allPosts
     <!-- Trusted By -->
     <section id="trusted" class="py-4 bg-light position-relative" style="z-index: 1;">
       <div class="container">
-        <p class="text-center small mb-4">Bisnis yang telah kami bantu go online</p>
+        <p class="text-center small mb-4">{trustedTitle}</p>
         <div class="kk-logo-strip">
-          <span>Acme</span><span>Northwind</span><span>Globex</span><span>Initech</span><span>Umbrella</span><span>Soylent</span>
+          {trustedItems.map(item => <span>{item}</span>)}
         </div>
       </div>
     </section>
@@ -75,8 +267,7 @@ const latestPosts = allPosts
     <!-- Marquee -->
     <section id="section-marquee" class="marquee-wrap">
       <div class="marquee-track">
-        <div class="marquee-item">Company Profile</div><div class="marquee-item">Landing Page</div><div class="marquee-item">Toko Online</div><div class="marquee-item">Redesign Website</div><div class="marquee-item">WordPress</div><div class="marquee-item">Next.js</div><div class="marquee-item">UI/UX Figma</div><div class="marquee-item">WooCommerce</div><div class="marquee-item">SEO Ready</div><div class="marquee-item">Mobile First</div>
-        <div class="marquee-item">Company Profile</div><div class="marquee-item">Landing Page</div><div class="marquee-item">Toko Online</div><div class="marquee-item">Redesign Website</div><div class="marquee-item">WordPress</div><div class="marquee-item">Next.js</div><div class="marquee-item">UI/UX Figma</div><div class="marquee-item">WooCommerce</div><div class="marquee-item">SEO Ready</div><div class="marquee-item">Mobile First</div>
+        {marqueeItems.concat(marqueeItems).map(item => <div class="marquee-item">{item}</div>)}
       </div>
     </section>
 
@@ -84,10 +275,30 @@ const latestPosts = allPosts
     <section id="numbers" class="kk-section">
       <div class="container">
         <div class="row g-4 text-center">
-          <div class="col-6 col-md-3"><div class="kk-stat-num">120+</div><p class="text-muted-kk small mb-0">Website diluncurkan</p></div>
-          <div class="col-6 col-md-3"><div class="kk-stat-num">98</div><p class="text-muted-kk small mb-0">Rata-rata skor kecepatan</p></div>
-          <div class="col-6 col-md-3"><div class="kk-stat-num">5thn</div><p class="text-muted-kk small mb-0">Membangun website</p></div>
-          <div class="col-6 col-md-3"><div class="kk-stat-num">99%</div><p class="text-muted-kk small mb-0">Klien ingin bekerja sama lagi</p></div>
+          {numbersList.map(metric => (
+            <div class="col-6 col-md-3">
+              <div class="kk-stat-num">{metric.number}</div>
+              <p class="text-muted-kk small mb-0">{metric.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about-us" class="kk-section kk-gradient-alt">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-6">
+            <img src={aboutImage} alt="Kukode team at work" class="img-fluid" width="546" height="364" loading="lazy" />
+          </div>
+          <div class="col-lg-6">
+            <p class="kk-eyebrow mb-2">{aboutEyebrow}</p>
+            <h2 class="mb-3">{aboutHeading}</h2>
+            <p>{aboutP1}</p>
+            {aboutP2 && <p>{aboutP2}</p>}
+            <a href={aboutCtaLink} class="btn btn-outline-kk">{aboutCtaText}</a>
+          </div>
         </div>
       </div>
     </section>
@@ -96,19 +307,179 @@ const latestPosts = allPosts
     <section id="services" class="kk-section">
       <div class="container">
         <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">Layanan</p>
-          <h2>Apa yang bisa Kami bantu untuk bisnis Anda?</h2>
-          <p>Dari website baru hingga pembaruan total — setiap proyek dibangun dengan standar tinggi.</p>
+          <p class="kk-eyebrow mb-2">{servicesEyebrow}</p>
+          <h2>{servicesHeading}</h2>
+          {servicesDesc && <p>{servicesDesc}</p>}
         </div>
         <div class="row g-3">
-          <div class="col-6 col-md-8"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">💻</div><h3 class="h6 font-heading fw-bold mb-1">Pengembangan</h3><p class="text-muted-kk small mb-0">Website dibuat manual, dikode untuk memuat cepat.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🎨</div><h3 class="h6 font-heading fw-bold mb-1">Desain Web</h3><p class="text-muted-kk small mb-0">Desain kustom yang mencerminkan brand Anda.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🛒</div><h3 class="h6 font-heading fw-bold mb-1">Toko Online</h3><p class="text-muted-kk small mb-0">Siap menerima pesanan dan pembayaran.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🔍</div><h3 class="h6 font-heading fw-bold mb-1">Optimasi SEO</h3><p class="text-muted-kk small mb-0">SEO on-page bawaan sejak awal.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🛠️</div><h3 class="h6 font-heading fw-bold mb-1">Pemeliharaan</h3><p class="text-muted-kk small mb-0">Update, monitoring, dan perbaikan berkelanjutan.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🚀</div><h3 class="h6 font-heading fw-bold mb-1">Hosting & Deploy</h3><p class="text-muted-kk small mb-0">Setup hosting cepat dan andal.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">📱</div><h3 class="h6 font-heading fw-bold mb-1">Mobile-Friendly</h3><p class="text-muted-kk small mb-0">Dibangun untuk tampil sempurna di ponsel.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">📈</div><h3 class="h6 font-heading fw-bold mb-1">Analitik</h3><p class="text-muted-kk small mb-0">Ketahui cara pengunjung menemukan situs Anda.</p></div></div>
+          {servicesItems.map(item => (
+            <div class={`col-6 ${item.col_class || 'col-md-4'}`}>
+              <div class="kk-card p-4 kk-why-card">
+                <div class="kk-icon-circle">{item.icon}</div>
+                <h3 class="h6 font-heading fw-bold mb-1">{item.title}</h3>
+                <p class="text-muted-kk small mb-0">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="kk-section kk-gradient-alt">
+      <div class="container">
+        <div class="text-center mb-5">
+          <p class="kk-eyebrow mb-2">{processEyebrow}</p>
+          <h2>{processHeading}</h2>
+          <p class="mx-auto" style="max-width:560px;">{processDesc}</p>
+        </div>
+        <div class="row g-3">
+          {processSteps.map(step => (
+            <div class="col-md-4 col-lg">
+              <div class="kk-card p-4 kk-step-card">
+                <div class="kk-step-circle" style="margin:0 0 0.9rem;">{step.step_number}</div>
+                <h3 class="h6 font-heading fw-bold mb-1">{step.title}</h3>
+                <p class="text-muted-kk small mb-0">{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="kk-section">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-5">
+          <div>
+            <p class="kk-eyebrow mb-2">{portfolioEyebrow}</p>
+            <h2 class="mb-0">{portfolioHeading}</h2>
+          </div>
+          <a href={portfolioCtaLink} class="btn btn-outline-kk btn-sm">{portfolioCtaText}</a>
+        </div>
+        <div class="row g-3">
+          {portfolioItems.map(item => (
+            <div class="col-6 col-lg-4">
+              <a href={item.link || '#'} class="kk-portfolio-card text-decoration-none text-reset d-block">
+                <div class="kk-browser-frame">
+                  <div class="kk-browser-bar"><span></span><span></span><span></span></div>
+                  <div class="kk-browser-body">
+                    <img src={item.image} alt={item.title} width="600" height="400" loading="lazy" />
+                    <div class="kk-overlay"><span class="btn btn-light btn-sm rounded-pill">Lihat proyek</span></div>
+                  </div>
+                </div>
+                <div class="m-2">
+                  <p class="text-muted-kk small mt-2 mb-1">{item.category}</p>
+                  <h3 class="h6 font-heading fw-bold">{item.title}</h3>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="stack" class="kk-section kk-gradient-alt">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-4">
+            <div class="kk-eyebrow mb-2">{stackEyebrow}</div>
+            <h2 class="mb-3">{stackHeading}</h2>
+            <p>{stackDesc}</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="row g-4">
+              {stackCategories.map(cat => (
+                <div class="col-md-4">
+                  <div class="text-uppercase text-secondary fw-bold fs-7 mb-2">{cat.name}</div>
+                  <div class="d-flex flex-wrap gap-2">
+                    {cat.tools.map(tool => <span class="tp-pill">{tool}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimony" class="kk-section">
+      <div class="container">
+        <div class="text-center mb-5">
+          <p class="kk-eyebrow mb-2">{testimonialsEyebrow}</p>
+          <h2>{testimonialsHeading}</h2>
+        </div>
+        <div class="row g-3 pt-2">
+          {testimonialsItems.map(t => (
+            <div class="col-md-6 col-lg-3">
+              <div class="kk-card p-4 h-100">
+                <p class="mb-4">{t.quote}</p>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="kk-icon-circle mb-0">{t.icon || '👨‍💼'}</div>
+                  <div>
+                    <p class="fw-bold mb-0 small">{t.name}</p>
+                    <p class="text-muted-kk small mb-0">{t.role}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Kukode -->
+    <section id="why-kukode" class="kk-section bg-surface">
+      <div class="container">
+        <div class="text-center mb-5">
+          <p class="kk-eyebrow mb-2">{whyEyebrow}</p>
+          <h2>{whyHeading}</h2>
+          <p class="text-muted-kk mx-auto" style="max-width:560px;">{whyDesc}</p>
+        </div>
+        <div class="row g-3">
+          {whyItems.map(item => (
+            <div class="col-6 col-md-4">
+              <div class="kk-card p-4 kk-why-card">
+                <div class="kk-icon-circle">{item.icon || '🎯'}</div>
+                <h3 class="h6 font-heading fw-bold mb-1">{item.title}</h3>
+                <p class="text-muted-kk small mb-0">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="kk-section kk-gradient-alt">
+      <div class="container">
+        <div class="text-center mb-5">
+          <p class="kk-eyebrow mb-2">{pricingEyebrow}</p>
+          <h2>{pricingHeading}</h2>
+          <p>{pricingDesc}</p>
+        </div>
+        <div class="row g-3 align-items-stretch">
+          {pricingPlans.map(plan => (
+            <div class="col-lg-4">
+              <div class={`kk-card p-4 h-100 ${plan.is_popular ? 'kk-pricing-popular' : ''}`}>
+                <h3 class="h5 font-heading fw-bold mb-0">
+                  {plan.name} {plan.is_popular && <span class="badge rounded-pill text-bg-primary fw-normal">{plan.badge || 'Paling Populer'}</span>}
+                </h3>
+                <div class="fs-3 fw-bold">{plan.price}</div>
+                {plan.approx && <div class="mb-3">{plan.approx}</div>}
+                <div class="text-muted">{plan.description}</div>
+                <hr style="border-color:var(--bs-border-color)" />
+                {plan.features.map(f => (
+                  <div class="d-flex align-items-center">
+                    <img src="/image/StreamlineColorCheckSquare.png" alt="✓" class="me-2 w-16px" width="16" height="16" loading="lazy" />{f}
+                  </div>
+                ))}
+                <a href={plan.cta_link || '#contact'} class={`btn w-100 mt-4 ${plan.is_popular ? 'btn-primary' : 'btn-outline-kk'}`}>{plan.cta_text}</a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -149,16 +520,39 @@ const latestPosts = allPosts
       </div>
     </section>
 
+    <!-- FAQ -->
+    <section id="faq" class="kk-section bg-surface">
+      <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`} />
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="kk-eyebrow mb-2">{faqEyebrow}</div>
+            <h2 class="mb-3">{faqHeading}</h2>
+            <p class="mb-4">{faqDesc}</p>
+            <a href={faqCtaLink} class="btn btn-primary" target="_blank">{faqCtaText}</a>
+          </div>
+          <div class="col-lg-8">
+            {faqItems.map(item => (
+              <div class="kk-faq-item">
+                <button class="kk-faq-q">{item.question} <span class="kk-faq-chevron">+</span></button>
+                <div class="kk-faq-a"><div class="kk-faq-a-inner">{item.answer}</div></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CTA -->
     <section id="contact" class="kk-section">
       <div class="container">
         <div class="kk-cta-band">
-          <p class="kk-eyebrow mb-2" style="color:rgba(255,255,255,0.85);">Mari Bicara</p>
-          <h2 class="mb-3">Siap memulai? Mari ngobrol dulu.</h2>
-          <p class="mb-4 mx-auto" style="max-width:480px;">Konsultasi gratis, tanpa tekanan. Ceritakan bisnis Anda dan kami akan mencarikan jalan terbaik bersama.</p>
+          <p class="kk-eyebrow mb-2" style="color:rgba(255,255,255,0.85);">{ctaEyebrow}</p>
+          <h2 class="mb-3">{ctaHeading}</h2>
+          <p class="mb-4 mx-auto" style="max-width:480px;">{ctaDesc}</p>
           <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="/contact/" class="btn btn-light">Hubungi Kami</a>
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">Chat WhatsApp</a>
+            <a href={ctaBtnPrimaryLink} class="btn btn-light">{ctaBtnPrimaryText}</a>
+            <a href={ctaBtnSecondaryLink} target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">{ctaBtnSecondaryText}</a>
           </div>
         </div>
       </div>

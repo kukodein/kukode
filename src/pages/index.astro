@@ -15,56 +15,200 @@ const schema = {
   "url": site,
 };
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How long does a project take?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Usually 2–4 weeks depending on complexity." }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I request a custom design?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, we tailor every design to your brand." }
-    },
-    {
-      "@type": "Question",
-      "name": "How does payment work?",
-      "acceptedAnswer": { "@type": "Answer", "text": "50% deposit upfront, remainder on completion." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is hosting included?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Depends on the plan — see Pricing for details." }
-    },
-    {
-      "@type": "Question",
-      "name": "How many revisions are included?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Typically 2–3 rounds, depending on your plan." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is there support after launch?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, support period varies by plan." }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I get started?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Reach out via the contact form or WhatsApp below." }
-    },
-    {
-      "@type": "Question",
-      "name": "Can you migrate from WordPress or into WordPress?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes — that's actually one of our specialties." }
-    }
-  ]
-};
-
 const title = homeData?.data?.seo_title || homeData?.data?.title || 'Kukode Digital Technology - Upgrade Your Web & Business';
 const description = homeData?.data?.seo_description || homeData?.data?.description || "Kukode Digital Technology gives the services to improve your company's expansion & online presence.";
 const seoImage = homeData?.data?.seo_image || '/image/default-thumbnail.jpg';
+
+// Hero
+const hero = homeData?.data?.hero || {};
+const heroBadgeText = hero.badge_text || 'Accepting New Projects';
+const heroTitle = hero.title || homeData?.data?.hero_title || 'We build websites that genuinely work for your business.';
+const heroDesc = hero.description || homeData?.data?.hero_description || 'Not just good-looking — every site we build is fast, professional, and designed to convert. You talk directly to the developer, to Us, Kukode. No middlemen, no guesswork.';
+const heroCtaText = hero.cta_text || homeData?.data?.hero_cta_text || 'Get a Quote';
+const heroCtaLink = hero.cta_link || homeData?.data?.hero_cta_link || '#contact';
+const heroSecondaryCtaText = hero.secondary_cta_text || 'See Our Work';
+const heroSecondaryCtaLink = hero.secondary_cta_link || '#portfolio';
+const heroImage = hero.image || homeData?.data?.hero_image || '/image/en-home-section-hero.png';
+const heroStat1 = hero.stat_1 || '⚡ 98/100 average site speed score';
+const heroStat2 = hero.stat_2 || '🔍 Built SEO-ready from day one';
+
+// Trusted By
+const trustedTitle = homeData?.data?.trusted?.title || "Businesses we've helped go online";
+const trustedItems = homeData?.data?.trusted?.items || ['Acme', 'Northwind', 'Globex', 'Initech', 'Umbrella', 'Soylent'];
+
+// Marquee
+const marqueeItems = homeData?.data?.marquee?.items || [
+  'Company Profile', 'Landing Page', 'Toko Online', 'Redesign Website', 'WordPress',
+  'Next.js', 'UI/UX Figma', 'WooCommerce', 'SEO Ready', 'Mobile First'
+];
+
+// Numbers
+const numbersList = homeData?.data?.numbers?.items || [
+  { number: '120+', label: 'Websites launched' },
+  { number: '98', label: 'Avg. site speed score' },
+  { number: '5yr', label: 'Building websites' },
+  { number: '99%', label: "Clients who'd hire us again" },
+];
+
+// About
+const about = homeData?.data?.about || {};
+const aboutEyebrow = about.eyebrow || 'About Kukode';
+const aboutHeading = about.heading || 'A web development team that thinks like a business owner.';
+const aboutP1 = about.p1 || "We don't just write code. We make sure every website is a genuine business tool. Every design and technical decision is made with your end users and growth goals in mind, not just what looks good on a screen.";
+const aboutP2 = about.p2 || 'Indonesia-based, remote-ready, and fully committed to every project. You deal directly with Us — the person designing, coding, and delivering your site. No sales reps. No account managers. No end-of-project surprises.';
+const aboutImage = about.image || '/image/en-home-section-tentang.png';
+const aboutCtaText = about.cta_text || 'Learn more about us';
+const aboutCtaLink = about.cta_link || '/about/';
+
+// Services
+const services = homeData?.data?.services || {};
+const servicesEyebrow = services.eyebrow || 'Services';
+const servicesHeading = services.heading || 'What can We help you with your business?';
+const servicesDesc = services.description || 'From a brand-new site to a full overhaul of what you already have — every project is built by me, to the same high standard.';
+const servicesItems = services.items || [
+  { icon: '💻', title: 'Development', description: 'Hand-built websites, coded to load fast.', col_class: 'col-md-8' },
+  { icon: '🎨', title: 'Web design', description: 'Custom design that reflects your brand.', col_class: 'col-md-4' },
+  { icon: '🛒', title: 'Online Store', description: 'E-commerce sites ready to take orders and payments.', col_class: 'col-md-4' },
+  { icon: '🔍', title: 'SEO Optimization', description: 'On-page SEO built in from the start.', col_class: 'col-md-4' },
+  { icon: '🛠️', title: 'Website Maintenance', description: 'Ongoing updates, monitoring, and fixes.', col_class: 'col-md-4' },
+  { icon: '🚀', title: 'Hosting & Deployment', description: 'Fast, reliable hosting setup.', col_class: 'col-md-4' },
+  { icon: '📱', title: 'Mobile-Friendly', description: 'Built to look and work great on phones first.', col_class: 'col-md-4' },
+  { icon: '📈', title: 'Analytics & Tracking', description: 'Know exactly how visitors find and use your site.', col_class: 'col-md-4' },
+];
+
+// Process
+const processSection = homeData?.data?.process || {};
+const processEyebrow = processSection.eyebrow || 'How We Work';
+const processHeading = processSection.heading || 'Simple, transparent, no drama.';
+const processDesc = processSection.description || 'From the first conversation to launch day — you always know exactly where your project stands.';
+const processSteps = processSection.items || [
+  { step_number: '1', title: 'Discovery Meet', description: 'We talk through your business, goals, and what your current site is missing.' },
+  { step_number: '2', title: 'Design', description: "You'll see wireframes first, then a full visual design matching your brand." },
+  { step_number: '3', title: 'Development', description: 'We build the real thing — fast, responsive, and ready for search engines.' },
+  { step_number: '4', title: 'Testing & Review', description: 'We test across devices, check page speed and SEO, then walk through it with you.' },
+  { step_number: '5', title: 'Launch & Support', description: 'Your site goes live, and we stay on to handle anything that comes up.' },
+];
+
+// Portfolio
+const portfolio = homeData?.data?.portfolio || {};
+const portfolioEyebrow = portfolio.eyebrow || 'Our Work';
+const portfolioHeading = portfolio.heading || 'Work that speaks for itself.';
+const portfolioCtaText = portfolio.cta_text || 'See All Projects';
+const portfolioCtaLink = portfolio.cta_link || '/portfolio/';
+const portfolioItems = portfolio.items || [
+  { title: 'Project One', category: 'Company Profile', image: 'https://picsum.photos/600/400?41', link: '#' },
+  { title: 'Project Two', category: 'E-Commerce', image: 'https://picsum.photos/600/400?42', link: '#' },
+  { title: 'Project Three', category: 'Landing Page', image: 'https://picsum.photos/600/400?43', link: '#' },
+  { title: 'Project Four', category: 'Blog', image: 'https://picsum.photos/600/400?44', link: '#' },
+  { title: 'Project Five', category: 'Portfolio', image: 'https://picsum.photos/600/400?45', link: '#' },
+  { title: 'Project Six', category: 'Web App', image: 'https://picsum.photos/600/400?46', link: '#' },
+];
+
+// Tech Stack
+const stack = homeData?.data?.stack || {};
+const stackEyebrow = stack.eyebrow || 'Tech Stack';
+const stackHeading = stack.heading || 'Built with the right tools.';
+const stackDesc = stack.description || 'No chasing trends. Every tool is chosen because it consistently delivers the best outcome for the client\'s business.';
+const stackCategories = stack.categories || [
+  { name: 'Frontend', tools: ['HTML5', 'CSS3 / SCSS', 'JavaScript', 'Tailwind CSS', 'Next.js'] },
+  { name: 'Backend & CMS', tools: ['WordPress', 'Elementor Pro', 'WooCommerce', 'PHP 8'] },
+  { name: 'Design & Tools', tools: ['Figma', 'Canva Pro', 'Git / GitHub', 'Yoast SEO', 'Cloudflare'] },
+  { name: 'Payment & API', tools: ['Midtrans', 'Xendit', 'WhatsApp API'] },
+  { name: 'Analytics & SEO', tools: ['Google Analytics', 'Search Console', 'PageSpeed'] },
+  { name: 'Hosting', tools: ['Niagahoster', 'Hostinger', 'cPanel'] },
+];
+
+// Testimonials
+const testimonials = homeData?.data?.testimonials || {};
+const testimonialsEyebrow = testimonials.eyebrow || 'Testimonials';
+const testimonialsHeading = testimonials.heading || "Straight from the people we've worked with.";
+const testimonialsItems = testimonials.items || [
+  { quote: '"Our new site loads in under a second and our inquiries doubled in the first month."', name: 'Budi Santoso', role: 'CEO, Company A', icon: '👨‍💼' },
+  { quote: '"I can update the site myself without calling anyone — that alone was worth it."', name: 'Sari Dewi', role: 'Owner, Store B', icon: '👩' },
+  { quote: '"They actually explained what they were doing instead of just sending invoices."', name: 'Andi Wijaya', role: 'Marketing, Startup C', icon: '👨‍⚕️' },
+  { quote: '"Finally a website that looks like it belongs to 2026, not 2015"', name: 'Rina Putri', role: 'Founder, Brand D', icon: '👩' },
+];
+
+// Why Kukode
+const whyUs = homeData?.data?.why_us || {};
+const whyEyebrow = whyUs.eyebrow || 'Why Kukode';
+const whyHeading = whyUs.heading || "Here's what makes us genuinely different.";
+const whyDesc = whyUs.description || 'Eight reasons clients come back for their next project.';
+const whyItems = whyUs.items || [
+  { icon: '🎯', title: 'Direct access to your developer', description: 'No sales reps or project managers in between.' },
+  { icon: '⚡', title: 'Launched in weeks', description: 'An efficient process gets you live in weeks, not months.' },
+  { icon: '🔒', title: 'Secure by default', description: 'Modern hosting means far fewer security headaches.' },
+  { icon: '🎯', title: 'Built around your goals', description: 'Every site is built around your content and goals.' },
+  { icon: '💬', title: 'Clear communication', description: 'Regular updates so you always know where the project stands.' },
+  { icon: '📊', title: 'SEO-friendly', description: 'Built with technical SEO best practices from day one.' },
+  { icon: '🔄', title: 'Flexible revisions', description: 'Room to iterate so the result matches your vision.' },
+  { icon: '💰', title: 'Transparent pricing', description: "No hidden fees — what's quoted is what you pay." },
+  { icon: '🤝', title: 'Post-launch support', description: 'We stick around after launch to help you grow.' },
+];
+
+// Pricing
+const pricing = homeData?.data?.pricing || {};
+const pricingEyebrow = pricing.eyebrow || 'Pricing';
+const pricingHeading = pricing.heading || 'An investment that actually makes sense.';
+const pricingDesc = pricing.description || 'No project is too small or too large. Everything is tailored to what you actually need.';
+const pricingPlans = pricing.plans || [
+  {
+    name: 'Starter', price: 'IDR 800K', approx: '≈ USD 50 / project', is_popular: false,
+    description: 'For businesses just stepping into the digital world.',
+    features: ['Single-page landing page', 'Fully responsive design', 'WhatsApp button & contact form', 'Figma mockup before coding', 'Delivered in 3–5 working days'],
+    cta_text: "Let's Talk", cta_link: '#contact'
+  },
+  {
+    name: 'Professional', price: 'IDR 1.5M', approx: '≈ USD 95 / project', is_popular: true, badge: 'Most popular',
+    description: 'For businesses that want to look the part and win client trust.',
+    features: ['4–6 page company profile', 'Figma mockup + design revisions', 'Basic on-page SEO setup', 'Google Analytics configured', 'Open revisions within scope', 'Delivered in 7–10 working days'],
+    cta_text: 'Choose This Plan', cta_link: '#contact'
+  },
+  {
+    name: 'E-Commerce', price: 'IDR 2.5M', approx: '≈ USD 158 / project', is_popular: false,
+    description: 'For businesses ready to sell online — commission-free.',
+    features: ['Full WooCommerce store setup', 'Product catalog & inventory management', 'Payment gateway integration', 'Automatic shipping calculator', 'Admin panel training included'],
+    cta_text: "Let's Talk", cta_link: '#contact'
+  }
+];
+
+// FAQ
+const faq = homeData?.data?.faq || {};
+const faqEyebrow = faq.eyebrow || 'FAQ';
+const faqHeading = faq.heading || 'Questions we hear all the time.';
+const faqDesc = faq.description || "Don't see yours here? Just ask — I reply personally to every message.";
+const faqCtaText = faq.cta_text || 'Message Me Directly';
+const faqCtaLink = faq.cta_link || 'https://wa.me/62853293353541';
+const faqItems = faq.items || [
+  { question: 'How long does a project take?', answer: 'Usually 2–4 weeks depending on complexity.' },
+  { question: 'Can I request a custom design?', answer: 'Yes, we tailor every design to your brand.' },
+  { question: 'How does payment work?', answer: '50% deposit upfront, remainder on completion.' },
+  { question: 'Is hosting included?', answer: 'Depends on the plan — see Pricing for details.' },
+  { question: 'How many revisions are included?', answer: 'Typically 2–3 rounds, depending on your plan.' },
+  { question: 'Is there support after launch?', answer: 'Yes, support period varies by plan.' },
+  { question: 'How do I get started?', answer: 'Reach out via the contact form or WhatsApp below.' },
+  { question: 'Can you migrate from WordPress or into WordPress?', answer: "Yes — that's actually one of our specialties." }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+// CTA Band
+const ctaBand = homeData?.data?.cta || {};
+const ctaEyebrow = ctaBand.eyebrow || "Let's Talk";
+const ctaHeading = ctaBand.heading || "Ready to go? Let's have a chat first.";
+const ctaDesc = ctaBand.description || "Free consultation, no pressure. Tell me about your business and I'll figure out the best path forward together.";
+const ctaBtnPrimaryText = ctaBand.primary_text || 'Get a Quote';
+const ctaBtnPrimaryLink = ctaBand.primary_link || '/contact/';
+const ctaBtnSecondaryText = ctaBand.secondary_text || 'Chat on WhatsApp';
+const ctaBtnSecondaryLink = ctaBand.secondary_link || 'https://wa.me/62853293353541';
 
 // Get latest posts
 const allPosts = await getCollection('posts', ({ id, data }) =>
@@ -89,21 +233,21 @@ const latestPosts = allPosts
       <div class="container kk-hero-content">
         <div class="row align-items-center g-4">
           <div class="col-lg-6 text-start order-lg-1 order-2">
-            <div class="kk-badge-pill mb-4"><span class="kk-dot"></span>Accepting New Projects</div>
-            <h1 class="mb-3">{homeData?.data?.hero_title || 'We build websites that genuinely work for your business.'}</h1>
-            <p class="fs-5 text-muted-kk mb-4">{homeData?.data?.hero_description || 'Not just good-looking — every site we build is fast, professional, and designed to convert. You talk directly to the developer, to Us, Kukode. No middlemen, no guesswork.'}</p>
+            <div class="kk-badge-pill mb-4"><span class="kk-dot"></span>{heroBadgeText}</div>
+            <h1 class="mb-3">{heroTitle}</h1>
+            <p class="fs-5 text-muted-kk mb-4">{heroDesc}</p>
             <div class="d-flex gap-3">
-              <a href={homeData?.data?.hero_cta_link || '#contact'} class="btn btn-primary">{homeData?.data?.hero_cta_text || 'Get a Quote'}</a>
-              <a href="#portfolio" class="btn btn-outline-kk">See Our Work</a>
+              <a href={heroCtaLink} class="btn btn-primary">{heroCtaText}</a>
+              <a href={heroSecondaryCtaLink} class="btn btn-outline-kk">{heroSecondaryCtaText}</a>
             </div>
           </div>
           <div class="col-lg-6 order-lg-2 order-1">
             <div class="position-relative">
               <div class="kk-card p-2 border-0 bg-transparent">
-                <img src={homeData?.data?.hero_image || '/image/en-home-section-hero.png'} alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
+                <img src={heroImage} alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
               </div>
-              <div class="kk-float-card" style="position:absolute; top:100px; left:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">⚡ 98/100 average site speed score</div>
-              <div class="kk-float-card" style="position:absolute; bottom:100px; right:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">🔍 Built SEO-ready from day one</div>
+              <div class="kk-float-card" style="position:absolute; top:100px; left:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">{heroStat1}</div>
+              <div class="kk-float-card" style="position:absolute; bottom:100px; right:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">{heroStat2}</div>
             </div>
           </div>
         </div>
@@ -113,9 +257,9 @@ const latestPosts = allPosts
     <!-- Trusted By -->
     <section id="trusted" class="py-4 bg-light position-relative" style="z-index: 1;">
       <div class="container">
-        <p class="text-center small mb-4">Businesses we've helped go online</p>
+        <p class="text-center small mb-4">{trustedTitle}</p>
         <div class="kk-logo-strip">
-          <span>Acme</span><span>Northwind</span><span>Globex</span><span>Initech</span><span>Umbrella</span><span>Soylent</span>
+          {trustedItems.map(item => <span>{item}</span>)}
         </div>
       </div>
     </section>
@@ -123,26 +267,7 @@ const latestPosts = allPosts
     <!-- Marquee -->
     <section id="section-marquee" class="marquee-wrap">
       <div class="marquee-track">
-        <div class="marquee-item">Company Profile</div>
-        <div class="marquee-item">Landing Page</div>
-        <div class="marquee-item">Toko Online</div>
-        <div class="marquee-item">Redesign Website</div>
-        <div class="marquee-item">WordPress</div>
-        <div class="marquee-item">Next.js</div>
-        <div class="marquee-item">UI/UX Figma</div>
-        <div class="marquee-item">WooCommerce</div>
-        <div class="marquee-item">SEO Ready</div>
-        <div class="marquee-item">Mobile First</div>
-        <div class="marquee-item">Company Profile</div>
-        <div class="marquee-item">Landing Page</div>
-        <div class="marquee-item">Toko Online</div>
-        <div class="marquee-item">Redesign Website</div>
-        <div class="marquee-item">WordPress</div>
-        <div class="marquee-item">Next.js</div>
-        <div class="marquee-item">UI/UX Figma</div>
-        <div class="marquee-item">WooCommerce</div>
-        <div class="marquee-item">SEO Ready</div>
-        <div class="marquee-item">Mobile First</div>
+        {marqueeItems.concat(marqueeItems).map(item => <div class="marquee-item">{item}</div>)}
       </div>
     </section>
 
@@ -150,10 +275,12 @@ const latestPosts = allPosts
     <section id="numbers" class="kk-section">
       <div class="container">
         <div class="row g-4 text-center">
-          <div class="col-6 col-md-3"><div class="kk-stat-num">120+</div><p class="text-muted-kk small mb-0">Websites launched</p></div>
-          <div class="col-6 col-md-3"><div class="kk-stat-num">98</div><p class="text-muted-kk small mb-0">Avg. site speed score</p></div>
-          <div class="col-6 col-md-3"><div class="kk-stat-num">5yr</div><p class="text-muted-kk small mb-0">Building websites</p></div>
-          <div class="col-6 col-md-3"><div class="kk-stat-num">99%</div><p class="text-muted-kk small mb-0">Clients who'd hire us again</p></div>
+          {numbersList.map(metric => (
+            <div class="col-6 col-md-3">
+              <div class="kk-stat-num">{metric.number}</div>
+              <p class="text-muted-kk small mb-0">{metric.label}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -163,14 +290,14 @@ const latestPosts = allPosts
       <div class="container">
         <div class="row align-items-center g-4">
           <div class="col-lg-6">
-            <img src="/image/en-home-section-tentang.png" alt="Kukode team at work" class="img-fluid" width="546" height="364" loading="lazy" />
+            <img src={aboutImage} alt="Kukode team at work" class="img-fluid" width="546" height="364" loading="lazy" />
           </div>
           <div class="col-lg-6">
-            <p class="kk-eyebrow mb-2">About Kukode</p>
-            <h2 class="mb-3">A web development team that thinks like a business owner.</h2>
-            <p>We don't just write code. We make sure every website is a genuine business tool. Every design and technical decision is made with your end users and growth goals in mind, not just what looks good on a screen.</p>
-            <p>Indonesia-based, remote-ready, and fully committed to every project. You deal directly with Us — the person designing, coding, and delivering your site. No sales reps. No account managers. No end-of-project surprises.</p>
-            <a href="/about/" class="btn btn-outline-kk">Learn more about us</a>
+            <p class="kk-eyebrow mb-2">{aboutEyebrow}</p>
+            <h2 class="mb-3">{aboutHeading}</h2>
+            <p>{aboutP1}</p>
+            {aboutP2 && <p>{aboutP2}</p>}
+            <a href={aboutCtaLink} class="btn btn-outline-kk">{aboutCtaText}</a>
           </div>
         </div>
       </div>
@@ -180,19 +307,20 @@ const latestPosts = allPosts
     <section id="services" class="kk-section">
       <div class="container">
         <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">Services</p>
-          <h2>What can We help you with your business?</h2>
-          <p>From a brand-new site to a full overhaul of what you already have — every project is built by me, to the same high standard.</p>
+          <p class="kk-eyebrow mb-2">{servicesEyebrow}</p>
+          <h2>{servicesHeading}</h2>
+          {servicesDesc && <p>{servicesDesc}</p>}
         </div>
         <div class="row g-3">
-          <div class="col-6 col-md-8"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">💻</div><h3 class="h6 font-heading fw-bold mb-1">Development</h3><p class="text-muted-kk small mb-0">Hand-built websites, coded to load fast.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🎨</div><h3 class="h6 font-heading fw-bold mb-1">Web design</h3><p class="text-muted-kk small mb-0">Custom design that reflects your brand.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🛒</div><h3 class="h6 font-heading fw-bold mb-1">Online Store</h3><p class="text-muted-kk small mb-0">E-commerce sites ready to take orders and payments.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🔍</div><h3 class="h6 font-heading fw-bold mb-1">SEO Optimization</h3><p class="text-muted-kk small mb-0">On-page SEO built in from the start.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🛠️</div><h3 class="h6 font-heading fw-bold mb-1">Website Maintenance</h3><p class="text-muted-kk small mb-0">Ongoing updates, monitoring, and fixes.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🚀</div><h3 class="h6 font-heading fw-bold mb-1">Hosting & Deployment</h3><p class="text-muted-kk small mb-0">Fast, reliable hosting setup.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">📱</div><h3 class="h6 font-heading fw-bold mb-1">Mobile-Friendly</h3><p class="text-muted-kk small mb-0">Built to look and work great on phones first.</p></div></div>
-          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">📈</div><h3 class="h6 font-heading fw-bold mb-1">Analytics & Tracking</h3><p class="text-muted-kk small mb-0">Know exactly how visitors find and use your site.</p></div></div>
+          {servicesItems.map(item => (
+            <div class={`col-6 ${item.col_class || 'col-md-4'}`}>
+              <div class="kk-card p-4 kk-why-card">
+                <div class="kk-icon-circle">{item.icon}</div>
+                <h3 class="h6 font-heading fw-bold mb-1">{item.title}</h3>
+                <p class="text-muted-kk small mb-0">{item.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -201,23 +329,17 @@ const latestPosts = allPosts
     <section id="process" class="kk-section kk-gradient-alt">
       <div class="container">
         <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">How We Work</p>
-          <h2>Simple, transparent, no drama.</h2>
-          <p class="mx-auto" style="max-width:560px;">From the first conversation to launch day — you always know exactly where your project stands.</p>
+          <p class="kk-eyebrow mb-2">{processEyebrow}</p>
+          <h2>{processHeading}</h2>
+          <p class="mx-auto" style="max-width:560px;">{processDesc}</p>
         </div>
         <div class="row g-3">
-          {[
-            { num: '1', title: 'Discovery Meet', desc: 'We talk through your business, goals, and what your current site is missing.' },
-            { num: '2', title: 'Design', desc: "You'll see wireframes first, then a full visual design matching your brand." },
-            { num: '3', title: 'Development', desc: 'We build the real thing — fast, responsive, and ready for search engines.' },
-            { num: '4', title: 'Testing & Review', desc: 'We test across devices, check page speed and SEO, then walk through it with you.' },
-            { num: '5', title: 'Launch & Support', desc: 'Your site goes live, and we stay on to handle anything that comes up.' },
-          ].map(step => (
+          {processSteps.map(step => (
             <div class="col-md-4 col-lg">
               <div class="kk-card p-4 kk-step-card">
-                <div class="kk-step-circle" style="margin:0 0 0.9rem;">{step.num}</div>
+                <div class="kk-step-circle" style="margin:0 0 0.9rem;">{step.step_number}</div>
                 <h3 class="h6 font-heading fw-bold mb-1">{step.title}</h3>
-                <p class="text-muted-kk small mb-0">{step.desc}</p>
+                <p class="text-muted-kk small mb-0">{step.description}</p>
               </div>
             </div>
           ))}
@@ -230,25 +352,25 @@ const latestPosts = allPosts
       <div class="container">
         <div class="d-flex justify-content-between align-items-end mb-5">
           <div>
-            <p class="kk-eyebrow mb-2">Our Work</p>
-            <h2 class="mb-0">Work that speaks for itself.</h2>
+            <p class="kk-eyebrow mb-2">{portfolioEyebrow}</p>
+            <h2 class="mb-0">{portfolioHeading}</h2>
           </div>
-          <a href="/portfolio/" class="btn btn-outline-kk btn-sm">See All Projects</a>
+          <a href={portfolioCtaLink} class="btn btn-outline-kk btn-sm">{portfolioCtaText}</a>
         </div>
         <div class="row g-3">
-          {[41, 42, 43, 44, 45, 46].map((id, i) => (
+          {portfolioItems.map(item => (
             <div class="col-6 col-lg-4">
-              <a href="#" class="kk-portfolio-card text-decoration-none text-reset d-block">
+              <a href={item.link || '#'} class="kk-portfolio-card text-decoration-none text-reset d-block">
                 <div class="kk-browser-frame">
                   <div class="kk-browser-bar"><span></span><span></span><span></span></div>
                   <div class="kk-browser-body">
-                    <img src={`https://picsum.photos/600/400?${id}`} alt={`Project ${i + 1}`} width="600" height="400" loading="lazy" />
+                    <img src={item.image} alt={item.title} width="600" height="400" loading="lazy" />
                     <div class="kk-overlay"><span class="btn btn-light btn-sm rounded-pill">View project</span></div>
                   </div>
                 </div>
                 <div class="m-2">
-                  <p class="text-muted-kk small mt-2 mb-1">{['Company Profile', 'E-Commerce', 'Landing Page', 'Blog', 'Portfolio', 'Web App'][i]}</p>
-                  <h3 class="h6 font-heading fw-bold">Project {['One', 'Two', 'Three', 'Four', 'Five', 'Six'][i]}</h3>
+                  <p class="text-muted-kk small mt-2 mb-1">{item.category}</p>
+                  <h3 class="h6 font-heading fw-bold">{item.title}</h3>
                 </div>
               </a>
             </div>
@@ -262,24 +384,17 @@ const latestPosts = allPosts
       <div class="container">
         <div class="row g-4 align-items-start">
           <div class="col-lg-4">
-            <div class="kk-eyebrow mb-2">Tech Stack</div>
-            <h2 class="mb-3">Built with the right tools.</h2>
-            <p>No chasing trends. Every tool is chosen because it consistently delivers the best outcome for the client's business.</p>
+            <div class="kk-eyebrow mb-2">{stackEyebrow}</div>
+            <h2 class="mb-3">{stackHeading}</h2>
+            <p>{stackDesc}</p>
           </div>
           <div class="col-lg-8">
             <div class="row g-4">
-              {[
-                { category: 'Frontend', items: ['HTML5', 'CSS3 / SCSS', 'JavaScript', 'Tailwind CSS', 'Next.js'] },
-                { category: 'Backend & CMS', items: ['WordPress', 'Elementor Pro', 'WooCommerce', 'PHP 8'] },
-                { category: 'Design & Tools', items: ['Figma', 'Canva Pro', 'Git / GitHub', 'Yoast SEO', 'Cloudflare'] },
-                { category: 'Payment & API', items: ['Midtrans', 'Xendit', 'WhatsApp API'] },
-                { category: 'Analytics & SEO', items: ['Google Analytics', 'Search Console', 'PageSpeed'] },
-                { category: 'Hosting', items: ['Niagahoster', 'Hostinger', 'cPanel'] },
-              ].map(tech => (
+              {stackCategories.map(cat => (
                 <div class="col-md-4">
-                  <div class="text-uppercase text-secondary fw-bold fs-7 mb-2">{tech.category}</div>
+                  <div class="text-uppercase text-secondary fw-bold fs-7 mb-2">{cat.name}</div>
                   <div class="d-flex flex-wrap gap-2">
-                    {tech.items.map(item => <span class="tp-pill">{item}</span>)}
+                    {cat.tools.map(tool => <span class="tp-pill">{tool}</span>)}
                   </div>
                 </div>
               ))}
@@ -293,24 +408,19 @@ const latestPosts = allPosts
     <section id="testimony" class="kk-section">
       <div class="container">
         <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">Testimonials</p>
-          <h2>Straight from the people we've worked with.</h2>
+          <p class="kk-eyebrow mb-2">{testimonialsEyebrow}</p>
+          <h2>{testimonialsHeading}</h2>
         </div>
         <div class="row g-3 pt-2">
-          {[
-            { quote: '"Our new site loads in under a second and our inquiries doubled in the first month."', name: 'Budi Santoso', title: 'CEO, Company A', icon: '👨‍💼' },
-            { quote: '"I can update the site myself without calling anyone — that alone was worth it."', name: 'Sari Dewi', title: 'Owner, Store B', icon: '👩' },
-            { quote: '"They actually explained what they were doing instead of just sending invoices."', name: 'Andi Wijaya', title: 'Marketing, Startup C', icon: '👨‍⚕️' },
-            { quote: '"Finally a website that looks like it belongs to 2026, not 2015"', name: 'Rina Putri', title: 'Founder, Brand D', icon: '👩' },
-          ].map(testimonial => (
+          {testimonialsItems.map(t => (
             <div class="col-md-6 col-lg-3">
               <div class="kk-card p-4 h-100">
-                <p class="mb-4">{testimonial.quote}</p>
+                <p class="mb-4">{t.quote}</p>
                 <div class="d-flex align-items-center gap-3">
-                  <div class="kk-icon-circle mb-0">{testimonial.icon}</div>
+                  <div class="kk-icon-circle mb-0">{t.icon || '👨‍💼'}</div>
                   <div>
-                    <p class="fw-bold mb-0 small">{testimonial.name}</p>
-                    <p class="text-muted-kk small mb-0">{testimonial.title}</p>
+                    <p class="fw-bold mb-0 small">{t.name}</p>
+                    <p class="text-muted-kk small mb-0">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -324,27 +434,17 @@ const latestPosts = allPosts
     <section id="why-kukode" class="kk-section bg-surface">
       <div class="container">
         <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">Why Kukode</p>
-          <h2>Here's what makes us genuinely different.</h2>
-          <p class="text-muted-kk mx-auto" style="max-width:560px;">Eight reasons clients come back for their next project.</p>
+          <p class="kk-eyebrow mb-2">{whyEyebrow}</p>
+          <h2>{whyHeading}</h2>
+          <p class="text-muted-kk mx-auto" style="max-width:560px;">{whyDesc}</p>
         </div>
         <div class="row g-3">
-          {[
-            { icon: '🎯', title: 'Direct access to your developer', desc: 'No sales reps or project managers in between.' },
-            { icon: '⚡', title: 'Launched in weeks', desc: 'An efficient process gets you live in weeks, not months.' },
-            { icon: '🔒', title: 'Secure by default', desc: 'Modern hosting means far fewer security headaches.' },
-            { icon: '🎯', title: 'Built around your goals', desc: 'Every site is built around your content and goals.' },
-            { icon: '💬', title: 'Clear communication', desc: 'Regular updates so you always know where the project stands.' },
-            { icon: '📊', title: 'SEO-friendly', desc: 'Built with technical SEO best practices from day one.' },
-            { icon: '🔄', title: 'Flexible revisions', desc: 'Room to iterate so the result matches your vision.' },
-            { icon: '💰', title: 'Transparent pricing', desc: "No hidden fees — what's quoted is what you pay." },
-            { icon: '🤝', title: 'Post-launch support', desc: 'We stick around after launch to help you grow.' },
-          ].map(item => (
-            <div class={item.icon === '🎯' && item.title.includes('Direct') ? 'col-12 col-md-4' : 'col-6 col-md-4'}>
+          {whyItems.map(item => (
+            <div class="col-6 col-md-4">
               <div class="kk-card p-4 kk-why-card">
-                <div class="kk-icon-circle">{item.icon}</div>
+                <div class="kk-icon-circle">{item.icon || '🎯'}</div>
                 <h3 class="h6 font-heading fw-bold mb-1">{item.title}</h3>
-                <p class="text-muted-kk small mb-0">{item.desc}</p>
+                <p class="text-muted-kk small mb-0">{item.description}</p>
               </div>
             </div>
           ))}
@@ -356,46 +456,27 @@ const latestPosts = allPosts
     <section id="pricing" class="kk-section kk-gradient-alt">
       <div class="container">
         <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">Pricing</p>
-          <h2>An investment that actually makes sense.</h2>
-          <p>No project is too small or too large. Everything is tailored to what you actually need.</p>
+          <p class="kk-eyebrow mb-2">{pricingEyebrow}</p>
+          <h2>{pricingHeading}</h2>
+          <p>{pricingDesc}</p>
         </div>
         <div class="row g-3 align-items-stretch">
-          {[
-            {
-              name: 'Starter', price: 'IDR 800K', usd: '≈ USD 50 / project', popular: false,
-              desc: 'For businesses just stepping into the digital world.',
-              features: ['Single-page landing page', 'Fully responsive design', 'WhatsApp button & contact form', 'Figma mockup before coding', 'Delivered in 3–5 working days'],
-              cta: "Let's Talk", ctaClass: 'btn-outline-kk'
-            },
-            {
-              name: 'Professional', price: 'IDR 1.5M', usd: '≈ USD 95 / project', popular: true,
-              desc: 'For businesses that want to look the part and win client trust.',
-              features: ['4–6 page company profile', 'Figma mockup + design revisions', 'Basic on-page SEO setup', 'Google Analytics configured', 'Open revisions within scope', 'Delivered in 7–10 working days'],
-              cta: 'Choose This Plan', ctaClass: 'btn-primary'
-            },
-            {
-              name: 'E-Commerce', price: 'IDR 2.5M', usd: '≈ USD 158 / project', popular: false,
-              desc: 'For businesses ready to sell online — commission-free.',
-              features: ['Full WooCommerce store setup', 'Product catalog & inventory management', 'Payment gateway integration', 'Automatic shipping calculator', 'Admin panel training included'],
-              cta: "Let's Talk", ctaClass: 'btn-outline-kk'
-            }
-          ].map(plan => (
+          {pricingPlans.map(plan => (
             <div class="col-lg-4">
-              <div class={`kk-card p-4 h-100 ${plan.popular ? 'kk-pricing-popular' : ''}`}>
+              <div class={`kk-card p-4 h-100 ${plan.is_popular ? 'kk-pricing-popular' : ''}`}>
                 <h3 class="h5 font-heading fw-bold mb-0">
-                  {plan.name} {plan.popular && <span class="badge rounded-pill text-bg-primary fw-normal">Most popular</span>}
+                  {plan.name} {plan.is_popular && <span class="badge rounded-pill text-bg-primary fw-normal">{plan.badge || 'Most popular'}</span>}
                 </h3>
                 <div class="fs-3 fw-bold">{plan.price}</div>
-                <div class="mb-3">{plan.usd}</div>
-                <div class="text-muted">{plan.desc}</div>
+                {plan.approx && <div class="mb-3">{plan.approx}</div>}
+                <div class="text-muted">{plan.description}</div>
                 <hr style="border-color:var(--bs-border-color)" />
                 {plan.features.map(f => (
                   <div class="d-flex align-items-center">
                     <img src="/image/StreamlineColorCheckSquare.png" alt="✓" class="me-2 w-16px" width="16" height="16" loading="lazy" />{f}
                   </div>
                 ))}
-                <a href="#contact" class={`btn w-100 mt-4 ${plan.ctaClass}`}>{plan.cta}</a>
+                <a href={plan.cta_link || '#contact'} class={`btn w-100 mt-4 ${plan.is_popular ? 'btn-primary' : 'btn-outline-kk'}`}>{plan.cta_text}</a>
               </div>
             </div>
           ))}
@@ -445,25 +526,16 @@ const latestPosts = allPosts
       <div class="container">
         <div class="row g-4">
           <div class="col-lg-4">
-            <div class="kk-eyebrow mb-2">FAQ</div>
-            <h2 class="mb-3">Questions we hear all the time.</h2>
-            <p class="mb-4">Don't see yours here? Just ask — I reply personally to every message.</p>
-            <a href="https://wa.me/6281234567890" class="btn btn-primary" target="_blank">Message Me Directly</a>
+            <div class="kk-eyebrow mb-2">{faqEyebrow}</div>
+            <h2 class="mb-3">{faqHeading}</h2>
+            <p class="mb-4">{faqDesc}</p>
+            <a href={faqCtaLink} class="btn btn-primary" target="_blank">{faqCtaText}</a>
           </div>
           <div class="col-lg-8">
-            {[
-              { q: 'How long does a project take?', a: 'Usually 2–4 weeks depending on complexity.' },
-              { q: 'Can I request a custom design?', a: 'Yes, we tailor every design to your brand.' },
-              { q: 'How does payment work?', a: '50% deposit upfront, remainder on completion.' },
-              { q: 'Is hosting included?', a: 'Depends on the plan — see Pricing for details.' },
-              { q: 'How many revisions are included?', a: 'Typically 2–3 rounds, depending on your plan.' },
-              { q: 'Is there support after launch?', a: 'Yes, support period varies by plan.' },
-              { q: 'How do I get started?', a: 'Reach out via the contact form or WhatsApp below.' },
-              { q: 'Can you migrate from WordPress or into WordPress?', a: "Yes — that's actually one of our specialties." },
-            ].map(item => (
+            {faqItems.map(item => (
               <div class="kk-faq-item">
-                <button class="kk-faq-q">{item.q} <span class="kk-faq-chevron">+</span></button>
-                <div class="kk-faq-a"><div class="kk-faq-a-inner">{item.a}</div></div>
+                <button class="kk-faq-q">{item.question} <span class="kk-faq-chevron">+</span></button>
+                <div class="kk-faq-a"><div class="kk-faq-a-inner">{item.answer}</div></div>
               </div>
             ))}
           </div>
@@ -475,12 +547,12 @@ const latestPosts = allPosts
     <section id="contact" class="kk-section">
       <div class="container">
         <div class="kk-cta-band">
-          <p class="kk-eyebrow mb-2" style="color:rgba(255,255,255,0.85);">Let's Talk</p>
-          <h2 class="mb-3">Ready to go? Let's have a chat first.</h2>
-          <p class="mb-4 mx-auto" style="max-width:480px;">Free consultation, no pressure. Tell me about your business and I'll figure out the best path forward together.</p>
+          <p class="kk-eyebrow mb-2" style="color:rgba(255,255,255,0.85);">{ctaEyebrow}</p>
+          <h2 class="mb-3">{ctaHeading}</h2>
+          <p class="mb-4 mx-auto" style="max-width:480px;">{ctaDesc}</p>
           <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="/contact/" class="btn btn-light">Get a Quote</a>
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">Chat on WhatsApp</a>
+            <a href={ctaBtnPrimaryLink} class="btn btn-light">{ctaBtnPrimaryText}</a>
+            <a href={ctaBtnSecondaryLink} target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">{ctaBtnSecondaryText}</a>
           </div>
         </div>
       </div>
@@ -491,4 +563,3 @@ const latestPosts = allPosts
     <script is:inline src="/js/kukode-home.js"></script>
   </Fragment>
 </BaseLayout>
-

@@ -9,12 +9,172 @@ const homepage = defineCollection({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
     seo_image: z.string().optional(),
+
+    // Hero section
+    hero: z.object({
+      badge_text: z.string().optional(),
+      title: z.string().optional(),
+      description: z.string().optional(),
+      cta_text: z.string().optional(),
+      cta_link: z.string().optional(),
+      secondary_cta_text: z.string().optional(),
+      secondary_cta_link: z.string().optional(),
+      image: z.string().optional(),
+      stat_1: z.string().optional(),
+      stat_2: z.string().optional(),
+    }).optional(),
     hero_title: z.string().optional(),
     hero_description: z.string().optional(),
     hero_cta_text: z.string().optional(),
     hero_cta_link: z.string().optional(),
     hero_image: z.string().optional(),
-  }),
+
+    // Trusted By section
+    trusted: z.object({
+      title: z.string().optional(),
+      items: z.array(z.string()).optional(),
+    }).optional(),
+
+    // Marquee
+    marquee: z.object({
+      items: z.array(z.string()).optional(),
+    }).optional(),
+
+    // Numbers / Metrics
+    numbers: z.object({
+      items: z.array(z.object({
+        number: z.string(),
+        label: z.string(),
+      })).optional(),
+    }).optional(),
+
+    // About section
+    about: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      p1: z.string().optional(),
+      p2: z.string().optional(),
+      image: z.string().optional(),
+      cta_text: z.string().optional(),
+      cta_link: z.string().optional(),
+    }).optional(),
+
+    // Services section
+    services: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      description: z.string().optional(),
+      items: z.array(z.object({
+        icon: z.string().optional(),
+        title: z.string(),
+        description: z.string(),
+        col_class: z.string().optional(),
+      })).optional(),
+    }).optional(),
+
+    // Process section
+    process: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      description: z.string().optional(),
+      items: z.array(z.object({
+        step_number: z.union([z.string(), z.number()]),
+        title: z.string(),
+        description: z.string(),
+      })).optional(),
+    }).optional(),
+
+    // Portfolio section
+    portfolio: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      cta_text: z.string().optional(),
+      cta_link: z.string().optional(),
+      items: z.array(z.object({
+        title: z.string(),
+        category: z.string(),
+        image: z.string(),
+        link: z.string().optional(),
+      })).optional(),
+    }).optional(),
+
+    // Tech Stack section
+    stack: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      description: z.string().optional(),
+      categories: z.array(z.object({
+        name: z.string(),
+        tools: z.array(z.string()),
+      })).optional(),
+    }).optional(),
+
+    // Testimonials section
+    testimonials: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      items: z.array(z.object({
+        quote: z.string(),
+        icon: z.string().optional(),
+        name: z.string(),
+        role: z.string(),
+      })).optional(),
+    }).optional(),
+
+    // Why Choose Us section
+    why_us: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      description: z.string().optional(),
+      items: z.array(z.object({
+        icon: z.string().optional(),
+        title: z.string(),
+        description: z.string(),
+      })).optional(),
+    }).optional(),
+
+    // Pricing section
+    pricing: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      description: z.string().optional(),
+      plans: z.array(z.object({
+        name: z.string(),
+        is_popular: z.boolean().optional(),
+        badge: z.string().optional(),
+        price: z.string(),
+        approx: z.string().optional(),
+        description: z.string(),
+        features: z.array(z.string()),
+        cta_text: z.string(),
+        cta_link: z.string().optional(),
+      })).optional(),
+    }).optional(),
+
+    // FAQ section
+    faq: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      description: z.string().optional(),
+      cta_text: z.string().optional(),
+      cta_link: z.string().optional(),
+      items: z.array(z.object({
+        question: z.string(),
+        answer: z.string(),
+      })).optional(),
+    }).optional(),
+
+    // CTA Band section
+    cta: z.object({
+      eyebrow: z.string().optional(),
+      heading: z.string().optional(),
+      description: z.string().optional(),
+      primary_text: z.string().optional(),
+      primary_link: z.string().optional(),
+      secondary_text: z.string().optional(),
+      secondary_link: z.string().optional(),
+    }).optional(),
+  }).passthrough(),
 });
 
 const pages = defineCollection({
