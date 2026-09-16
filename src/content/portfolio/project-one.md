@@ -39,3 +39,4 @@ We built a blazing-fast, static website powered by modern web technologies and a
 - **99/100** Google PageSpeed score on mobile and desktop.
 - **+145%** increase in qualified contact inquiries within the first 60 days.
 - **Zero server maintenance** overhead with modern static hosting.
+

@@ -25,3 +25,4 @@ Nova Analytics developed an AI-powered revenue forecasting tool and needed a pun
 - Clean interactive product previews highlighting core workflows.
 - Social proof elements prominently placed to build trust with enterprise buyers.
 - Optimized signup flow reducing friction from initial click to trial activation.
+

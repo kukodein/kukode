@@ -25,3 +25,4 @@ DailyInsight is a digital media outlet that publishes daily thought leadership a
 - Ultra-clean reader mode with customizable light/dark themes.
 - Automatic table of contents and reading progress indicators.
 - Comprehensive Article and Breadcrumb structured data for Google Discover and News indexing.
+

@@ -262,4 +262,41 @@ const portfolio = defineCollection({
   }),
 });
 
-export const collections = { homepage, pages, posts, authors, categories, portfolio };
+const settings = defineCollection({
+  loader: glob({ pattern: '**/*.{json,md}', base: './src/content/settings' }),
+  schema: z.object({
+    logo_light: z.string().default('/image/Logo-Kukode-Landscape.png'),
+    logo_dark: z.string().default('/image/Logo-Kukode-Landscape-White.png'),
+    header_nav: z.array(z.object({
+      label: z.string(),
+      url: z.string(),
+    })).optional(),
+    header_cta_text: z.string().optional(),
+    header_cta_url: z.string().optional(),
+    footer_col_1: z.object({
+      title: z.string(),
+      items: z.array(z.object({ label: z.string(), url: z.string() })).optional(),
+    }).optional(),
+    footer_col_2: z.object({
+      title: z.string(),
+      items: z.array(z.object({ label: z.string(), url: z.string() })).optional(),
+    }).optional(),
+    footer_col_3: z.object({
+      title: z.string(),
+      items: z.array(z.object({ label: z.string(), url: z.string() })).optional(),
+    }).optional(),
+    footer_description: z.string().optional(),
+    footer_address_title: z.string().optional(),
+    footer_address: z.string().optional(),
+    social_media: z.object({
+      instagram: z.string().optional(),
+      facebook: z.string().optional(),
+      youtube: z.string().optional(),
+      whatsapp: z.string().optional(),
+      linkedin: z.string().optional(),
+    }).optional(),
+    copyright_text: z.string().optional(),
+  }).passthrough(),
+});
+
+export const collections = { homepage, pages, posts, authors, categories, portfolio, settings };

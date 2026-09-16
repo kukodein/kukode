@@ -23,3 +23,4 @@ Studio Arch is an award-winning boutique architecture practice based in Southeas
 ## Design Concept
 
 We embraced an editorial, gallery-like layout with generous whitespace, crisp typography, and full-bleed photography to let the architectural works speak for themselves.
+

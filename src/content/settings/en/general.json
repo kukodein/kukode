@@ -1,0 +1,49 @@
+{
+  "logo_light": "/image/Logo-Kukode-Landscape.png",
+  "logo_dark": "/image/Logo-Kukode-Landscape-White.png",
+  "header_nav": [
+    { "label": "Services", "url": "/#services" },
+    { "label": "Process", "url": "/#process" },
+    { "label": "Portfolio", "url": "/portfolio/" },
+    { "label": "Pricing", "url": "/#pricing" },
+    { "label": "Blog", "url": "/article/" },
+    { "label": "FAQ", "url": "/#faq" }
+  ],
+  "header_cta_text": "Get a Quote",
+  "header_cta_url": "/#contact",
+  "footer_col_1": {
+    "title": "Navigation",
+    "items": [
+      { "label": "Services", "url": "/#services" },
+      { "label": "Portfolio", "url": "/portfolio/" },
+      { "label": "Pricing", "url": "/#pricing" },
+      { "label": "About", "url": "/about/" }
+    ]
+  },
+  "footer_col_2": {
+    "title": "Social",
+    "items": [
+      { "label": "Instagram", "url": "https://www.instagram.com/kukode.id" },
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/company/kukode" },
+      { "label": "YouTube", "url": "https://www.youtube.com/@kukode_id" }
+    ]
+  },
+  "footer_col_3": {
+    "title": "Contact",
+    "items": [
+      { "label": "WhatsApp", "url": "https://wa.me/62853293353541" },
+      { "label": "Get a Quote", "url": "/#contact" }
+    ]
+  },
+  "footer_description": "Web development studio helping growing businesses build fast, modern websites.",
+  "footer_address_title": "Head Quarter",
+  "footer_address": "Yogyakarta, Indonesia",
+  "social_media": {
+    "instagram": "https://www.instagram.com/kukode.id",
+    "facebook": "https://www.facebook.com/kukodein",
+    "youtube": "https://www.youtube.com/@kukode_id",
+    "whatsapp": "https://wa.me/62853293353541",
+    "linkedin": "https://www.linkedin.com/company/kukode"
+  },
+  "copyright_text": "Kukode Digital Technology · All rights reserved."
+}

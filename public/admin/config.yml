@@ -400,3 +400,94 @@ collections:
       - { label: "Featured on Homepage", name: "featured", widget: "boolean", default: false, required: false }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Project Case Study / Details", name: "body", widget: "markdown", required: false }
+
+  # ─── 7. Site Settings (Files Collection) ───
+  - name: "settings"
+    label: "Site Settings"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "general"
+        label: "General Settings"
+        file: "src/content/settings/general.json"
+        i18n: true
+        fields:
+          # Logo Settings (Light & Dark Mode)
+          - { label: "Logo Light Mode", name: "logo_light", widget: "image", default: "/image/Logo-Kukode-Landscape.png", i18n: duplicate, hint: "Used on light background in Header & Footer" }
+          - { label: "Logo Dark Mode", name: "logo_dark", widget: "image", default: "/image/Logo-Kukode-Landscape-White.png", i18n: duplicate, hint: "Used on dark background in Header & Footer" }
+
+          # Header Navigation
+          - label: "Header Navigation"
+            name: "header_nav"
+            widget: "list"
+            i18n: true
+            fields:
+              - { label: "Menu Label", name: "label", widget: "string", i18n: true }
+              - { label: "Menu URL", name: "url", widget: "string", i18n: true }
+          - { label: "Header CTA Button Text", name: "header_cta_text", widget: "string", default: "Get a Quote", i18n: true }
+          - { label: "Header CTA Button Link", name: "header_cta_url", widget: "string", default: "/#contact", i18n: duplicate }
+
+          # Footer Menu Columns (3 columns)
+          - label: "Footer Column 1"
+            name: "footer_col_1"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "Column Title", name: "title", widget: "string", default: "Navigation", i18n: true }
+              - label: "Menu Links"
+                name: "items"
+                widget: "list"
+                i18n: true
+                fields:
+                  - { label: "Label", name: "label", widget: "string", i18n: true }
+                  - { label: "URL", name: "url", widget: "string", i18n: true }
+
+          - label: "Footer Column 2"
+            name: "footer_col_2"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "Column Title", name: "title", widget: "string", default: "Social", i18n: true }
+              - label: "Menu Links"
+                name: "items"
+                widget: "list"
+                i18n: true
+                fields:
+                  - { label: "Label", name: "label", widget: "string", i18n: true }
+                  - { label: "URL", name: "url", widget: "string", i18n: true }
+
+          - label: "Footer Column 3"
+            name: "footer_col_3"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "Column Title", name: "title", widget: "string", default: "Contact", i18n: true }
+              - label: "Menu Links"
+                name: "items"
+                widget: "list"
+                i18n: true
+                fields:
+                  - { label: "Label", name: "label", widget: "string", i18n: true }
+                  - { label: "URL", name: "url", widget: "string", i18n: true }
+
+          # Footer Description
+          - { label: "Footer Description (Markdown / WYSIWYG)", name: "footer_description", widget: "markdown", required: false, i18n: true }
+          - { label: "Footer Address Title", name: "footer_address_title", widget: "string", default: "Head Quarter", required: false, i18n: true }
+          - { label: "Footer Address / Location", name: "footer_address", widget: "text", default: "Yogyakarta, Indonesia", required: false, i18n: true }
+
+          # Social Media Links (Optional)
+          - label: "Social Media Links"
+            name: "social_media"
+            widget: "object"
+            required: false
+            i18n: duplicate
+            fields:
+              - { label: "Instagram URL", name: "instagram", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.instagram.com/kukode.id" }
+              - { label: "Facebook URL", name: "facebook", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.facebook.com/kukodein" }
+              - { label: "YouTube URL", name: "youtube", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.youtube.com/@kukode_id" }
+              - { label: "WhatsApp URL", name: "whatsapp", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://wa.me/62853293353541" }
+              - { label: "LinkedIn URL", name: "linkedin", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.linkedin.com/company/kukode" }
+
+          # Copyright
+          - { label: "Copyright Text (Year auto-inserted)", name: "copyright_text", widget: "string", default: "Kukode Digital Technology · All rights reserved.", i18n: true }

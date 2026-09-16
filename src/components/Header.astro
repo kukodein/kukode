@@ -1,4 +1,6 @@
 ---
+import { getCollection } from 'astro:content';
+
 interface Props {
   alternateUrl?: string;
 }
@@ -7,6 +9,15 @@ const { alternateUrl } = Astro.props;
 const currentPath = Astro.url.pathname;
 const currentLocale = Astro.currentLocale || 'en';
 const isId = currentLocale === 'id';
+
+// Fetch site settings from CMS
+const allSettings = await getCollection('settings');
+const siteSettings = allSettings.find(
+  (s) => s.id === (isId ? 'id/general' : 'en/general') || s.id.startsWith(isId ? 'id' : 'en')
+)?.data;
+
+const logoLight = siteSettings?.logo_light || '/image/Logo-Kukode-Landscape.png';
+const logoDark = siteSettings?.logo_dark || '/image/Logo-Kukode-Landscape-White.png';
 
 // Language toggle
 let langTogglePath = alternateUrl;
@@ -30,23 +41,30 @@ const langTitle = isId ? 'Switch to English' : 'Ganti ke Bahasa Indonesia';
 
 // Navigation items
 const prefix = isId ? '/id' : '';
-const navItems = [
-  { label: isId ? 'Layanan' : 'Services', href: `${prefix}/#services` },
-  { label: isId ? 'Proses' : 'Process', href: `${prefix}/#process` },
-  { label: isId ? 'Portofolio' : 'Portfolio', href: `${prefix}/#portfolio` },
-  { label: isId ? 'Harga' : 'Pricing', href: `${prefix}/#pricing` },
-  { label: 'Blog', href: `${prefix}/#blog` },
-  { label: 'FAQ', href: `${prefix}/#faq` },
+const defaultNav = [
+  { label: isId ? 'Layanan' : 'Services', url: `${prefix}/#services` },
+  { label: isId ? 'Proses' : 'Process', url: `${prefix}/#process` },
+  { label: isId ? 'Portofolio' : 'Portfolio', url: '/portfolio/' },
+  { label: isId ? 'Harga' : 'Pricing', url: `${prefix}/#pricing` },
+  { label: 'Blog', url: `${prefix}/article/` },
+  { label: 'FAQ', url: `${prefix}/#faq` },
 ];
-const ctaText = isId ? 'Hubungi Kami' : 'Get a Quote';
+
+const navItems =
+  siteSettings?.header_nav && siteSettings.header_nav.length > 0
+    ? siteSettings.header_nav
+    : defaultNav;
+
+const ctaText = siteSettings?.header_cta_text || (isId ? 'Hubungi Kami' : 'Get a Quote');
+const ctaUrl = siteSettings?.header_cta_url || `${prefix}/#contact`;
 ---
 
 <header class="kk-navbar-wrap px-2">
   <nav class="navbar navbar-expand-lg kk-navbar container p-1 p-lg-2">
     <div class="container-fluid px-2">
       <a class="navbar-brand d-flex align-items-center gap-2" href={isId ? '/id/' : '/'}>
-        <img src="/image/Logo-Kukode-Landscape.png" class="d-show-light d-none-dark" alt="Kukode" style="min-width: 32px" height="32px" width="101px" loading="lazy" />
-        <img src="/image/Logo-Kukode-Landscape-White.png" class="d-show-dark d-none-light" alt="Kukode" style="min-width: 32px" height="32px" width="96px" loading="lazy" />
+        <img src={logoLight} class="d-show-light d-none-dark" alt="Kukode" style="min-width: 32px" height="32px" width="101px" loading="lazy" />
+        <img src={logoDark} class="d-show-dark d-none-light" alt="Kukode" style="min-width: 32px" height="32px" width="96px" loading="lazy" />
       </a>
 
       <div class="d-flex d-lg-none gap-2">
@@ -64,11 +82,11 @@ const ctaText = isId ? 'Hubungi Kami' : 'Get a Quote';
         <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 my-2 my-lg-0">
           {navItems.map((item) => (
             <li class="nav-item">
-              <a class="nav-link" href={item.href}>{item.label}</a>
+              <a class="nav-link" href={item.url}>{item.label}</a>
             </li>
           ))}
           <li class="nav-item ms-lg-2 mt-2 my-lg-0">
-            <a class="btn btn-primary btn-sm" href={`${prefix}/#contact`}>{ctaText}</a>
+            <a class="btn btn-primary btn-sm" href={ctaUrl}>{ctaText}</a>
           </li>
           <li class="nav-item kk-lang-slot ms-lg-2 border-top border-lg-0 pt-3 pt-lg-0 justify-content-between d-none d-lg-flex">
             <a href={langTogglePath} class="kk-lang-toggle text-decoration-none" title={langTitle} data-astro-reload>{langFlag}</a>

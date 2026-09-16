@@ -25,3 +25,4 @@ MetricFlow provides real-time system monitoring and health alerts for devops eng
 - High-throughput streaming data visualizations maintaining 60 FPS performance.
 - Intuitive keyboard shortcuts and query filters for rapid incident investigation.
 - Dark-mode optimized color palette adhering to WCAG AAA contrast standards.
+

@@ -33,3 +33,4 @@ We crafted a headless storefront paired with a robust e-commerce backend, provid
 - **Instant search & filtering**: Shoppers find products in real time with zero latency.
 - **One-click WhatsApp support**: Shoppers can instantly inquire about sizing or shipping status.
 - **Automated fulfillment**: Orders seamlessly sync with local couriers and inventory tracking.
+
