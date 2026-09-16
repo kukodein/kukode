@@ -378,3 +378,25 @@ collections:
       - { label: "Custom Slug", name: "slug", widget: "string", required: false, i18n: true }
       - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate }
       - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+
+  # ─── 6. Portfolio (English only) ───
+  - name: "portfolio"
+    label: "Portfolio"
+    label_singular: "Portfolio Project"
+    folder: "src/content/portfolio"
+    create: true
+    i18n: false
+    slug: "{{slug}}"
+    fields:
+      - { label: "Project Title", name: "title", widget: "string" }
+      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, hint: "URL slug (e.g. 'project-one'). If blank, filename is used." }
+      - { label: "Category", name: "category", widget: "select", options: ["Company Profile", "E-Commerce", "Landing Page", "Blog", "Portfolio", "Web App", "Custom Development"], default: "Company Profile" }
+      - { label: "Client Name", name: "client", widget: "string", required: false }
+      - { label: "Year", name: "year", widget: "string", required: false }
+      - { label: "Short Description", name: "description", widget: "text", required: false }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Live Project URL", name: "live_url", widget: "string", required: false }
+      - { label: "Tech Stack / Tools Used", name: "tools", widget: "list", required: false }
+      - { label: "Featured on Homepage", name: "featured", widget: "boolean", default: false, required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Project Case Study / Details", name: "body", widget: "markdown", required: false }

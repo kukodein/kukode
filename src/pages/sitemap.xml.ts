@@ -71,6 +71,15 @@ export const GET: APIRoute = async ({ site }) => {
     alternateId: `${baseUrl}/id/author/`,
   });
 
+  // Portfolio Listing (English only - detail pages are deliberately excluded from sitemap)
+  items.push({
+    loc: `${baseUrl}/portfolio/`,
+    lastmod: today,
+    changefreq: 'weekly',
+    priority: '0.8',
+    alternateEn: `${baseUrl}/portfolio/`,
+  });
+
   // 2. Pages Collection (e.g. /about/ and /id/tentang/)
   const allPages = await getCollection('pages', ({ data }) => !data.draft);
   const enPages = allPages.filter((p) => p.id.startsWith('en/'));
@@ -291,3 +300,4 @@ ${items
     },
   });
 };
+

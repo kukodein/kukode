@@ -70,7 +70,18 @@ export default defineConfig({
           id: 'id-ID',
         },
       },
-      filter: (page) => !page.includes('/admin') && !page.includes('/404'),
+      filter: (page) => {
+        if (page.includes('/admin') || page.includes('/404')) return false;
+        try {
+          const url = new URL(page);
+          if (url.pathname.startsWith('/portfolio/') && url.pathname !== '/portfolio/') {
+            return false;
+          }
+        } catch {
+          if (page.includes('/portfolio/') && !page.endsWith('/portfolio/')) return false;
+        }
+        return true;
+      },
     }),
     xRobotsTagIntegration(),
   ],

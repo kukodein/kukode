@@ -241,4 +241,25 @@ const categories = defineCollection({
   }),
 });
 
-export const collections = { homepage, pages, posts, authors, categories };
+const portfolio = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/portfolio' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    custom_slug: z.string().optional(),
+    category: z.string().default('Web Development'),
+    client: z.string().optional(),
+    year: z.string().optional(),
+    image: z.string().optional(),
+    gallery: z.array(z.string()).optional(),
+    live_url: z.string().optional(),
+    tools: z.array(z.string()).optional(),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+    seo_title: z.string().optional(),
+    seo_description: z.string().optional(),
+    seo_image: z.string().optional(),
+  }),
+});
+
+export const collections = { homepage, pages, posts, authors, categories, portfolio };

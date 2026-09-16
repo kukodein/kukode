@@ -33,6 +33,17 @@ const enCounterpart = allPosts.find((p) => {
 const enSlug = enCounterpart ? (enCounterpart.data.custom_slug || enCounterpart.id.replace(/^en\//, '')) : null;
 const alternateEnUrl = enSlug ? `${site}/article/${enSlug}` : undefined;
 
+// Related posts in Indonesian (up to 3 items in the same category, excluding current post)
+const relatedPosts = allPosts
+  .filter(
+    (p) =>
+      p.id.startsWith('id/') &&
+      p.id !== post.id &&
+      (p.data.category || '').toLowerCase() === (post.data.category || '').toLowerCase()
+  )
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 3);
+
 // Author data lookup
 const allAuthors = await getCollection('authors');
 const authorEntry = allAuthors.find(
@@ -191,6 +202,54 @@ const breadcrumbSchema = {
           </aside>
         </div>
       </article>
+
+      <!-- Related Posts Section (only renders if items exist) -->
+      {relatedPosts.length > 0 && (
+        <section class="mt-5 pt-5 border-top">
+          <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+              <p class="kk-eyebrow mb-1">Artikel Terkait</p>
+              <h3 class="h4 font-heading fw-bold mb-0">Lainnya di Kategori {post.data.category}</h3>
+            </div>
+            <a href={`/id/category/${post.data.category.toLowerCase()}/`} class="btn btn-outline-kk btn-sm">
+              Lihat Semua &rarr;
+            </a>
+          </div>
+          <div class="row g-3">
+            {relatedPosts.map((rel) => {
+              const relSlug = rel.data.custom_slug || rel.id.replace(/^id\//, '');
+              const relPubDate = rel.data.pubDate.toISOString().split('T')[0];
+              return (
+                <div class="col-md-4">
+                  <div class="kk-card p-2 h-100 d-flex flex-column">
+                    <a href={`/id/article/${relSlug}/`} class="text-decoration-none text-reset flex-grow-1">
+                      {rel.data.image && (
+                        <img
+                          src={rel.data.image}
+                          alt={rel.data.title}
+                          class="img-fluid rounded-3 w-100 aspect-ratio-16-9 bg-light"
+                          style="min-height: 120px; object-fit: cover;"
+                          loading="lazy"
+                        />
+                      )}
+                      <div class="m-2">
+                        <div id="meta-post" class="d-flex justify-content-between mt-3 mb-1">
+                          <span class="text-muted-kk small text-uppercase">{rel.data.category}</span>
+                          <time datetime={relPubDate} class="text-muted-kk small">{relPubDate}</time>
+                        </div>
+                        <h4 class="h6 font-heading fw-bold mt-2 mb-1">{rel.data.title}</h4>
+                        {rel.data.description && (
+                          <p class="text-muted-kk small mb-0">{rel.data.description}</p>
+                        )}
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
     </div>
   </main>
 
