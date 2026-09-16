@@ -222,6 +222,10 @@ const authors = defineCollection({
     email: z.string().optional(),
     instagram: z.string().optional(),
     website: z.string().optional(),
+    custom_slug: z.string().optional(),
+    seo_title: z.string().optional(),
+    seo_description: z.string().optional(),
+    seo_image: z.string().optional(),
   }),
 });
 

@@ -16,12 +16,14 @@ Disallow: /
     });
   }
 
-  const sitemapUrl = new URL('sitemap-index.xml', site).href;
+  const sitemapUrl = new URL('sitemap.xml', site).href;
+  const sitemapIndexUrl = new URL('sitemap-index.xml', site).href;
   const robotsTxt = `User-agent: *
 Allow: /
 Disallow: /admin/
 
 Sitemap: ${sitemapUrl}
+Sitemap: ${sitemapIndexUrl}
 `;
   return new Response(robotsTxt, {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },

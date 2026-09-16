@@ -354,12 +354,16 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Name", name: "name", widget: "string", i18n: duplicate }
+      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this author. If empty, filename is used." }
       - { label: "Role / Title", name: "role", widget: "string", required: false, i18n: true }
       - { label: "Bio", name: "bio", widget: "text", required: false, i18n: true }
       - { label: "Avatar", name: "avatar", widget: "image", required: false, i18n: duplicate }
       - { label: "Email", name: "email", widget: "string", required: false, i18n: duplicate }
       - { label: "Instagram", name: "instagram", widget: "string", required: false, i18n: duplicate }
       - { label: "Website", name: "website", widget: "string", required: false, i18n: duplicate }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
 
   # ─── 5. Categories ───
   - name: "categories"

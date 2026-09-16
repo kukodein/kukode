@@ -33,6 +33,22 @@ const idCounterpart = allPosts.find((p) => {
 const idSlug = idCounterpart ? (idCounterpart.data.custom_slug || idCounterpart.id.replace(/^id\//, '')) : null;
 const alternateIdUrl = idSlug ? `${site}/id/article/${idSlug}` : undefined;
 
+// Author data lookup
+const allAuthors = await getCollection('authors');
+const authorEntry = allAuthors.find(
+  (a) => a.data.name.toLowerCase() === (post.data.author || '').toLowerCase() && (a.id.startsWith('en/') || a.id.startsWith('en'))
+) || allAuthors.find((a) => a.data.name.toLowerCase() === (post.data.author || '').toLowerCase());
+
+const authorName = authorEntry?.data?.name || post.data.author || 'Kukode Team';
+const authorRole = authorEntry?.data?.role || 'Content Writer';
+const authorBio = authorEntry?.data?.bio || 'Passionate about web technology, software engineering, and digital business.';
+const authorAvatar = authorEntry?.data?.avatar || '/image/kukode-logo-transparent.png';
+const authorEmail = authorEntry?.data?.email || '';
+const authorInstagram = authorEntry?.data?.instagram || '';
+const authorWebsite = authorEntry?.data?.website || '';
+const authorSlug = authorEntry?.data?.custom_slug || authorEntry?.id.replace(/^(en|id)\//, '').replace(/\.(md|json)$/, '') || 'ahmad-muzakki';
+const authorUrl = `/author/${authorSlug}/`;
+
 const seoTitle = post.data.seo_title || post.data.title;
 const seoDesc = post.data.seo_description || post.data.description || '';
 const seoImage = post.data.seo_image || post.data.image;
@@ -47,7 +63,8 @@ const articleSchema = {
   "dateModified": post.data.updatedDate?.toISOString() || post.data.pubDate.toISOString(),
   "author": {
     "@type": "Person",
-    "name": post.data.author
+    "name": authorName,
+    "url": `${site}${authorUrl}`
   },
   "publisher": {
     "@type": "Organization",
@@ -99,8 +116,15 @@ const breadcrumbSchema = {
 
           <h1>{post.data.title}</h1>
 
-          <div id="meta-post" class="d-flex justify-content-between mt-3 mb-4">
-            <a href={`/category/${post.data.category.toLowerCase()}`} class="text-muted-kk small text-uppercase text-decoration-none">{post.data.category}</a>
+          <div id="meta-post" class="d-flex justify-content-between align-items-center mt-3 mb-4 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2">
+              <a href={authorUrl} class="text-decoration-none text-muted-kk small fw-semibold d-flex align-items-center gap-2">
+                <img src={authorAvatar} alt={authorName} class="rounded-circle border" width="26" height="26" style="object-fit:cover;" />
+                <span>{authorName}</span>
+              </a>
+              <span class="text-muted-kk small">&bull;</span>
+              <a href={`/category/${post.data.category.toLowerCase()}`} class="text-muted-kk small text-uppercase text-decoration-none">{post.data.category}</a>
+            </div>
             <time datetime={pubDateStr} class="text-muted-kk small">{pubDateStr}</time>
           </div>
 
@@ -113,10 +137,53 @@ const breadcrumbSchema = {
           </div>
 
           <!-- Author Box -->
-          <div class="d-flex gap-3 align-items-start border rounded-1 p-4 mt-4">
-            <div>
-              <p class="fw-bold mb-1">{post.data.author}</p>
-              <p class="text-muted-kk small mb-0">Content Writer</p>
+          <div class="d-flex flex-column flex-sm-row gap-3 align-items-start border rounded-2 p-4 mt-5 bg-surface">
+            <a href={authorUrl} class="text-decoration-none flex-shrink-0">
+              <img
+                src={authorAvatar}
+                alt={authorName}
+                class="rounded-circle border"
+                width="72"
+                height="72"
+                style="object-fit: cover;"
+                loading="lazy"
+              />
+            </a>
+            <div class="flex-grow-1">
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
+                <div>
+                  <h4 class="h6 font-heading fw-bold mb-0">
+                    <a href={authorUrl} class="text-decoration-none text-reset">
+                      {authorName}
+                    </a>
+                  </h4>
+                  {authorRole && <p class="text-muted-kk small mb-0">{authorRole}</p>}
+                </div>
+                <a href={authorUrl} class="btn btn-outline-kk btn-sm py-1 px-2 small">
+                  View Profile &rarr;
+                </a>
+              </div>
+              {authorBio && <p class="text-muted-kk small mt-2 mb-2">{authorBio}</p>}
+              <div class="d-flex gap-3 mt-2 flex-wrap">
+                {authorInstagram && (
+                  <a href={`https://instagram.com/${authorInstagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" class="text-muted-kk small text-decoration-none d-flex align-items-center gap-1">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    Instagram
+                  </a>
+                )}
+                {authorWebsite && (
+                  <a href={authorWebsite} target="_blank" rel="noopener noreferrer" class="text-muted-kk small text-decoration-none d-flex align-items-center gap-1">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    Website
+                  </a>
+                )}
+                {authorEmail && (
+                  <a href={`mailto:${authorEmail}`} class="text-muted-kk small text-decoration-none d-flex align-items-center gap-1">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    Email
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>

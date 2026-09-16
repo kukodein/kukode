@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+const authors = await getCollection('authors', ({ id }) => id.startsWith('id/'));
+
+const title = 'Penulis & Kontributor | Kukode';
+const description = 'Kenali para penulis dan kontributor ahli di balik artikel dan panduan Kukode.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  alternateEn={`${site}/author/`}
+  alternateId={`${site}/id/author/`}
+  headerAlternateUrl="/author/"
+>
+  <main class="kk-template-page">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">Tim Kami</p>
+        <h1 class="font-heading fw-bold">Penulis & Kontributor</h1>
+        <p class="text-muted-kk mx-auto" style="max-width: 540px;">
+          Kenali sosok di balik panduan, tutorial, dan wawasan teknologi dari Kukode.
+        </p>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+        {authors.map((author) => {
+          const slug = author.data.custom_slug || author.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
+          const authorAvatar = author.data.avatar || '/image/kukode-logo-transparent.png';
+          return (
+            <div class="col-md-6 col-lg-4">
+              <div class="kk-card p-4 h-100 text-center bg-surface border d-flex flex-column align-items-center">
+                <a href={`/id/author/${slug}/`} class="text-decoration-none">
+                  <img
+                    src={authorAvatar}
+                    alt={author.data.name}
+                    class="rounded-circle border mb-3 shadow-sm"
+                    width="96"
+                    height="96"
+                    style="object-fit: cover;"
+                    loading="lazy"
+                  />
+                </a>
+                <h3 class="h5 font-heading fw-bold mb-1">
+                  <a href={`/id/author/${slug}/`} class="text-decoration-none text-reset">
+                    {author.data.name}
+                  </a>
+                </h3>
+                {author.data.role && (
+                  <span class="badge text-bg-primary fw-normal mb-3">{author.data.role}</span>
+                )}
+                {author.data.bio && (
+                  <p class="text-muted-kk small mb-4 flex-grow-1">{author.data.bio}</p>
+                )}
+                <a href={`/id/author/${slug}/`} class="btn btn-outline-kk btn-sm w-100 mt-auto">
+                  Lihat Artikel &rarr;
+                </a>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </main>
+</BaseLayout>
