@@ -1,0 +1,165 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Kukode",
+  "url": site,
+};
+
+const title = 'Kukode Digital Technology - Tingkatkan Web & Bisnis Anda';
+const description = 'Kukode Digital Technology memberikan layanan untuk meningkatkan ekspansi perusahaan & kehadiran online Anda.';
+
+const allPosts = await getCollection('posts', ({ id, data }) =>
+  id.startsWith('id/') && !data.draft
+);
+const latestPosts = allPosts
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  alternateEn={`${site}/`}
+  alternateId={`${site}/id/`}
+  schema={schema}
+>
+  <main class="kk-template-home">
+    <!-- Hero Section -->
+    <section id="section-hero" class="kk-hero pb-4 pt-1 py-lg-5 py-xxl-0">
+      <div class="container kk-hero-content">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-6 text-start order-lg-1 order-2">
+            <div class="kk-badge-pill mb-4"><span class="kk-dot"></span>Menerima Proyek Baru</div>
+            <h1 class="mb-3">Kami membangun website yang benar-benar bekerja untuk bisnis Anda.</h1>
+            <p class="fs-5 text-muted-kk mb-4">Bukan sekadar tampilan menarik — setiap website yang kami buat cepat, profesional, dan dirancang untuk mengonversi. Anda berkomunikasi langsung dengan developer, dengan Kami, Kukode.</p>
+            <div class="d-flex gap-3">
+              <a href="#contact" class="btn btn-primary">Hubungi Kami</a>
+              <a href="#portfolio" class="btn btn-outline-kk">Lihat Karya Kami</a>
+            </div>
+          </div>
+          <div class="col-lg-6 order-lg-2 order-1">
+            <div class="position-relative">
+              <div class="kk-card p-2 border-0 bg-transparent">
+                <img src="/image/en-home-section-hero.png" alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
+              </div>
+              <div class="kk-float-card" style="position:absolute; top:100px; left:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">⚡ Skor kecepatan rata-rata 98/100</div>
+              <div class="kk-float-card" style="position:absolute; bottom:100px; right:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">🔍 SEO-ready sejak hari pertama</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trusted By -->
+    <section id="trusted" class="py-4 bg-light position-relative" style="z-index: 1;">
+      <div class="container">
+        <p class="text-center small mb-4">Bisnis yang telah kami bantu go online</p>
+        <div class="kk-logo-strip">
+          <span>Acme</span><span>Northwind</span><span>Globex</span><span>Initech</span><span>Umbrella</span><span>Soylent</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee -->
+    <section id="section-marquee" class="marquee-wrap">
+      <div class="marquee-track">
+        <div class="marquee-item">Company Profile</div><div class="marquee-item">Landing Page</div><div class="marquee-item">Toko Online</div><div class="marquee-item">Redesign Website</div><div class="marquee-item">WordPress</div><div class="marquee-item">Next.js</div><div class="marquee-item">UI/UX Figma</div><div class="marquee-item">WooCommerce</div><div class="marquee-item">SEO Ready</div><div class="marquee-item">Mobile First</div>
+        <div class="marquee-item">Company Profile</div><div class="marquee-item">Landing Page</div><div class="marquee-item">Toko Online</div><div class="marquee-item">Redesign Website</div><div class="marquee-item">WordPress</div><div class="marquee-item">Next.js</div><div class="marquee-item">UI/UX Figma</div><div class="marquee-item">WooCommerce</div><div class="marquee-item">SEO Ready</div><div class="marquee-item">Mobile First</div>
+      </div>
+    </section>
+
+    <!-- Key Metrics -->
+    <section id="numbers" class="kk-section">
+      <div class="container">
+        <div class="row g-4 text-center">
+          <div class="col-6 col-md-3"><div class="kk-stat-num">120+</div><p class="text-muted-kk small mb-0">Website diluncurkan</p></div>
+          <div class="col-6 col-md-3"><div class="kk-stat-num">98</div><p class="text-muted-kk small mb-0">Rata-rata skor kecepatan</p></div>
+          <div class="col-6 col-md-3"><div class="kk-stat-num">5thn</div><p class="text-muted-kk small mb-0">Membangun website</p></div>
+          <div class="col-6 col-md-3"><div class="kk-stat-num">99%</div><p class="text-muted-kk small mb-0">Klien ingin bekerja sama lagi</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="kk-section">
+      <div class="container">
+        <div class="text-center mb-5">
+          <p class="kk-eyebrow mb-2">Layanan</p>
+          <h2>Apa yang bisa Kami bantu untuk bisnis Anda?</h2>
+          <p>Dari website baru hingga pembaruan total — setiap proyek dibangun dengan standar tinggi.</p>
+        </div>
+        <div class="row g-3">
+          <div class="col-6 col-md-8"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">💻</div><h3 class="h6 font-heading fw-bold mb-1">Pengembangan</h3><p class="text-muted-kk small mb-0">Website dibuat manual, dikode untuk memuat cepat.</p></div></div>
+          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🎨</div><h3 class="h6 font-heading fw-bold mb-1">Desain Web</h3><p class="text-muted-kk small mb-0">Desain kustom yang mencerminkan brand Anda.</p></div></div>
+          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🛒</div><h3 class="h6 font-heading fw-bold mb-1">Toko Online</h3><p class="text-muted-kk small mb-0">Siap menerima pesanan dan pembayaran.</p></div></div>
+          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🔍</div><h3 class="h6 font-heading fw-bold mb-1">Optimasi SEO</h3><p class="text-muted-kk small mb-0">SEO on-page bawaan sejak awal.</p></div></div>
+          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🛠️</div><h3 class="h6 font-heading fw-bold mb-1">Pemeliharaan</h3><p class="text-muted-kk small mb-0">Update, monitoring, dan perbaikan berkelanjutan.</p></div></div>
+          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">🚀</div><h3 class="h6 font-heading fw-bold mb-1">Hosting & Deploy</h3><p class="text-muted-kk small mb-0">Setup hosting cepat dan andal.</p></div></div>
+          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">📱</div><h3 class="h6 font-heading fw-bold mb-1">Mobile-Friendly</h3><p class="text-muted-kk small mb-0">Dibangun untuk tampil sempurna di ponsel.</p></div></div>
+          <div class="col-6 col-md-4"><div class="kk-card p-4 kk-why-card"><div class="kk-icon-circle">📈</div><h3 class="h6 font-heading fw-bold mb-1">Analitik</h3><p class="text-muted-kk small mb-0">Ketahui cara pengunjung menemukan situs Anda.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog" class="kk-section">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+          <div>
+            <p class="kk-eyebrow mb-2">Blog</p>
+            <h2 class="mb-0">Artikel Terbaru</h2>
+          </div>
+          <a href="/id/article/" class="btn btn-outline-kk btn-sm">Lihat Semua</a>
+        </div>
+        <div class="row g-3">
+          {latestPosts.map(post => {
+            const slug = post.data.custom_slug || post.id.replace(/^id\//, '');
+            return (
+              <div class="col-md-4">
+                <div class="kk-card p-2">
+                  <a href={`/id/article/${slug}`} class="text-decoration-none text-reset">
+                    {post.data.image && (
+                      <img src={post.data.image} alt={post.data.title} class="img-fluid rounded-3 w-100 aspect-ratio-16-9 bg-light" style="min-height:100px;" loading="lazy" />
+                    )}
+                    <div class="m-2">
+                      <div id="meta-post" class="d-flex justify-content-between mt-3">
+                        <span class="text-muted-kk small text-uppercase">{post.data.category}</span>
+                        <time datetime={post.data.pubDate.toISOString().split('T')[0]} class="text-muted-kk small mb-1 d-block">{post.data.pubDate.toISOString().split('T')[0]}</time>
+                      </div>
+                      <h3 class="h6 font-heading mt-2">{post.data.title}</h3>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact" class="kk-section">
+      <div class="container">
+        <div class="kk-cta-band">
+          <p class="kk-eyebrow mb-2" style="color:rgba(255,255,255,0.85);">Mari Bicara</p>
+          <h2 class="mb-3">Siap memulai? Mari ngobrol dulu.</h2>
+          <p class="mb-4 mx-auto" style="max-width:480px;">Konsultasi gratis, tanpa tekanan. Ceritakan bisnis Anda dan kami akan mencarikan jalan terbaik bersama.</p>
+          <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="/contact/" class="btn btn-light">Hubungi Kami</a>
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">Chat WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/js/kukode-home.js"></script>
+  </Fragment>
+</BaseLayout>

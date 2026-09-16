@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages', ({ id, data }) =>
+    id.startsWith('en/') && !data.draft
+  );
+
+  return pages.map((page) => ({
+    params: { slug: page.data.custom_slug || page.data.slug_en || page.id.replace(/^en\//, '') },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+
+const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+const slug = page.data.custom_slug || page.data.slug_en || page.id.replace(/^en\//, '');
+
+// Check for Indonesian counterpart (by translation_key or by base filename)
+const allPages = await getCollection('pages', ({ data }) => !data.draft);
+const idCounterpart = allPages.find((p) => {
+  if (!p.id.startsWith('id/')) return false;
+  if (page.data.translation_key && p.data.translation_key) {
+    return p.data.translation_key === page.data.translation_key;
+  }
+  return p.id === page.id.replace(/^en\//, 'id/');
+});
+
+const idSlug = idCounterpart ? (idCounterpart.data.custom_slug || idCounterpart.data.slug_id || idCounterpart.id.replace(/^id\//, '')) : null;
+const alternateIdUrl = idSlug ? `${site}/id/${idSlug}/` : undefined;
+
+const seoTitle = page.data.seo_title || page.data.title;
+const seoDesc = page.data.seo_description || page.data.description || '';
+const seoImage = page.data.seo_image;
+---
+
+<BaseLayout
+  title={`${seoTitle} | Kukode`}
+  description={seoDesc}
+  image={seoImage}
+  alternateEn={`${site}/${slug}/`}
+  alternateId={alternateIdUrl}
+  headerAlternateUrl={alternateIdUrl || '/id/'}
+>
+  <main class="kk-template-page">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h1 class="mb-4">{page.data.title}</h1>
+          <div class="article-body">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

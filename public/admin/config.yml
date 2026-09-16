@@ -1,0 +1,108 @@
+backend:
+  name: github
+  repo: your-username/your-repo
+  branch: main
+
+local_backend: true
+
+media_folder: "public/image"
+public_folder: "/image"
+
+i18n:
+  structure: multiple_folders
+  locales: [en, id]
+  default_locale: en
+
+collections:
+  # ─── 1. Homepage (Both languages required) ───
+  - name: "homepage"
+    label: "Homepage"
+    folder: "src/content/homepage"
+    create: false
+    i18n: true
+    slug: "index"
+    fields:
+      - { label: "Page Title", name: "title", widget: "string", i18n: true }
+      - { label: "Description", name: "description", widget: "text", i18n: true }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true, hint: "Custom title for search engines. Defaults to Page Title if empty." }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true, hint: "Meta description for search engines." }
+      - { label: "SEO / OG Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+      - { label: "Hero Title", name: "hero_title", widget: "string", i18n: true }
+      - { label: "Hero Description", name: "hero_description", widget: "text", i18n: true }
+      - { label: "Hero CTA Text", name: "hero_cta_text", widget: "string", i18n: true }
+      - { label: "Hero CTA Link", name: "hero_cta_link", widget: "string", default: "#contact", i18n: duplicate }
+      - { label: "Hero Image", name: "hero_image", widget: "image", required: false, i18n: duplicate }
+
+  # ─── 2. Pages (Can stand alone in EN or ID, different slugs & SEO) ───
+  - name: "pages"
+    label: "Pages"
+    label_singular: "Page"
+    folder: "src/content/pages"
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this language (e.g. 'about' for EN, 'tentang' for ID). If empty, filename/title slug is used." }
+      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate, hint: "Unique key to link English and Indonesian pages together when their slugs differ (e.g. 'about-us')." }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, i18n: duplicate }
+      - { label: "Body", name: "body", widget: "markdown", i18n: true }
+
+  # ─── 3. Posts / Articles (Can stand alone in EN or ID, different slugs & SEO) ───
+  - name: "posts"
+    label: "Posts"
+    label_singular: "Post"
+    folder: "src/content/posts"
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this language (e.g. 'what-is-an-api' vs 'apa-itu-api'). If empty, filename/title is used." }
+      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate, hint: "Unique key linking English and Indonesian versions together when slugs differ (e.g. 'api-intro'). Leave blank if post is standalone." }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, i18n: duplicate }
+      - { label: "Updated Date", name: "updatedDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, i18n: duplicate }
+      - { label: "Featured Image", name: "image", widget: "image", required: false, i18n: duplicate }
+      - { label: "Category", name: "category", widget: "relation", collection: "categories", search_fields: ["name"], value_field: "name", display_fields: ["name"], i18n: duplicate }
+      - { label: "Author", name: "author", widget: "relation", collection: "authors", search_fields: ["name"], value_field: "name", display_fields: ["name"], i18n: duplicate }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, i18n: duplicate }
+      - { label: "Body", name: "body", widget: "markdown", i18n: true }
+
+  # ─── 4. Authors ───
+  - name: "authors"
+    label: "Authors"
+    label_singular: "Author"
+    folder: "src/content/authors"
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "name", widget: "string", i18n: duplicate }
+      - { label: "Role / Title", name: "role", widget: "string", required: false, i18n: true }
+      - { label: "Bio", name: "bio", widget: "text", required: false, i18n: true }
+      - { label: "Avatar", name: "avatar", widget: "image", required: false, i18n: duplicate }
+      - { label: "Email", name: "email", widget: "string", required: false, i18n: duplicate }
+      - { label: "Instagram", name: "instagram", widget: "string", required: false, i18n: duplicate }
+      - { label: "Website", name: "website", widget: "string", required: false, i18n: duplicate }
+
+  # ─── 5. Categories ───
+  - name: "categories"
+    label: "Categories"
+    label_singular: "Category"
+    folder: "src/content/categories"
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "name", widget: "string", i18n: true }
+      - { label: "Custom Slug", name: "slug", widget: "string", required: false, i18n: true }
+      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }

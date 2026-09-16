@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ id, data }) =>
+    id.startsWith('id/') && !data.draft
+  );
+
+  return posts.map((post) => ({
+    params: { slug: post.data.custom_slug || post.id.replace(/^id\//, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+const slug = post.data.custom_slug || post.id.replace(/^id\//, '');
+const pubDateStr = post.data.pubDate.toISOString().split('T')[0];
+
+// Check for English counterpart (by translation_key or by base filename)
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const enCounterpart = allPosts.find((p) => {
+  if (!p.id.startsWith('en/')) return false;
+  if (post.data.translation_key && p.data.translation_key) {
+    return p.data.translation_key === post.data.translation_key;
+  }
+  return p.id === post.id.replace(/^id\//, 'en/');
+});
+
+const enSlug = enCounterpart ? (enCounterpart.data.custom_slug || enCounterpart.id.replace(/^en\//, '')) : null;
+const alternateEnUrl = enSlug ? `${site}/article/${enSlug}` : undefined;
+
+const seoTitle = post.data.seo_title || post.data.title;
+const seoDesc = post.data.seo_description || post.data.description || '';
+const seoImage = post.data.seo_image || post.data.image;
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": seoDesc,
+  "image": seoImage ? `${site}${seoImage}` : undefined,
+  "datePublished": post.data.pubDate.toISOString(),
+  "dateModified": post.data.updatedDate?.toISOString() || post.data.pubDate.toISOString(),
+  "author": { "@type": "Person", "name": post.data.author },
+  "publisher": { "@type": "Organization", "name": "Kukode" }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Beranda", "item": `${site}/id/` },
+    { "@type": "ListItem", "position": 2, "name": "Artikel", "item": `${site}/id/article/` },
+    { "@type": "ListItem", "position": 3, "name": post.data.title }
+  ]
+};
+---
+
+<BaseLayout
+  title={`${seoTitle} | Kukode`}
+  description={seoDesc}
+  image={seoImage}
+  type="article"
+  publishedTime={post.data.pubDate.toISOString()}
+  modifiedTime={post.data.updatedDate?.toISOString()}
+  author={post.data.author}
+  schema={articleSchema}
+  alternateEn={alternateEnUrl}
+  alternateId={`${site}/id/article/${slug}`}
+  headerAlternateUrl={alternateEnUrl || '/article/'}
+>
+  <Fragment slot="head">
+    <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <main class="kk-template-page">
+    <div class="container py-5">
+      <article class="row gx-4 gx-lg-5">
+        <div class="col-lg-8 mx-auto">
+          <nav class="kk-breadcrumb-nav mb-3">
+            <a href="/id/" class="text-decoration-none text-muted-kk">Beranda</a>
+            <span class="mx-1 text-muted-kk">/</span>
+            <a href="/id/article/" class="text-decoration-none text-muted-kk">Artikel</a>
+            <span class="mx-1 text-muted-kk">/</span>
+            <span class="text-muted-kk">{post.data.title}</span>
+          </nav>
+
+          <h1>{post.data.title}</h1>
+
+          <div id="meta-post" class="d-flex justify-content-between mt-3 mb-4">
+            <a href={`/id/category/${post.data.category.toLowerCase()}`} class="text-muted-kk small text-uppercase text-decoration-none">{post.data.category}</a>
+            <time datetime={pubDateStr} class="text-muted-kk small">{pubDateStr}</time>
+          </div>
+
+          {post.data.image && (
+            <img src={post.data.image} alt={post.data.title} class="img-fluid rounded-1 mb-3 w-100" />
+          )}
+
+          <div class="article-body">
+            <Content />
+          </div>
+
+          <div class="d-flex gap-3 align-items-start border rounded-1 p-4 mt-4">
+            <div>
+              <p class="fw-bold mb-1">{post.data.author}</p>
+              <p class="text-muted-kk small mb-0">Penulis Konten</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 d-none d-lg-block">
+          <aside class="kk-toc-sidebar sticky-top" style="top: 6rem;">
+            <p class="kk-toc-title mb-0 font-heading">Daftar Isi</p>
+            <nav class="kk-toc-nav" id="kk-toc-nav"></nav>
+          </aside>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <Fragment slot="scripts">
+    <script is:inline src="/vendor/glightbox/js/glightbox.min.js"></script>
+    <script is:inline src="/js/kukode-article.js"></script>
+  </Fragment>
+</BaseLayout>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = '404 - Page Not Found | Kukode';
+---
+
+<BaseLayout title={title} noindex={true}>
+  <main class="kk-template-page">
+    <div class="kk-hero flex-grow-1 d-flex align-items-center justify-content-center flex-column min-vh-100">
+      <div class="kk-hero-content text-center py-5">
+        <h1 class="display-4">404</h1>
+        <p class="lead mb-5">Sorry, the page you're looking for doesn't exist.</p>
+        <a href="/" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

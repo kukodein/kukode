@@ -1,0 +1,113 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEOHead from '../components/SEOHead.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  noindex?: boolean;
+  schema?: object;
+  alternateEn?: string;
+  alternateId?: string;
+  headerAlternateUrl?: string;
+  canonical?: string;
+}
+
+const currentLocale = Astro.currentLocale || 'en';
+const {
+  title,
+  description = 'Kukode Digital Technology gives the services to improve your company\'s expansion & online presence.',
+  image = '/image/default-thumbnail.jpg',
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author,
+  noindex = false,
+  schema,
+  alternateEn,
+  alternateId,
+  headerAlternateUrl,
+  canonical,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={currentLocale} data-bs-theme="light">
+  <head>
+    <!-- Anti-FOUC: Apply saved theme immediately -->
+    <script is:inline>
+      (function () {
+        const saved = localStorage.getItem('kk-theme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', saved);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <SEOHead
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      author={author}
+      noindex={noindex}
+      schema={schema}
+      alternateEn={alternateEn}
+      alternateId={alternateId}
+      canonical={canonical}
+    />
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Bootstrap CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom Styles -->
+    <link href="/css/kukode.css" rel="stylesheet" />
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Kukode Blog" href="/rss.xml" />
+
+    <!-- ClientRouter for fast page transitions -->
+    <ClientRouter />
+
+    <slot name="head" />
+  </head>
+  <body>
+    <Header alternateUrl={headerAlternateUrl || (currentLocale === 'id' ? alternateEn : alternateId)} />
+
+    <slot />
+
+    <Footer />
+
+    <!-- Bootstrap JS -->
+    <script is:inline src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Global Scripts -->
+    <script is:inline src="/js/kukode-global.js"></script>
+
+    <!-- Re-init on client-side navigation -->
+    <script is:inline>
+      function applyTheme() {
+        const theme = localStorage.getItem('kk-theme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      }
+      document.addEventListener('astro:after-swap', applyTheme);
+    </script>
+
+    <slot name="scripts" />
+  </body>
+</html>

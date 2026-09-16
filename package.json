@@ -1,0 +1,21 @@
+{
+  "name": "kukode-sveltia",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "dev:cms": "concurrently \"astro dev\" \"npx @sveltia/cms-proxy\"",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.0.0",
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "concurrently": "^9.0.0",
+    "typescript": "^5.7.0"
+  }
+}
