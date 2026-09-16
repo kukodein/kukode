@@ -9,7 +9,7 @@ const currentYear = new Date().getFullYear();
 // Fetch site settings from CMS
 const allSettings = await getCollection('settings');
 const siteSettings = allSettings.find(
-  (s) => s.id === (isId ? 'id/general' : 'en/general') || s.id.startsWith(isId ? 'id' : 'en')
+  (s) => s.id === (isId ? 'id/general' : 'en/general') || s.id === (isId ? 'id/general.json' : 'en/general.json')
 )?.data;
 
 const logoLight = siteSettings?.logo_light || '/image/Logo-Kukode-Landscape.png';

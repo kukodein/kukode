@@ -1,0 +1,31 @@
+{
+  "articles": {
+    "seo_title": "Artikel & Berita | Kukode",
+    "seo_description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital.",
+    "seo_image": "/image/default-thumbnail.jpg",
+    "header_title": "Apa yang bisa Kami bantu untuk bisnis Anda?",
+    "header_description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital."
+  },
+  "portfolio": {
+    "seo_title": "Karya & Portofolio Pilihan | Kukode",
+    "seo_description": "Jelajahi proyek pengembangan web, e-commerce, dan aplikasi web khusus yang kami kerjakan.",
+    "seo_image": "/image/default-thumbnail.jpg",
+    "header_title": "Karya yang membuktikan kualitas kami.",
+    "header_description": "Setiap proyek dibuat manual untuk kecepatan tinggi, ramah mesin pencari, dan hasil nyata bagi bisnis Anda."
+  },
+  "authors": {
+    "seo_title": "Penulis & Kontributor | Kukode",
+    "seo_description": "Kenali para penulis dan kontributor ahli di balik artikel dan panduan Kukode.",
+    "seo_image": "/image/default-thumbnail.jpg",
+    "header_title": "Penulis & Kontributor",
+    "header_description": "Kenali sosok di balik panduan, tutorial, dan wawasan teknologi dari Kukode."
+  },
+  "categories": {
+    "seo_title": "Daftar Kategori | Kukode",
+    "seo_description": "Jelajahi artikel dan panduan berdasarkan kategori topik di Kukode.",
+    "seo_image": "/image/default-thumbnail.jpg",
+    "header_title": "Jelajahi Berdasarkan Kategori",
+    "header_description": "Temukan artikel, tutorial, dan panduan yang dikelompokkan berdasarkan topik untuk mendukung bisnis digital Anda."
+  }
+}
+

@@ -3,10 +3,24 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+
+// Fetch archive settings
+const allSettings = await getCollection('settings');
+const archiveSettings = allSettings.find(
+  (s) => s.id === 'en/archives' || s.id === 'en/archives.json'
+)?.data?.portfolio;
+
 const allProjects = await getCollection('portfolio', ({ data }) => !data.draft);
 
-const title = 'Our Work & Selected Projects | Kukode';
-const description = 'Explore our recent web development, e-commerce, and custom web application projects crafted by Kukode.';
+const title = archiveSettings?.seo_title || 'Our Work & Selected Projects | Kukode';
+const description =
+  archiveSettings?.seo_description ||
+  'Explore our recent web development, e-commerce, and custom web application projects crafted by Kukode.';
+const seoImage = archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const headerTitle = archiveSettings?.header_title || 'Work that speaks for itself.';
+const headerDesc =
+  archiveSettings?.header_description ||
+  'Every project is custom-coded for speed, search visibility, and real business results. Here are some of our recent client works.';
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -21,6 +35,7 @@ const breadcrumbSchema = {
 <BaseLayout
   title={title}
   description={description}
+  image={seoImage}
   alternateEn={`${site}/portfolio/`}
   headerAlternateUrl="/id/"
 >
@@ -40,9 +55,9 @@ const breadcrumbSchema = {
       <!-- Header -->
       <div class="text-center mb-5">
         <p class="kk-eyebrow mb-2">Our Portfolio</p>
-        <h1 class="display-5 font-heading fw-bold mb-3">Work that speaks for itself.</h1>
+        <h1 class="display-5 font-heading fw-bold mb-3">{headerTitle}</h1>
         <p class="text-muted-kk mx-auto fs-5" style="max-width: 640px;">
-          Every project is custom-coded for speed, search visibility, and real business results. Here are some of our recent client works.
+          {headerDesc}
         </p>
       </div>
 

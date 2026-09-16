@@ -3,15 +3,30 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+
+// Fetch archive settings
+const allSettings = await getCollection('settings');
+const archiveSettings = allSettings.find(
+  (s) => s.id === 'en/archives' || s.id === 'en/archives.json'
+)?.data?.authors;
+
 const authors = await getCollection('authors', ({ id }) => id.startsWith('en/'));
 
-const title = 'Authors & Contributors | Kukode';
-const description = 'Meet the expert authors and technical contributors writing for Kukode.';
+const title = archiveSettings?.seo_title || 'Authors & Contributors | Kukode';
+const description =
+  archiveSettings?.seo_description ||
+  'Meet the expert authors and technical contributors writing for Kukode.';
+const seoImage = archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const headerTitle = archiveSettings?.header_title || 'Authors & Contributors';
+const headerDesc =
+  archiveSettings?.header_description ||
+  "Meet the minds behind Kukode's guides, tutorials, and technical insights.";
 ---
 
 <BaseLayout
   title={title}
   description={description}
+  image={seoImage}
   alternateEn={`${site}/author/`}
   alternateId={`${site}/id/author/`}
   headerAlternateUrl="/id/author/"
@@ -20,9 +35,9 @@ const description = 'Meet the expert authors and technical contributors writing 
     <div class="container py-5">
       <div class="text-center mb-5">
         <p class="kk-eyebrow mb-2">Our Team</p>
-        <h1 class="font-heading fw-bold">Authors & Contributors</h1>
+        <h1 class="font-heading fw-bold">{headerTitle}</h1>
         <p class="text-muted-kk mx-auto" style="max-width: 540px;">
-          Meet the minds behind Kukode's guides, tutorials, and technical insights.
+          {headerDesc}
         </p>
       </div>
 

@@ -14,292 +14,296 @@ i18n:
   default_locale: en
 
 collections:
-  # ─── 1. Homepage (Both languages required) ───
+  # ─── 1. Homepage (Files Collection) ───
   - name: "homepage"
     label: "Homepage"
-    folder: "src/content/homepage"
-    create: false
-    i18n: true
-    slug: "index"
-    fields:
-      # ── Page & SEO ──
-      - { label: "Page Title", name: "title", widget: "string", i18n: true }
-      - { label: "Description", name: "description", widget: "text", i18n: true }
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true, hint: "Custom title for search engines. Defaults to Page Title if empty." }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true, hint: "Meta description for search engines." }
-      - { label: "SEO / OG Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
-
-      # ── Hero Section ──
-      - label: "Hero Section"
-        name: "hero"
-        widget: "object"
-        required: false
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "home"
+        label: "Homepage Content"
+        file: "src/content/homepage/index.md"
         i18n: true
         fields:
-          - { label: "Badge Text", name: "badge_text", widget: "string", required: false, i18n: true }
-          - { label: "Hero Title", name: "title", widget: "string", i18n: true }
-          - { label: "Hero Description", name: "description", widget: "text", i18n: true }
-          - { label: "CTA Button Text", name: "cta_text", widget: "string", i18n: true }
-          - { label: "CTA Button Link", name: "cta_link", widget: "string", default: "#contact", i18n: duplicate }
-          - { label: "Secondary Button Text", name: "secondary_cta_text", widget: "string", required: false, i18n: true }
-          - { label: "Secondary Button Link", name: "secondary_cta_link", widget: "string", default: "#portfolio", required: false, i18n: duplicate }
-          - { label: "Hero Image", name: "image", widget: "image", required: false, i18n: duplicate }
-          - { label: "Floating Stat 1", name: "stat_1", widget: "string", required: false, i18n: true }
-          - { label: "Floating Stat 2", name: "stat_2", widget: "string", required: false, i18n: true }
+          # ── Page & SEO ──
+          - { label: "Page Title", name: "title", widget: "string", i18n: true }
+          - { label: "Description", name: "description", widget: "text", i18n: true }
+          - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true, hint: "Custom title for search engines. Defaults to Page Title if empty." }
+          - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true, hint: "Meta description for search engines." }
+          - { label: "SEO / OG Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
 
-      # ── Trusted By Section ──
-      - label: "Trusted By Section"
-        name: "trusted"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Section Title", name: "title", widget: "string", required: false, i18n: true }
-          - label: "Client Logos / Names"
-            name: "items"
-            widget: "list"
-            required: false
-            i18n: duplicate
-            field: { label: "Name", name: "name", widget: "string" }
-
-      # ── Marquee Section ──
-      - label: "Marquee Section"
-        name: "marquee"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - label: "Keywords / Items"
-            name: "items"
-            widget: "list"
-            required: false
-            i18n: duplicate
-            field: { label: "Keyword", name: "keyword", widget: "string" }
-
-      # ── Numbers / Key Metrics Section ──
-      - label: "Numbers / Key Metrics Section"
-        name: "numbers"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - label: "Metrics"
-            name: "items"
-            widget: "list"
+          # ── Hero Section ──
+          - label: "Hero Section"
+            name: "hero"
+            widget: "object"
             required: false
             i18n: true
             fields:
-              - { label: "Number / Value", name: "number", widget: "string", i18n: true }
-              - { label: "Label", name: "label", widget: "string", i18n: true }
+              - { label: "Badge Text", name: "badge_text", widget: "string", required: false, i18n: true }
+              - { label: "Hero Title", name: "title", widget: "string", i18n: true }
+              - { label: "Hero Description", name: "description", widget: "text", i18n: true }
+              - { label: "CTA Button Text", name: "cta_text", widget: "string", i18n: true }
+              - { label: "CTA Button Link", name: "cta_link", widget: "string", default: "#contact", i18n: duplicate }
+              - { label: "Secondary Button Text", name: "secondary_cta_text", widget: "string", required: false, i18n: true }
+              - { label: "Secondary Button Link", name: "secondary_cta_link", widget: "string", default: "#portfolio", required: false, i18n: duplicate }
+              - { label: "Hero Image", name: "image", widget: "image", required: false, i18n: duplicate }
+              - { label: "Floating Stat 1", name: "stat_1", widget: "string", required: false, i18n: true }
+              - { label: "Floating Stat 2", name: "stat_2", widget: "string", required: false, i18n: true }
 
-      # ── About Section ──
-      - label: "About Section"
-        name: "about"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "Paragraph 1", name: "p1", widget: "text", i18n: true }
-          - { label: "Paragraph 2", name: "p2", widget: "text", required: false, i18n: true }
-          - { label: "Image", name: "image", widget: "image", required: false, i18n: duplicate }
-          - { label: "CTA Button Text", name: "cta_text", widget: "string", required: false, i18n: true }
-          - { label: "CTA Button Link", name: "cta_link", widget: "string", default: "/about/", required: false, i18n: duplicate }
-
-      # ── Services Section ──
-      - label: "Services Section"
-        name: "services"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-          - label: "Services List"
-            name: "items"
-            widget: "list"
+          # ── Trusted By Section ──
+          - label: "Trusted By Section"
+            name: "trusted"
+            widget: "object"
             required: false
             i18n: true
             fields:
-              - { label: "Icon (Emoji or SVG)", name: "icon", widget: "string", default: "💻", i18n: duplicate }
-              - { label: "Title", name: "title", widget: "string", i18n: true }
-              - { label: "Description", name: "description", widget: "text", i18n: true }
-              - { label: "Grid Column Width (e.g. col-md-4 or col-md-8)", name: "col_class", widget: "string", default: "col-md-4", required: false, i18n: duplicate }
-
-      # ── Process Section ──
-      - label: "Process / How We Work Section"
-        name: "process"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-          - label: "Steps"
-            name: "items"
-            widget: "list"
-            required: false
-            i18n: true
-            fields:
-              - { label: "Step Number", name: "step_number", widget: "string", i18n: duplicate }
-              - { label: "Title", name: "title", widget: "string", i18n: true }
-              - { label: "Description", name: "description", widget: "text", i18n: true }
-
-      # ── Portfolio Section ──
-      - label: "Portfolio Section"
-        name: "portfolio"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "CTA Button Text", name: "cta_text", widget: "string", required: false, i18n: true }
-          - { label: "CTA Button Link", name: "cta_link", widget: "string", default: "/portfolio/", required: false, i18n: duplicate }
-          - label: "Portfolio Projects"
-            name: "items"
-            widget: "list"
-            required: false
-            i18n: true
-            fields:
-              - { label: "Project Title", name: "title", widget: "string", i18n: true }
-              - { label: "Category", name: "category", widget: "string", i18n: true }
-              - { label: "Image", name: "image", widget: "image", i18n: duplicate }
-              - { label: "Link URL", name: "link", widget: "string", default: "#", required: false, i18n: duplicate }
-
-      # ── Tech Stack Section ──
-      - label: "Tech Stack Section"
-        name: "stack"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-          - label: "Categories"
-            name: "categories"
-            widget: "list"
-            required: false
-            i18n: true
-            fields:
-              - { label: "Category Name", name: "name", widget: "string", i18n: true }
-              - label: "Tools"
-                name: "tools"
+              - { label: "Section Title", name: "title", widget: "string", required: false, i18n: true }
+              - label: "Client Logos / Names"
+                name: "items"
                 widget: "list"
                 required: false
                 i18n: duplicate
-                field: { label: "Tool Name", name: "tool", widget: "string" }
+                field: { label: "Name", name: "name", widget: "string" }
 
-      # ── Testimonials Section ──
-      - label: "Testimonials Section"
-        name: "testimonials"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - label: "Testimonial Items"
-            name: "items"
-            widget: "list"
+          # ── Marquee Section ──
+          - label: "Marquee Section"
+            name: "marquee"
+            widget: "object"
             required: false
             i18n: true
             fields:
-              - { label: "Quote", name: "quote", widget: "text", i18n: true }
-              - { label: "Avatar Icon / Emoji", name: "icon", widget: "string", default: "👨‍💼", i18n: duplicate }
-              - { label: "Client Name", name: "name", widget: "string", i18n: true }
-              - { label: "Role / Company", name: "role", widget: "string", i18n: true }
+              - label: "Keywords / Items"
+                name: "items"
+                widget: "list"
+                required: false
+                i18n: duplicate
+                field: { label: "Keyword", name: "keyword", widget: "string" }
 
-      # ── Why Choose Us Section ──
-      - label: "Why Choose Us Section"
-        name: "why_us"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-          - label: "Reasons List"
-            name: "items"
-            widget: "list"
+          # ── Numbers / Key Metrics Section ──
+          - label: "Numbers / Key Metrics Section"
+            name: "numbers"
+            widget: "object"
             required: false
             i18n: true
             fields:
-              - { label: "Icon (Emoji or SVG)", name: "icon", widget: "string", default: "🎯", i18n: duplicate }
-              - { label: "Title", name: "title", widget: "string", i18n: true }
-              - { label: "Description", name: "description", widget: "text", i18n: true }
-
-      # ── Pricing Section ──
-      - label: "Pricing Section"
-        name: "pricing"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-          - label: "Pricing Plans"
-            name: "plans"
-            widget: "list"
-            required: false
-            i18n: true
-            fields:
-              - { label: "Plan Name", name: "name", widget: "string", i18n: true }
-              - { label: "Is Most Popular?", name: "is_popular", widget: "boolean", default: false, required: false, i18n: duplicate }
-              - { label: "Popular Badge Text", name: "badge", widget: "string", required: false, i18n: true }
-              - { label: "Price", name: "price", widget: "string", i18n: true }
-              - { label: "Price Subtext / USD Approx", name: "approx", widget: "string", required: false, i18n: true }
-              - { label: "Description", name: "description", widget: "text", i18n: true }
-              - label: "Features"
-                name: "features"
+              - label: "Metrics"
+                name: "items"
                 widget: "list"
                 required: false
                 i18n: true
-                field: { label: "Feature", name: "feature", widget: "string" }
-              - { label: "Button Text", name: "cta_text", widget: "string", i18n: true }
-              - { label: "Button Link", name: "cta_link", widget: "string", default: "#contact", i18n: duplicate }
+                fields:
+                  - { label: "Number / Value", name: "number", widget: "string", i18n: true }
+                  - { label: "Label", name: "label", widget: "string", i18n: true }
 
-      # ── FAQ Section ──
-      - label: "FAQ Section"
-        name: "faq"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-          - { label: "Direct Button Text", name: "cta_text", widget: "string", required: false, i18n: true }
-          - { label: "Direct Button Link", name: "cta_link", widget: "string", default: "https://wa.me/62853293353541", required: false, i18n: duplicate }
-          - label: "FAQ Items"
-            name: "items"
-            widget: "list"
+          # ── About Section ──
+          - label: "About Section"
+            name: "about"
+            widget: "object"
             required: false
             i18n: true
             fields:
-              - { label: "Question", name: "question", widget: "string", i18n: true }
-              - { label: "Answer", name: "answer", widget: "text", i18n: true }
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "Paragraph 1", name: "p1", widget: "text", i18n: true }
+              - { label: "Paragraph 2", name: "p2", widget: "text", required: false, i18n: true }
+              - { label: "Image", name: "image", widget: "image", required: false, i18n: duplicate }
+              - { label: "CTA Button Text", name: "cta_text", widget: "string", required: false, i18n: true }
+              - { label: "CTA Button Link", name: "cta_link", widget: "string", default: "/about/", required: false, i18n: duplicate }
 
-      # ── CTA Band / Contact Section ──
-      - label: "CTA Band / Contact Section"
-        name: "cta"
-        widget: "object"
-        required: false
-        i18n: true
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
-          - { label: "Heading", name: "heading", widget: "string", i18n: true }
-          - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-          - { label: "Primary Button Text", name: "primary_text", widget: "string", i18n: true }
-          - { label: "Primary Button Link", name: "primary_link", widget: "string", default: "/contact/", i18n: duplicate }
-          - { label: "Secondary Button Text", name: "secondary_text", widget: "string", required: false, i18n: true }
-          - { label: "Secondary Button Link", name: "secondary_link", widget: "string", default: "https://wa.me/62853293353541", required: false, i18n: duplicate }
+          # ── Services Section ──
+          - label: "Services Section"
+            name: "services"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+              - label: "Services List"
+                name: "items"
+                widget: "list"
+                required: false
+                i18n: true
+                fields:
+                  - { label: "Icon (Emoji or SVG)", name: "icon", widget: "string", default: "💻", i18n: duplicate }
+                  - { label: "Title", name: "title", widget: "string", i18n: true }
+                  - { label: "Description", name: "description", widget: "text", i18n: true }
+                  - { label: "Grid Column Width (e.g. col-md-4 or col-md-8)", name: "col_class", widget: "string", default: "col-md-4", required: false, i18n: duplicate }
+
+          # ── Process Section ──
+          - label: "Process / How We Work Section"
+            name: "process"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+              - label: "Steps"
+                name: "items"
+                widget: "list"
+                required: false
+                i18n: true
+                fields:
+                  - { label: "Step Number", name: "step_number", widget: "string", i18n: duplicate }
+                  - { label: "Title", name: "title", widget: "string", i18n: true }
+                  - { label: "Description", name: "description", widget: "text", i18n: true }
+
+          # ── Portfolio Section ──
+          - label: "Portfolio Section"
+            name: "portfolio"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "CTA Button Text", name: "cta_text", widget: "string", required: false, i18n: true }
+              - { label: "CTA Button Link", name: "cta_link", widget: "string", default: "/portfolio/", required: false, i18n: duplicate }
+              - label: "Portfolio Projects"
+                name: "items"
+                widget: "list"
+                required: false
+                i18n: true
+                fields:
+                  - { label: "Project Title", name: "title", widget: "string", i18n: true }
+                  - { label: "Category", name: "category", widget: "string", i18n: true }
+                  - { label: "Image", name: "image", widget: "image", i18n: duplicate }
+                  - { label: "Link URL", name: "link", widget: "string", default: "#", required: false, i18n: duplicate }
+
+          # ── Tech Stack Section ──
+          - label: "Tech Stack Section"
+            name: "stack"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+              - label: "Categories"
+                name: "categories"
+                widget: "list"
+                required: false
+                i18n: true
+                fields:
+                  - { label: "Category Name", name: "name", widget: "string", i18n: true }
+                  - label: "Tools"
+                    name: "tools"
+                    widget: "list"
+                    required: false
+                    i18n: duplicate
+                    field: { label: "Tool Name", name: "tool", widget: "string" }
+
+          # ── Testimonials Section ──
+          - label: "Testimonials Section"
+            name: "testimonials"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - label: "Testimonial Items"
+                name: "items"
+                widget: "list"
+                required: false
+                i18n: true
+                fields:
+                  - { label: "Quote", name: "quote", widget: "text", i18n: true }
+                  - { label: "Avatar Icon / Emoji", name: "icon", widget: "string", default: "👨‍💼", i18n: duplicate }
+                  - { label: "Client Name", name: "name", widget: "string", i18n: true }
+                  - { label: "Role / Company", name: "role", widget: "string", i18n: true }
+
+          # ── Why Choose Us Section ──
+          - label: "Why Choose Us Section"
+            name: "why_us"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+              - label: "Reasons List"
+                name: "items"
+                widget: "list"
+                required: false
+                i18n: true
+                fields:
+                  - { label: "Icon (Emoji or SVG)", name: "icon", widget: "string", default: "🎯", i18n: duplicate }
+                  - { label: "Title", name: "title", widget: "string", i18n: true }
+                  - { label: "Description", name: "description", widget: "text", i18n: true }
+
+          # ── Pricing Section ──
+          - label: "Pricing Section"
+            name: "pricing"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+              - label: "Pricing Plans"
+                name: "plans"
+                widget: "list"
+                required: false
+                i18n: true
+                fields:
+                  - { label: "Plan Name", name: "name", widget: "string", i18n: true }
+                  - { label: "Is Most Popular?", name: "is_popular", widget: "boolean", default: false, required: false, i18n: duplicate }
+                  - { label: "Popular Badge Text", name: "badge", widget: "string", required: false, i18n: true }
+                  - { label: "Price", name: "price", widget: "string", i18n: true }
+                  - { label: "Price Subtext / USD Approx", name: "approx", widget: "string", required: false, i18n: true }
+                  - { label: "Description", name: "description", widget: "text", i18n: true }
+                  - label: "Features"
+                    name: "features"
+                    widget: "list"
+                    required: false
+                    i18n: true
+                    field: { label: "Feature", name: "feature", widget: "string" }
+                  - { label: "Button Text", name: "cta_text", widget: "string", i18n: true }
+                  - { label: "Button Link", name: "cta_link", widget: "string", default: "#contact", i18n: duplicate }
+
+          # ── FAQ Section ──
+          - label: "FAQ Section"
+            name: "faq"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+              - { label: "Direct Button Text", name: "cta_text", widget: "string", required: false, i18n: true }
+              - { label: "Direct Button Link", name: "cta_link", widget: "string", default: "https://wa.me/62853293353541", required: false, i18n: duplicate }
+              - label: "FAQ Items"
+                name: "items"
+                widget: "list"
+                required: false
+                i18n: true
+                fields:
+                  - { label: "Question", name: "question", widget: "string", i18n: true }
+                  - { label: "Answer", name: "answer", widget: "text", i18n: true }
+
+          # ── CTA Band / Contact Section ──
+          - label: "CTA Band / Contact Section"
+            name: "cta"
+            widget: "object"
+            required: false
+            i18n: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false, i18n: true }
+              - { label: "Heading", name: "heading", widget: "string", i18n: true }
+              - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+              - { label: "Primary Button Text", name: "primary_text", widget: "string", i18n: true }
+              - { label: "Primary Button Link", name: "primary_link", widget: "string", default: "/contact/", i18n: duplicate }
+              - { label: "Secondary Button Text", name: "secondary_text", widget: "string", required: false, i18n: true }
+              - { label: "Secondary Button Link", name: "secondary_link", widget: "string", default: "https://wa.me/62853293353541", required: false, i18n: duplicate }
 
   # ─── 2. Pages (Can stand alone in EN or ID, different slugs & SEO) ───
   - name: "pages"
@@ -491,3 +495,55 @@ collections:
 
           # Copyright
           - { label: "Copyright Text (Year auto-inserted)", name: "copyright_text", widget: "string", default: "Kukode Digital Technology · All rights reserved.", i18n: true }
+      - name: "archives"
+        label: "Archive Settings"
+        file: "src/content/settings/archives.json"
+        i18n: true
+        fields:
+          # ── Articles Archive ──
+          - label: "Articles Archive Page"
+            name: "articles"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+              - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+              - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+              - { label: "Header Title", name: "header_title", widget: "string", required: false, i18n: true }
+              - { label: "Header Description", name: "header_description", widget: "text", required: false, i18n: true }
+
+          # ── Portfolio Archive ──
+          - label: "Portfolio Archive Page"
+            name: "portfolio"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+              - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+              - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+              - { label: "Header Title", name: "header_title", widget: "string", required: false, i18n: true }
+              - { label: "Header Description", name: "header_description", widget: "text", required: false, i18n: true }
+
+          # ── Author Archive ──
+          - label: "Author Archive Page"
+            name: "authors"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+              - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+              - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+              - { label: "Header Title", name: "header_title", widget: "string", required: false, i18n: true }
+              - { label: "Header Description", name: "header_description", widget: "text", required: false, i18n: true }
+
+          # ── Category Archive ──
+          - label: "Category Archive Page"
+            name: "categories"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+              - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+              - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+              - { label: "Header Title", name: "header_title", widget: "string", required: false, i18n: true }
+              - { label: "Header Description", name: "header_description", widget: "text", required: false, i18n: true }

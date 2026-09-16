@@ -4,18 +4,32 @@ import { getCollection } from 'astro:content';
 
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
 
+// Fetch archive settings
+const allSettings = await getCollection('settings');
+const archiveSettings = allSettings.find(
+  (s) => s.id === 'id/archives' || s.id === 'id/archives.json'
+)?.data?.articles;
+
 const allPosts = await getCollection('posts', ({ id, data }) =>
   id.startsWith('id/') && !data.draft
 );
 const posts = allPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 
-const title = 'Artikel & Berita | Kukode';
-const description = 'Baca artikel terbaru tentang pengembangan web, bisnis, dan teknologi dari Kukode.';
+const title = archiveSettings?.seo_title || 'Artikel & Berita | Kukode';
+const description =
+  archiveSettings?.seo_description ||
+  'Baca artikel terbaru tentang pengembangan web, bisnis, dan teknologi dari Kukode.';
+const seoImage = archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const headerTitle = archiveSettings?.header_title || 'Apa yang bisa Kami bantu untuk bisnis Anda?';
+const headerDesc =
+  archiveSettings?.header_description ||
+  'Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital.';
 ---
 
 <BaseLayout
   title={title}
   description={description}
+  image={seoImage}
   alternateEn={`${site}/article/`}
   alternateId={`${site}/id/article/`}
 >
@@ -23,8 +37,8 @@ const description = 'Baca artikel terbaru tentang pengembangan web, bisnis, dan 
     <div class="container py-5">
       <div class="text-center mb-5">
         <p class="kk-eyebrow mb-3">Artikel & Berita</p>
-        <h1>Apa yang bisa Kami bantu untuk bisnis Anda?</h1>
-        <p class="text-muted-kk">Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital.</p>
+        <h1>{headerTitle}</h1>
+        <p class="text-muted-kk">{headerDesc}</p>
       </div>
 
       <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">

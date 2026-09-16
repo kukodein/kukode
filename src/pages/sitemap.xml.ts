@@ -80,6 +80,25 @@ export const GET: APIRoute = async ({ site }) => {
     alternateEn: `${baseUrl}/portfolio/`,
   });
 
+  // Category Listing
+  items.push({
+    loc: `${baseUrl}/category/`,
+    lastmod: today,
+    changefreq: 'weekly',
+    priority: '0.8',
+    alternateEn: `${baseUrl}/category/`,
+    alternateId: `${baseUrl}/id/category/`,
+  });
+
+  items.push({
+    loc: `${baseUrl}/id/category/`,
+    lastmod: today,
+    changefreq: 'weekly',
+    priority: '0.8',
+    alternateEn: `${baseUrl}/category/`,
+    alternateId: `${baseUrl}/id/category/`,
+  });
+
   // 2. Pages Collection (e.g. /about/ and /id/tentang/)
   const allPages = await getCollection('pages', ({ data }) => !data.draft);
   const enPages = allPages.filter((p) => p.id.startsWith('en/'));
