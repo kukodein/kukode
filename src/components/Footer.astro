@@ -56,11 +56,18 @@ const defaultCol3 = {
   ],
 };
 
-const col1 = siteSettings?.footer_col_1 || defaultCol1;
-const col2 = siteSettings?.footer_col_2 || defaultCol2;
-const col3 = siteSettings?.footer_col_3 || defaultCol3;
+const col1 = (siteSettings?.footer_col_1?.items && siteSettings.footer_col_1.items.length > 0) ? siteSettings.footer_col_1 : defaultCol1;
+const col2 = (siteSettings?.footer_col_2?.items && siteSettings.footer_col_2.items.length > 0) ? siteSettings.footer_col_2 : defaultCol2;
+const col3 = (siteSettings?.footer_col_3?.items && siteSettings.footer_col_3.items.length > 0) ? siteSettings.footer_col_3 : defaultCol3;
 
-const social = siteSettings?.social_media || {};
+const defaultSocial = {
+  instagram: 'https://www.instagram.com/kukode.id',
+  facebook: 'https://www.facebook.com/kukodein',
+  youtube: 'https://www.youtube.com/@kukode_id',
+  whatsapp: 'https://wa.me/62853293353541',
+  linkedin: 'https://www.linkedin.com/company/kukode',
+};
+const social = siteSettings?.social_media || defaultSocial;
 const copyrightText =
   siteSettings?.copyright_text ||
   (isId
@@ -72,7 +79,7 @@ const copyrightText =
   <div class="container">
     <div class="row g-4">
       <!-- Main Brand & Description -->
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md">
         <img class="mb-3 d-show-light d-none-dark" width="126" height="40" src={logoLight} alt="Kukode" loading="lazy" />
         <img class="mb-3 d-show-dark d-none-light" width="120" height="40" src={logoDark} alt="Kukode" loading="lazy" />
         <p class="text-muted-kk small">{description}</p>
@@ -151,7 +158,7 @@ const copyrightText =
     </div>
 
     <div class="footer-divider">
-      <img src="/image/kukode-logo-transparent.png" width="20" height="20" alt="" loading="lazy" />
+      <img src="/image/kukode-logo-transparent.png" width="20" height="20" alt="Separator Image" loading="lazy" />
     </div>
 
     <!-- Copyright with dynamic year -->

@@ -85,14 +85,13 @@ const description =
   <main class="kk-template-page">
     <div class="container py-5">
       <div class="text-center mb-5">
-        <nav class="kk-breadcrumb-nav mb-3">
+        <nav class="kk-eyebrow kk-breadcrumb-nav mb-3">
           <a href="/id/" class="text-decoration-none text-muted-kk">Beranda</a>
           <span class="mx-1 text-muted-kk">/</span>
           <a href="/id/article/" class="text-decoration-none text-muted-kk">Artikel</a>
           <span class="mx-1 text-muted-kk">/</span>
           <span class="text-muted-kk">{category.data.name}</span>
         </nav>
-        <p class="kk-eyebrow mb-2">Kategori</p>
         <h1>{category.data.name}</h1>
         {category.data.description && (
           <p class="text-muted-kk mx-auto" style="max-width: 600px;">

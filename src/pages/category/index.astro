@@ -73,7 +73,7 @@ const breadcrumbSchema = {
   <main class="kk-template-page">
     <div class="container py-5">
       <!-- Breadcrumbs -->
-      <nav class="kk-breadcrumb-nav mb-4">
+      <nav class="kk-eyebrow kk-breadcrumb-nav text-center mb-2">
         <a href="/" class="text-decoration-none text-muted-kk">Home</a>
         <span class="mx-1 text-muted-kk">/</span>
         <span class="text-muted-kk">Categories</span>
@@ -81,7 +81,6 @@ const breadcrumbSchema = {
 
       <!-- Header -->
       <div class="text-center mb-5">
-        <p class="kk-eyebrow mb-2">Categories</p>
         <h1 class="display-5 font-heading fw-bold mb-3">{headerTitle}</h1>
         <p class="text-muted-kk mx-auto fs-5" style="max-width: 640px;">
           {headerDesc}
@@ -94,29 +93,19 @@ const breadcrumbSchema = {
           <div class="col-md-6 col-lg-4">
             <div class="kk-card p-4 h-100 bg-surface border d-flex flex-column justify-content-between">
               <div>
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h2 class="h4 font-heading fw-bold mb-0">
+                    <a href={`/id/category/${cat.slug}/`} class="text-decoration-none text-reset">
+                      {cat.data.name}
+                    </a>
+                  </h2>
                   <span class="badge text-bg-primary fw-normal">
-                    {cat.count} {cat.count === 1 ? 'Article' : 'Articles'}
+                    {cat.count} Artikel
                   </span>
-                  <span class="text-muted-kk small">Topic</span>
                 </div>
-                <h2 class="h4 font-heading fw-bold mb-2">
-                  <a href={`/category/${cat.slug}/`} class="text-decoration-none text-reset">
-                    {cat.data.name}
-                  </a>
-                </h2>
                 {cat.data.description && (
-                  <p class="text-muted-kk small mb-4">{cat.data.description}</p>
+                  <p class="text-muted-kk small mb-0">{cat.data.description}</p>
                 )}
-              </div>
-              <div class="pt-3 border-top mt-auto">
-                <a
-                  href={`/category/${cat.slug}/`}
-                  class="btn btn-outline-kk btn-sm w-100 d-flex justify-content-between align-items-center"
-                >
-                  <span>View Articles</span>
-                  <span>&rarr;</span>
-                </a>
               </div>
             </div>
           </div>

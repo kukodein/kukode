@@ -14,16 +14,200 @@ i18n:
   default_locale: en
 
 collections:
-  # ─── 1. Homepage (Files Collection) ───
-  - name: "homepage"
-    label: "Homepage"
+  # ─── 2. Pages (Can stand alone in EN or ID, different slugs & SEO) ───
+  - name: "pages"
+    label: "Pages"
+    label_singular: "Page"
+    folder: "src/content/pages"
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this language (e.g. 'about' for EN, 'tentang' for ID). If empty, filename/title slug is used." }
+      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate, hint: "Unique key to link English and Indonesian pages together when their slugs differ (e.g. 'about-us')." }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, i18n: duplicate }
+      - { label: "Body", name: "body", widget: "markdown", i18n: true }
+
+  # ─── 3. Posts / Articles (Can stand alone in EN or ID, different slugs & SEO) ───
+  - name: "posts"
+    label: "Posts"
+    label_singular: "Post"
+    folder: "src/content/posts"
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this language (e.g. 'what-is-an-api' vs 'apa-itu-api'). If empty, filename/title is used." }
+      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate, hint: "Unique key linking English and Indonesian versions together when slugs differ (e.g. 'api-intro'). Leave blank if post is standalone." }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, i18n: duplicate }
+      - { label: "Updated Date", name: "updatedDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, i18n: duplicate }
+      - { label: "Featured Image", name: "image", widget: "image", required: false, i18n: duplicate }
+      - { label: "Category", name: "category", widget: "relation", collection: "categories", search_fields: ["name"], value_field: "name", display_fields: ["name"], i18n: duplicate }
+      - { label: "Author", name: "author", widget: "relation", collection: "authors", search_fields: ["name"], value_field: "name", display_fields: ["name"], i18n: duplicate }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, i18n: duplicate }
+      - { label: "Body", name: "body", widget: "markdown", i18n: true }
+
+  # ─── 4. Authors ───
+  - name: "authors"
+    label: "Authors"
+    label_singular: "Author"
+    folder: "src/content/authors"
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "name", widget: "string", i18n: duplicate }
+      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this author. If empty, filename is used." }
+      - { label: "Role / Title", name: "role", widget: "string", required: false, i18n: true }
+      - { label: "Bio", name: "bio", widget: "text", required: false, i18n: true }
+      - { label: "Avatar", name: "avatar", widget: "image", required: false, i18n: duplicate }
+      - { label: "Email", name: "email", widget: "string", required: false, i18n: duplicate }
+      - { label: "Instagram", name: "instagram", widget: "string", required: false, i18n: duplicate }
+      - { label: "Website", name: "website", widget: "string", required: false, i18n: duplicate }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
+      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
+
+  # ─── 5. Categories ───
+  - name: "categories"
+    label: "Categories"
+    label_singular: "Category"
+    folder: "src/content/categories"
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "name", widget: "string", i18n: true }
+      - { label: "Custom Slug", name: "slug", widget: "string", required: false, i18n: true }
+      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+
+  # ─── 6. Portfolio (English only) ───
+  - name: "portfolio"
+    label: "Portfolio"
+    label_singular: "Portfolio Project"
+    folder: "src/content/portfolio"
+    create: true
+    i18n: false
+    slug: "{{slug}}"
+    fields:
+      - { label: "Project Title", name: "title", widget: "string" }
+      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, hint: "URL slug (e.g. 'project-one'). If blank, filename is used." }
+      - { label: "Category", name: "category", widget: "select", options: ["Company Profile", "E-Commerce", "Landing Page", "Blog", "Portfolio", "Web App", "Custom Development"], default: "Company Profile" }
+      - { label: "Client Name", name: "client", widget: "string", required: false }
+      - { label: "Year", name: "year", widget: "string", required: false }
+      - { label: "Short Description", name: "description", widget: "text", required: false }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Live Project URL", name: "live_url", widget: "string", required: false }
+      - { label: "Tech Stack / Tools Used", name: "tools", widget: "list", required: false }
+      - { label: "Featured on Homepage", name: "featured", widget: "boolean", default: false, required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Project Case Study / Details", name: "body", widget: "markdown", required: false }
+
+  # ─── Site Settings (Files Collection) ───
+  - name: "settings"
+    label: "Site Settings"
     delete: false
+    i18n: true
     editor:
       preview: false
     files:
-      - name: "home"
+      - name: "general"
+        label: "General Settings"
+        file: "src/content/settings/{{locale}}/general.json"
+        i18n: true
+        fields:
+          # Logo Settings (Light & Dark Mode)
+          - { label: "Logo Light Mode", name: "logo_light", widget: "image", default: "/image/Logo-Kukode-Landscape.png", i18n: duplicate, hint: "Used on light background in Header & Footer" }
+          - { label: "Logo Dark Mode", name: "logo_dark", widget: "image", default: "/image/Logo-Kukode-Landscape-White.png", i18n: duplicate, hint: "Used on dark background in Header & Footer" }
+
+          # Header Navigation
+          - label: "Header Navigation"
+            name: "header_nav"
+            widget: "list"
+            i18n: true
+            fields:
+              - { label: "Menu Label", name: "label", widget: "string", i18n: true }
+              - { label: "Menu URL", name: "url", widget: "string", i18n: true }
+          - { label: "Header CTA Button Text", name: "header_cta_text", widget: "string", default: "Get a Quote", i18n: true }
+          - { label: "Header CTA Button Link", name: "header_cta_url", widget: "string", default: "/#contact", i18n: duplicate }
+
+          # Footer Menu Columns (3 columns)
+          - label: "Footer Column 1"
+            name: "footer_col_1"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "Column Title", name: "title", widget: "string", default: "Navigation", i18n: true }
+              - label: "Menu Links"
+                name: "items"
+                widget: "list"
+                i18n: true
+                fields:
+                  - { label: "Label", name: "label", widget: "string", i18n: true }
+                  - { label: "URL", name: "url", widget: "string", i18n: true }
+
+          - label: "Footer Column 2"
+            name: "footer_col_2"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "Column Title", name: "title", widget: "string", default: "Social", i18n: true }
+              - label: "Menu Links"
+                name: "items"
+                widget: "list"
+                i18n: true
+                fields:
+                  - { label: "Label", name: "label", widget: "string", i18n: true }
+                  - { label: "URL", name: "url", widget: "string", i18n: true }
+
+          - label: "Footer Column 3"
+            name: "footer_col_3"
+            widget: "object"
+            i18n: true
+            fields:
+              - { label: "Column Title", name: "title", widget: "string", default: "Contact", i18n: true }
+              - label: "Menu Links"
+                name: "items"
+                widget: "list"
+                i18n: true
+                fields:
+                  - { label: "Label", name: "label", widget: "string", i18n: true }
+                  - { label: "URL", name: "url", widget: "string", i18n: true }
+
+          # Footer Description
+          - { label: "Footer Description (Markdown / WYSIWYG)", name: "footer_description", widget: "markdown", required: false, i18n: true }
+          - { label: "Footer Address Title", name: "footer_address_title", widget: "string", default: "Head Quarter", required: false, i18n: true }
+          - { label: "Footer Address / Location", name: "footer_address", widget: "text", default: "Yogyakarta, Indonesia", required: false, i18n: true }
+
+          # Social Media Links (Optional)
+          - label: "Social Media Links"
+            name: "social_media"
+            widget: "object"
+            required: false
+            i18n: duplicate
+            fields:
+              - { label: "Instagram URL", name: "instagram", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.instagram.com/kukode.id" }
+              - { label: "Facebook URL", name: "facebook", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.facebook.com/kukodein" }
+              - { label: "YouTube URL", name: "youtube", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.youtube.com/@kukode_id" }
+              - { label: "WhatsApp URL", name: "whatsapp", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://wa.me/62853293353541" }
+              - { label: "LinkedIn URL", name: "linkedin", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.linkedin.com/company/kukode" }
+
+          # Copyright
+          - { label: "Copyright Text (Year auto-inserted)", name: "copyright_text", widget: "string", default: "Kukode Digital Technology · All rights reserved.", i18n: true }
+      - name: "homepage"
         label: "Homepage Content"
-        file: "src/content/homepage/index.md"
+        file: "src/content/homepage/{{locale}}/index.md"
         i18n: true
         fields:
           # ── Page & SEO ──
@@ -305,199 +489,10 @@ collections:
               - { label: "Secondary Button Text", name: "secondary_text", widget: "string", required: false, i18n: true }
               - { label: "Secondary Button Link", name: "secondary_link", widget: "string", default: "https://wa.me/62853293353541", required: false, i18n: duplicate }
 
-  # ─── 2. Pages (Can stand alone in EN or ID, different slugs & SEO) ───
-  - name: "pages"
-    label: "Pages"
-    label_singular: "Page"
-    folder: "src/content/pages"
-    create: true
-    i18n: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string", i18n: true }
-      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this language (e.g. 'about' for EN, 'tentang' for ID). If empty, filename/title slug is used." }
-      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate, hint: "Unique key to link English and Indonesian pages together when their slugs differ (e.g. 'about-us')." }
-      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
-      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
-      - { label: "Draft", name: "draft", widget: "boolean", default: false, i18n: duplicate }
-      - { label: "Body", name: "body", widget: "markdown", i18n: true }
 
-  # ─── 3. Posts / Articles (Can stand alone in EN or ID, different slugs & SEO) ───
-  - name: "posts"
-    label: "Posts"
-    label_singular: "Post"
-    folder: "src/content/posts"
-    create: true
-    i18n: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string", i18n: true }
-      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this language (e.g. 'what-is-an-api' vs 'apa-itu-api'). If empty, filename/title is used." }
-      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate, hint: "Unique key linking English and Indonesian versions together when slugs differ (e.g. 'api-intro'). Leave blank if post is standalone." }
-      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
-      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
-      - { label: "Publish Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, i18n: duplicate }
-      - { label: "Updated Date", name: "updatedDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, i18n: duplicate }
-      - { label: "Featured Image", name: "image", widget: "image", required: false, i18n: duplicate }
-      - { label: "Category", name: "category", widget: "relation", collection: "categories", search_fields: ["name"], value_field: "name", display_fields: ["name"], i18n: duplicate }
-      - { label: "Author", name: "author", widget: "relation", collection: "authors", search_fields: ["name"], value_field: "name", display_fields: ["name"], i18n: duplicate }
-      - { label: "Draft", name: "draft", widget: "boolean", default: false, i18n: duplicate }
-      - { label: "Body", name: "body", widget: "markdown", i18n: true }
-
-  # ─── 4. Authors ───
-  - name: "authors"
-    label: "Authors"
-    label_singular: "Author"
-    folder: "src/content/authors"
-    create: true
-    i18n: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Name", name: "name", widget: "string", i18n: duplicate }
-      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, i18n: true, hint: "Custom URL slug for this author. If empty, filename is used." }
-      - { label: "Role / Title", name: "role", widget: "string", required: false, i18n: true }
-      - { label: "Bio", name: "bio", widget: "text", required: false, i18n: true }
-      - { label: "Avatar", name: "avatar", widget: "image", required: false, i18n: duplicate }
-      - { label: "Email", name: "email", widget: "string", required: false, i18n: duplicate }
-      - { label: "Instagram", name: "instagram", widget: "string", required: false, i18n: duplicate }
-      - { label: "Website", name: "website", widget: "string", required: false, i18n: duplicate }
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false, i18n: true }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, i18n: true }
-      - { label: "SEO Image", name: "seo_image", widget: "image", required: false, i18n: duplicate }
-
-  # ─── 5. Categories ───
-  - name: "categories"
-    label: "Categories"
-    label_singular: "Category"
-    folder: "src/content/categories"
-    create: true
-    i18n: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Name", name: "name", widget: "string", i18n: true }
-      - { label: "Custom Slug", name: "slug", widget: "string", required: false, i18n: true }
-      - { label: "Translation Key", name: "translation_key", widget: "string", required: false, i18n: duplicate }
-      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-
-  # ─── 6. Portfolio (English only) ───
-  - name: "portfolio"
-    label: "Portfolio"
-    label_singular: "Portfolio Project"
-    folder: "src/content/portfolio"
-    create: true
-    i18n: false
-    slug: "{{slug}}"
-    fields:
-      - { label: "Project Title", name: "title", widget: "string" }
-      - { label: "Custom Slug", name: "custom_slug", widget: "string", required: false, hint: "URL slug (e.g. 'project-one'). If blank, filename is used." }
-      - { label: "Category", name: "category", widget: "select", options: ["Company Profile", "E-Commerce", "Landing Page", "Blog", "Portfolio", "Web App", "Custom Development"], default: "Company Profile" }
-      - { label: "Client Name", name: "client", widget: "string", required: false }
-      - { label: "Year", name: "year", widget: "string", required: false }
-      - { label: "Short Description", name: "description", widget: "text", required: false }
-      - { label: "Cover Image", name: "image", widget: "image", required: false }
-      - { label: "Live Project URL", name: "live_url", widget: "string", required: false }
-      - { label: "Tech Stack / Tools Used", name: "tools", widget: "list", required: false }
-      - { label: "Featured on Homepage", name: "featured", widget: "boolean", default: false, required: false }
-      - { label: "Draft", name: "draft", widget: "boolean", default: false }
-      - { label: "Project Case Study / Details", name: "body", widget: "markdown", required: false }
-
-  # ─── 7. Site Settings (Files Collection) ───
-  - name: "settings"
-    label: "Site Settings"
-    delete: false
-    editor:
-      preview: false
-    files:
-      - name: "general"
-        label: "General Settings"
-        file: "src/content/settings/general.json"
-        i18n: true
-        fields:
-          # Logo Settings (Light & Dark Mode)
-          - { label: "Logo Light Mode", name: "logo_light", widget: "image", default: "/image/Logo-Kukode-Landscape.png", i18n: duplicate, hint: "Used on light background in Header & Footer" }
-          - { label: "Logo Dark Mode", name: "logo_dark", widget: "image", default: "/image/Logo-Kukode-Landscape-White.png", i18n: duplicate, hint: "Used on dark background in Header & Footer" }
-
-          # Header Navigation
-          - label: "Header Navigation"
-            name: "header_nav"
-            widget: "list"
-            i18n: true
-            fields:
-              - { label: "Menu Label", name: "label", widget: "string", i18n: true }
-              - { label: "Menu URL", name: "url", widget: "string", i18n: true }
-          - { label: "Header CTA Button Text", name: "header_cta_text", widget: "string", default: "Get a Quote", i18n: true }
-          - { label: "Header CTA Button Link", name: "header_cta_url", widget: "string", default: "/#contact", i18n: duplicate }
-
-          # Footer Menu Columns (3 columns)
-          - label: "Footer Column 1"
-            name: "footer_col_1"
-            widget: "object"
-            i18n: true
-            fields:
-              - { label: "Column Title", name: "title", widget: "string", default: "Navigation", i18n: true }
-              - label: "Menu Links"
-                name: "items"
-                widget: "list"
-                i18n: true
-                fields:
-                  - { label: "Label", name: "label", widget: "string", i18n: true }
-                  - { label: "URL", name: "url", widget: "string", i18n: true }
-
-          - label: "Footer Column 2"
-            name: "footer_col_2"
-            widget: "object"
-            i18n: true
-            fields:
-              - { label: "Column Title", name: "title", widget: "string", default: "Social", i18n: true }
-              - label: "Menu Links"
-                name: "items"
-                widget: "list"
-                i18n: true
-                fields:
-                  - { label: "Label", name: "label", widget: "string", i18n: true }
-                  - { label: "URL", name: "url", widget: "string", i18n: true }
-
-          - label: "Footer Column 3"
-            name: "footer_col_3"
-            widget: "object"
-            i18n: true
-            fields:
-              - { label: "Column Title", name: "title", widget: "string", default: "Contact", i18n: true }
-              - label: "Menu Links"
-                name: "items"
-                widget: "list"
-                i18n: true
-                fields:
-                  - { label: "Label", name: "label", widget: "string", i18n: true }
-                  - { label: "URL", name: "url", widget: "string", i18n: true }
-
-          # Footer Description
-          - { label: "Footer Description (Markdown / WYSIWYG)", name: "footer_description", widget: "markdown", required: false, i18n: true }
-          - { label: "Footer Address Title", name: "footer_address_title", widget: "string", default: "Head Quarter", required: false, i18n: true }
-          - { label: "Footer Address / Location", name: "footer_address", widget: "text", default: "Yogyakarta, Indonesia", required: false, i18n: true }
-
-          # Social Media Links (Optional)
-          - label: "Social Media Links"
-            name: "social_media"
-            widget: "object"
-            required: false
-            i18n: duplicate
-            fields:
-              - { label: "Instagram URL", name: "instagram", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.instagram.com/kukode.id" }
-              - { label: "Facebook URL", name: "facebook", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.facebook.com/kukodein" }
-              - { label: "YouTube URL", name: "youtube", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.youtube.com/@kukode_id" }
-              - { label: "WhatsApp URL", name: "whatsapp", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://wa.me/62853293353541" }
-              - { label: "LinkedIn URL", name: "linkedin", widget: "string", required: false, i18n: duplicate, hint: "e.g. https://www.linkedin.com/company/kukode" }
-
-          # Copyright
-          - { label: "Copyright Text (Year auto-inserted)", name: "copyright_text", widget: "string", default: "Kukode Digital Technology · All rights reserved.", i18n: true }
       - name: "archives"
         label: "Archive Settings"
-        file: "src/content/settings/archives.json"
+        file: "src/content/settings/{{locale}}/archives.json"
         i18n: true
         fields:
           # ── Articles Archive ──
