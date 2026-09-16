@@ -11,8 +11,13 @@ const schema = {
   "url": site,
 };
 
-const title = 'Kukode Digital Technology - Tingkatkan Web & Bisnis Anda';
-const description = 'Kukode Digital Technology memberikan layanan untuk meningkatkan ekspansi perusahaan & kehadiran online Anda.';
+// Get homepage content
+const homepageEntries = await getCollection('homepage');
+const homeData = homepageEntries.find(e => e.id === 'id' || e.id === 'id/index' || e.id.startsWith('id'));
+
+const title = homeData?.data?.seo_title || homeData?.data?.title || 'Kukode Digital Technology - Tingkatkan Web & Bisnis Anda';
+const description = homeData?.data?.seo_description || homeData?.data?.description || 'Kukode Digital Technology memberikan layanan untuk meningkatkan ekspansi perusahaan & kehadiran online Anda.';
+const seoImage = homeData?.data?.seo_image || '/image/default-thumbnail.jpg';
 
 const allPosts = await getCollection('posts', ({ id, data }) =>
   id.startsWith('id/') && !data.draft
@@ -25,6 +30,7 @@ const latestPosts = allPosts
 <BaseLayout
   title={title}
   description={description}
+  image={seoImage}
   alternateEn={`${site}/`}
   alternateId={`${site}/id/`}
   schema={schema}
@@ -36,17 +42,17 @@ const latestPosts = allPosts
         <div class="row align-items-center g-4">
           <div class="col-lg-6 text-start order-lg-1 order-2">
             <div class="kk-badge-pill mb-4"><span class="kk-dot"></span>Menerima Proyek Baru</div>
-            <h1 class="mb-3">Kami membangun website yang benar-benar bekerja untuk bisnis Anda.</h1>
-            <p class="fs-5 text-muted-kk mb-4">Bukan sekadar tampilan menarik — setiap website yang kami buat cepat, profesional, dan dirancang untuk mengonversi. Anda berkomunikasi langsung dengan developer, dengan Kami, Kukode.</p>
+            <h1 class="mb-3">{homeData?.data?.hero_title || 'Kami membangun website yang benar-benar bekerja untuk bisnis Anda.'}</h1>
+            <p class="fs-5 text-muted-kk mb-4">{homeData?.data?.hero_description || 'Bukan sekadar tampilan menarik — setiap website yang kami buat cepat, profesional, dan dirancang untuk mengonversi. Anda berkomunikasi langsung dengan developer, dengan Kami, Kukode.'}</p>
             <div class="d-flex gap-3">
-              <a href="#contact" class="btn btn-primary">Hubungi Kami</a>
+              <a href={homeData?.data?.hero_cta_link || '#contact'} class="btn btn-primary">{homeData?.data?.hero_cta_text || 'Hubungi Kami'}</a>
               <a href="#portfolio" class="btn btn-outline-kk">Lihat Karya Kami</a>
             </div>
           </div>
           <div class="col-lg-6 order-lg-2 order-1">
             <div class="position-relative">
               <div class="kk-card p-2 border-0 bg-transparent">
-                <img src="/image/en-home-section-hero.png" alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
+                <img src={homeData?.data?.hero_image || '/image/en-home-section-hero.png'} alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
               </div>
               <div class="kk-float-card" style="position:absolute; top:100px; left:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">⚡ Skor kecepatan rata-rata 98/100</div>
               <div class="kk-float-card" style="position:absolute; bottom:100px; right:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">🔍 SEO-ready sejak hari pertama</div>

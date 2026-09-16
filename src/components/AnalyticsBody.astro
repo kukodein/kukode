@@ -1,0 +1,20 @@
+---
+interface Props {
+  gtmId?: string;
+}
+
+const gtmId = Astro.props.gtmId || import.meta.env.GTM_ID || '';
+---
+
+{gtmId && (
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe
+      src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"
+    />
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+)}

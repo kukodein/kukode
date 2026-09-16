@@ -3,6 +3,8 @@ import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SEOHead from '../components/SEOHead.astro';
+import AnalyticsHead from '../components/AnalyticsHead.astro';
+import AnalyticsBody from '../components/AnalyticsBody.astro';
 
 interface Props {
   title: string;
@@ -67,10 +69,11 @@ const {
     />
 
     <!-- Favicons -->
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
@@ -85,9 +88,15 @@ const {
     <!-- ClientRouter for fast page transitions -->
     <ClientRouter />
 
+    <!-- Google Analytics & Google Tag Manager -->
+    <AnalyticsHead />
+
     <slot name="head" />
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <AnalyticsBody />
+
     <Header alternateUrl={headerAlternateUrl || (currentLocale === 'id' ? alternateEn : alternateId)} />
 
     <slot />

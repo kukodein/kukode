@@ -36,13 +36,17 @@ const {
 const fullImageUrl = image.startsWith('http') ? image : `${site}${image}`;
 const canonicalUrl = canonical || currentUrl;
 const ogLocale = currentLocale === 'id' ? 'id_ID' : 'en_US';
+
+const currentEnv = import.meta.env.ENV || 'production';
+const isNotProduction = currentEnv !== 'production';
+const shouldNoIndex = noindex || isNotProduction;
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalUrl} />
 
-{noindex ? (
+{shouldNoIndex ? (
   <meta name="robots" content="noindex, nofollow" />
 ) : (
   <meta name="robots" content="index, follow" />
