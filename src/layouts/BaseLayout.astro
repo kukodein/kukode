@@ -106,6 +106,16 @@ const {
         document.documentElement.setAttribute('data-bs-theme', theme);
       }
       document.addEventListener('astro:after-swap', applyTheme);
+
+      // Global event delegation for dark mode toggle (always works with ClientRouter)
+      document.addEventListener('click', function (e) {
+        const btn = e.target.closest('#themeToggle, #themeToggleMobile, .kk-theme-toggle');
+        if (!btn) return;
+        const current = document.documentElement.getAttribute('data-bs-theme') || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-bs-theme', next);
+        localStorage.setItem('kk-theme', next);
+      });
     </script>
 
     <slot name="scripts" />

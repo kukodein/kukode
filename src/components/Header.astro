@@ -16,6 +16,14 @@ if (!langTogglePath) {
   } else {
     langTogglePath = `/id${currentPath.endsWith('/') ? currentPath : currentPath + '/'}`;
   }
+} else {
+  // Normalize alternateUrl to root-relative path so navigation stays on current host
+  try {
+    const parsed = new URL(langTogglePath, Astro.url);
+    langTogglePath = parsed.pathname + parsed.search + parsed.hash;
+  } catch {
+    // Keep as is if URL parsing fails
+  }
 }
 const langFlag = isId ? '🇬🇧' : '🇮🇩';
 const langTitle = isId ? 'Switch to English' : 'Ganti ke Bahasa Indonesia';

@@ -71,7 +71,7 @@ const breadcrumbSchema = {
   schema={articleSchema}
   alternateEn={alternateEnUrl}
   alternateId={`${site}/id/article/${slug}`}
-  headerAlternateUrl={alternateEnUrl || '/article/'}
+  headerAlternateUrl={enSlug ? `/article/${enSlug}` : '/article/'}
 >
   <Fragment slot="head">
     <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />

@@ -11,6 +11,7 @@ node_modules/
 .env
 .env.production
 .env.*
+!.env.example
 
 # Backup folder
 _backup/
@@ -18,3 +19,4 @@ _backup/
 # OS files
 .DS_Store
 Thumbs.db
+

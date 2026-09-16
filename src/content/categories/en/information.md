@@ -1,6 +1,6 @@
 ---
 name: "Information"
 description: "General information about web development and technology."
-slug_en: "information"
-slug_id: "informasi"
+custom_slug: "information"
+translation_key: "information"
 ---

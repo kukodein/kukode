@@ -1,8 +1,12 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { loadEnv } from 'vite';
+
+const { ENV, PUBLIC_SITE_URL } = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
+const siteUrl = PUBLIC_SITE_URL || (ENV === 'local' ? 'http://localhost:4321' : 'https://kukode.com');
 
 export default defineConfig({
-  site: 'https://kukode.com',
+  site: siteUrl,
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'id'],

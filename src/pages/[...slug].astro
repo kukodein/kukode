@@ -43,7 +43,7 @@ const seoImage = page.data.seo_image;
   image={seoImage}
   alternateEn={`${site}/${slug}/`}
   alternateId={alternateIdUrl}
-  headerAlternateUrl={alternateIdUrl || '/id/'}
+  headerAlternateUrl={idSlug ? `/id/${idSlug}/` : '/id/'}
 >
   <main class="kk-template-page">
     <div class="container py-5">
