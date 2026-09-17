@@ -9,7 +9,7 @@ hero:
   badge_text: Accepting New Projects
   title: We build websites that genuinely work for your business.
   description: Not just good-looking — every site we build is fast, professional, and designed to convert. You talk directly to the developer, to Us, Kukode. No middlemen, no guesswork.
-  cta_text: 'Get a Quote #UPDATE'
+  cta_text: Get a Quote
   cta_link: /contact
   secondary_cta_text: See Our Work
   secondary_cta_link: /portfolio
