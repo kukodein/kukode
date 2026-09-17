@@ -57,15 +57,16 @@ const breadcrumbSchema = {
 
   <main class="kk-template-page">
     <div class="container py-5">
-      <!-- Breadcrumbs -->
-      <nav class="kk-eyebrow kk-breadcrumb-nav text-center mb-2" aria-label="breadcrumb">
-        <a href="/" class="text-decoration-none text-muted-kk">Home</a>
-        <span class="mx-1 text-muted-kk">/</span>
-        <span class="text-muted-kk">Portfolio</span>
-      </nav>
-
+      
       <!-- Header -->
       <div class="text-center mb-5">
+        <!-- Breadcrumbs -->
+        <nav class="kk-badge-pill kk-breadcrumb-nav mb-2" aria-label="breadcrumb">
+          <span class="kk-dot"></span>
+          <a href="/" class="text-decoration-none">Home</a>
+          <span class="mx-1 text-muted-kk">/</span>
+          <span class="text-muted-kk">Portfolio</span>
+        </nav>
         <h1 class="display-5 font-heading fw-bold mb-3">{headerTitle}</h1>
         <p class="text-muted-kk mx-auto fs-5" style="max-width: 640px;">
           {headerDesc}

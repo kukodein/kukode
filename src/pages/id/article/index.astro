@@ -37,7 +37,13 @@ const headerDesc =
   <main class="kk-template-page">
     <div class="container py-5">
       <div class="text-center mb-5">
-        <p class="kk-eyebrow mb-3">Artikel & Berita</p>
+        <!-- Breadcrumbs -->
+        <nav class="kk-badge-pill kk-breadcrumb-nav mb-2" aria-label="breadcrumb">
+          <span class="kk-dot"></span>
+          <a href="/id/" class="text-decoration-none">Beranda</a>
+          <span class="mx-1 text-muted-kk">/</span>
+          <span class="text-muted-kk">Artikel & Berita</span>
+        </nav>
         <h1>{headerTitle}</h1>
         <p class="text-muted-kk">{headerDesc}</p>
       </div>

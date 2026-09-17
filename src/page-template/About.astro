@@ -19,14 +19,12 @@ const heroImage = hero.hero_image || null;
     <div class="container">
       <div class="row align-items-center g-5">
         <div class={heroImage ? "col-lg-7 text-start" : "col-lg-8 mx-auto text-center"}>
-          <nav class="kk-breadcrumb-nav mb-3" aria-label="breadcrumb">
-            <a href="/" class="text-decoration-none text-muted-kk">Home</a>
+          <nav class="kk-badge-pill kk-breadcrumb-nav mb-3" aria-label="breadcrumb">
+            <span class="kk-dot"></span>
+            <a href="/" class="text-decoration-none">Home</a>
             <span class="mx-1 text-muted-kk">/</span>
             <span class="text-muted-kk">{title}</span>
           </nav>
-          <div class="kk-badge-pill mb-3">
-            <span class="kk-dot"></span> About Kukode
-          </div>
           <h1 class="display-5 fw-bold mb-3">{heroTitle}</h1>
           {heroDescription && (
             <p class="lead text-muted-kk mb-0">{heroDescription}</p>
@@ -34,7 +32,7 @@ const heroImage = hero.hero_image || null;
         </div>
         {heroImage && (
           <div class="col-lg-5">
-            <div class="kk-card p-2 shadow-sm">
+            <div class="p-2">
               <img
                 src={heroImage}
                 alt={heroTitle}
