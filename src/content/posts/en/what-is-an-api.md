@@ -8,8 +8,10 @@ author: "Ahmad Muzakki"
 custom_slug: "what-is-an-api"
 translation_key: "what-is-an-api"
 draft: false
-seo_title: "What is an API? Definition, Functions, and How It Works"
-seo_description: "A comprehensive guide to understanding APIs - their definition, functions, and how they work in modern web development."
+seo:
+  title: "What is an API? Definition, Functions, and How It Works"
+  description: "A comprehensive guide to understanding APIs - their definition, functions, and how they work in modern web development."
+  image: "/image/post/IMG-What-is-API-Application.png"
 ---
 
 ## What is an API?

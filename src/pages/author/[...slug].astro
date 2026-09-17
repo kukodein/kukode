@@ -38,12 +38,13 @@ const idSlug = idAuthor
   : null;
 const alternateIdUrl = idSlug ? `${site}/id/author/${idSlug}/` : undefined;
 
-const title = author.data.seo_title || `${author.data.name} - Author at Kukode`;
+const title = author.data.seo?.title || author.data.seo_title || `${author.data.name} - Author at Kukode`;
 const description =
+  author.data.seo?.description ||
   author.data.seo_description ||
   author.data.bio ||
   `Read articles and guides written by ${author.data.name} at Kukode.`;
-const authorAvatar = author.data.avatar || '/image/kukode-logo-transparent.png';
+const authorAvatar = author.data.seo?.image || author.data.seo_image || author.data.avatar || '/image/kukode-logo-transparent.png';
 const fullAvatarUrl = authorAvatar.startsWith('http') ? authorAvatar : `${site}${authorAvatar}`;
 
 const profileSchema = {

@@ -15,9 +15,25 @@ const schema = {
   "url": site,
 };
 
-const title = homeData?.data?.seo_title || homeData?.data?.title || 'Kukode Digital Technology - Upgrade Your Web & Business';
-const description = homeData?.data?.seo_description || homeData?.data?.description || "Kukode Digital Technology gives the services to improve your company's expansion & online presence.";
-const seoImage = homeData?.data?.seo_image || '/image/default-thumbnail.jpg';
+const title = homeData?.data?.seo?.title || homeData?.data?.seo_title || homeData?.data?.title || 'Kukode Digital Technology - Upgrade Your Web & Business';
+const description = homeData?.data?.seo?.description || homeData?.data?.seo_description || homeData?.data?.description || "Kukode Digital Technology gives the services to improve your company's expansion & online presence.";
+const seoImage = homeData?.data?.seo?.image || homeData?.data?.seo_image || '/image/default-thumbnail.jpg';
+
+// Section visibility: when unchecked in Sveltia CMS, section object is null or undefined
+const showHero = !!homeData?.data?.hero;
+const showTrusted = !!homeData?.data?.trusted;
+const showMarquee = !!homeData?.data?.marquee;
+const showNumbers = !!homeData?.data?.numbers;
+const showAbout = !!homeData?.data?.about;
+const showServices = !!homeData?.data?.services;
+const showProcess = !!homeData?.data?.process;
+const showPortfolio = !!homeData?.data?.portfolio;
+const showStack = !!homeData?.data?.stack;
+const showTestimonials = !!homeData?.data?.testimonials;
+const showWhyUs = !!homeData?.data?.why_us;
+const showPricing = !!homeData?.data?.pricing;
+const showFaq = !!homeData?.data?.faq;
+const showCta = !!homeData?.data?.cta;
 
 // Hero
 const hero = homeData?.data?.hero || {};
@@ -229,260 +245,284 @@ const latestPosts = allPosts
 >
   <main class="kk-template-home">
     <!-- Hero Section -->
-    <section id="section-hero" class="kk-hero pb-4 pt-1 py-lg-5 py-xxl-0">
-      <div class="container kk-hero-content">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-6 text-start order-lg-1 order-2">
-            <div class="kk-badge-pill mb-4"><span class="kk-dot"></span>{heroBadgeText}</div>
-            <h1 class="mb-3">{heroTitle}</h1>
-            <p class="fs-5 text-muted-kk mb-4">{heroDesc}</p>
-            <div class="d-flex gap-3">
-              <a href={heroCtaLink} class="btn btn-primary">{heroCtaText}</a>
-              <a href={heroSecondaryCtaLink} class="btn btn-outline-kk">{heroSecondaryCtaText}</a>
-            </div>
-          </div>
-          <div class="col-lg-6 order-lg-2 order-1">
-            <div class="position-relative">
-              <div class="kk-card p-2 border-0 bg-transparent">
-                <img src={heroImage} alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
+    {showHero && (
+      <section id="section-hero" class="kk-hero pb-4 pt-1 py-lg-5 py-xxl-0">
+        <div class="container kk-hero-content">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-6 text-start order-lg-1 order-2">
+              <div class="kk-badge-pill mb-4"><span class="kk-dot"></span>{heroBadgeText}</div>
+              <h1 class="mb-3">{heroTitle}</h1>
+              <p class="fs-5 text-muted-kk mb-4">{heroDesc}</p>
+              <div class="d-flex gap-3">
+                <a href={heroCtaLink} class="btn btn-primary">{heroCtaText}</a>
+                <a href={heroSecondaryCtaLink} class="btn btn-outline-kk">{heroSecondaryCtaText}</a>
               </div>
-              <div class="kk-float-card" style="position:absolute; top:100px; left:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">{heroStat1}</div>
-              <div class="kk-float-card" style="position:absolute; bottom:100px; right:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">{heroStat2}</div>
+            </div>
+            <div class="col-lg-6 order-lg-2 order-1">
+              <div class="position-relative">
+                <div class="kk-card p-2 border-0 bg-transparent">
+                  <img src={heroImage} alt="Kukode product preview" class="img-fluid rounded-3 w-100" height="530" width="530" />
+                </div>
+                <div class="kk-float-card" style="position:absolute; top:100px; left:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">{heroStat1}</div>
+                <div class="kk-float-card" style="position:absolute; bottom:100px; right:5px; background:var(--bs-body-bg); border-radius:var(--bs-border-radius-sm); box-shadow:0 20px 50px rgba(0,0,0,0.18); padding:0.75rem 1rem; font-size:0.8rem; font-weight:500;">{heroStat2}</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <!-- Trusted By -->
-    <section id="trusted" class="py-4 bg-light position-relative" style="z-index: 1;">
-      <div class="container">
-        <p class="text-center small mb-4">{trustedTitle}</p>
-        <div class="kk-logo-strip">
-          {trustedItems.map(item => <span>{item}</span>)}
+    {showTrusted && (
+      <section id="trusted" class="py-4 bg-light position-relative" style="z-index: 1;">
+        <div class="container">
+          <p class="text-center small mb-4">{trustedTitle}</p>
+          <div class="kk-logo-strip">
+            {trustedItems.map(item => <span>{item}</span>)}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <!-- Marquee -->
-    <section id="section-marquee" class="marquee-wrap">
-      <div class="marquee-track">
-        {marqueeItems.concat(marqueeItems).map(item => <div class="marquee-item">{item}</div>)}
-      </div>
-    </section>
+    {showMarquee && (
+      <section id="section-marquee" class="marquee-wrap">
+        <div class="marquee-track">
+          {marqueeItems.concat(marqueeItems).map(item => <div class="marquee-item">{item}</div>)}
+        </div>
+      </section>
+    )}
 
     <!-- Key Metrics -->
-    <section id="numbers" class="kk-section">
-      <div class="container">
-        <div class="row g-4 text-center">
-          {numbersList.map(metric => (
-            <div class="col-6 col-md-3">
-              <div class="kk-stat-num">{metric.number}</div>
-              <p class="text-muted-kk small mb-0">{metric.label}</p>
-            </div>
-          ))}
+    {showNumbers && (
+      <section id="numbers" class="kk-section">
+        <div class="container">
+          <div class="row g-4 text-center">
+            {numbersList.map(metric => (
+              <div class="col-6 col-md-3">
+                <div class="kk-stat-num">{metric.number}</div>
+                <p class="text-muted-kk small mb-0">{metric.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <!-- About -->
-    <section id="about-us" class="kk-section kk-gradient-alt">
-      <div class="container">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-6">
-            <img src={aboutImage} alt="Kukode team at work" class="img-fluid" width="546" height="364" loading="lazy" />
-          </div>
-          <div class="col-lg-6">
-            <p class="kk-eyebrow mb-2">{aboutEyebrow}</p>
-            <h2 class="mb-3">{aboutHeading}</h2>
-            <p>{aboutP1}</p>
-            {aboutP2 && <p>{aboutP2}</p>}
-            <a href={aboutCtaLink} class="btn btn-outline-kk">{aboutCtaText}</a>
+    {showAbout && (
+      <section id="about-us" class="kk-section kk-gradient-alt">
+        <div class="container">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+              <img src={aboutImage} alt="Kukode team at work" class="img-fluid" width="546" height="364" loading="lazy" />
+            </div>
+            <div class="col-lg-6">
+              <p class="kk-eyebrow mb-2">{aboutEyebrow}</p>
+              <h2 class="mb-3">{aboutHeading}</h2>
+              <p>{aboutP1}</p>
+              {aboutP2 && <p>{aboutP2}</p>}
+              <a href={aboutCtaLink} class="btn btn-outline-kk">{aboutCtaText}</a>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <!-- Services -->
-    <section id="services" class="kk-section">
-      <div class="container">
-        <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">{servicesEyebrow}</p>
-          <h2>{servicesHeading}</h2>
-          {servicesDesc && <p>{servicesDesc}</p>}
-        </div>
-        <div class="row g-3">
-          {servicesItems.map(item => (
-            <div class={`col-6 ${item.col_class || 'col-md-4'}`}>
-              <div class="kk-card p-4 kk-why-card">
-                <div class="kk-icon-circle">{item.icon}</div>
-                <h3 class="h6 font-heading fw-bold mb-1">{item.title}</h3>
-                <p class="text-muted-kk small mb-0">{item.description}</p>
+    {showServices && (
+      <section id="services" class="kk-section">
+        <div class="container">
+          <div class="text-center mb-5">
+            <p class="kk-eyebrow mb-2">{servicesEyebrow}</p>
+            <h2>{servicesHeading}</h2>
+            {servicesDesc && <p>{servicesDesc}</p>}
+          </div>
+          <div class="row g-3">
+            {servicesItems.map(item => (
+              <div class={`col-6 ${item.col_class || 'col-md-4'}`}>
+                <div class="kk-card p-4 kk-why-card">
+                  <div class="kk-icon-circle">{item.icon}</div>
+                  <h3 class="h6 font-heading fw-bold mb-1">{item.title}</h3>
+                  <p class="text-muted-kk small mb-0">{item.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <!-- Process -->
-    <section id="process" class="kk-section kk-gradient-alt">
-      <div class="container">
-        <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">{processEyebrow}</p>
-          <h2>{processHeading}</h2>
-          <p class="mx-auto" style="max-width:560px;">{processDesc}</p>
-        </div>
-        <div class="row g-3">
-          {processSteps.map(step => (
-            <div class="col-md-4 col-lg">
-              <div class="kk-card p-4 kk-step-card">
-                <div class="kk-step-circle" style="margin:0 0 0.9rem;">{step.step_number}</div>
-                <h3 class="h6 font-heading fw-bold mb-1">{step.title}</h3>
-                <p class="text-muted-kk small mb-0">{step.description}</p>
+    {showProcess && (
+      <section id="process" class="kk-section kk-gradient-alt">
+        <div class="container">
+          <div class="text-center mb-5">
+            <p class="kk-eyebrow mb-2">{processEyebrow}</p>
+            <h2>{processHeading}</h2>
+            <p class="mx-auto" style="max-width:560px;">{processDesc}</p>
+          </div>
+          <div class="row g-3">
+            {processSteps.map(step => (
+              <div class="col-md-4 col-lg">
+                <div class="kk-card p-4 kk-step-card">
+                  <div class="kk-step-circle" style="margin:0 0 0.9rem;">{step.step_number}</div>
+                  <h3 class="h6 font-heading fw-bold mb-1">{step.title}</h3>
+                  <p class="text-muted-kk small mb-0">{step.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <!-- Portfolio -->
-    <section id="portfolio" class="kk-section">
-      <div class="container">
-        <div class="d-flex justify-content-between align-items-end mb-5">
-          <div>
-            <p class="kk-eyebrow mb-2">{portfolioEyebrow}</p>
-            <h2 class="mb-0">{portfolioHeading}</h2>
-          </div>
-          <a href={portfolioCtaLink} class="btn btn-outline-kk btn-sm">{portfolioCtaText}</a>
-        </div>
-        <div class="row g-3">
-          {portfolioItems.map(item => (
-            <div class="col-6 col-lg-4">
-              <a href={item.link || '#'} class="kk-portfolio-card text-decoration-none text-reset d-block">
-                <div class="kk-browser-frame">
-                  <div class="kk-browser-bar"><span></span><span></span><span></span></div>
-                  <div class="kk-browser-body">
-                    <img src={item.image} alt={item.title} width="600" height="400" loading="lazy" />
-                    <div class="kk-overlay"><span class="btn btn-light btn-sm rounded-pill">View project</span></div>
-                  </div>
-                </div>
-                <div class="m-2">
-                  <p class="text-muted-kk small mt-2 mb-1">{item.category}</p>
-                  <h3 class="h6 font-heading fw-bold">{item.title}</h3>
-                </div>
-              </a>
+    {showPortfolio && (
+      <section id="portfolio" class="kk-section">
+        <div class="container">
+          <div class="d-flex justify-content-between align-items-end mb-5">
+            <div>
+              <p class="kk-eyebrow mb-2">{portfolioEyebrow}</p>
+              <h2 class="mb-0">{portfolioHeading}</h2>
             </div>
-          ))}
+            <a href={portfolioCtaLink} class="btn btn-outline-kk btn-sm">{portfolioCtaText}</a>
+          </div>
+          <div class="row g-3">
+            {portfolioItems.map(item => (
+              <div class="col-6 col-lg-4">
+                <a href={item.link || '#'} class="kk-portfolio-card text-decoration-none text-reset d-block">
+                  <div class="kk-browser-frame">
+                    <div class="kk-browser-bar"><span></span><span></span><span></span></div>
+                    <div class="kk-browser-body">
+                      <img src={item.image} alt={item.title} width="600" height="400" loading="lazy" />
+                      <div class="kk-overlay"><span class="btn btn-light btn-sm rounded-pill">View project</span></div>
+                    </div>
+                  </div>
+                  <div class="m-2">
+                    <p class="text-muted-kk small mt-2 mb-1">{item.category}</p>
+                    <h3 class="h6 font-heading fw-bold">{item.title}</h3>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <!-- Tech Stack -->
-    <section id="stack" class="kk-section kk-gradient-alt">
-      <div class="container">
-        <div class="row g-4 align-items-start">
-          <div class="col-lg-4">
-            <div class="kk-eyebrow mb-2">{stackEyebrow}</div>
-            <h2 class="mb-3">{stackHeading}</h2>
-            <p>{stackDesc}</p>
-          </div>
-          <div class="col-lg-8">
-            <div class="row g-4">
-              {stackCategories.map(cat => (
-                <div class="col-md-4">
-                  <div class="text-uppercase text-secondary fw-bold fs-7 mb-2">{cat.name}</div>
-                  <div class="d-flex flex-wrap gap-2">
-                    {cat.tools.map(tool => <span class="tp-pill">{tool}</span>)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section id="testimony" class="kk-section">
-      <div class="container">
-        <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">{testimonialsEyebrow}</p>
-          <h2>{testimonialsHeading}</h2>
-        </div>
-        <div class="row g-3 pt-2">
-          {testimonialsItems.map(t => (
-            <div class="col-md-6 col-lg-3">
-              <div class="kk-card p-4 h-100">
-                <p class="mb-4">{t.quote}</p>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="kk-icon-circle mb-0">{t.icon || '👨‍💼'}</div>
-                  <div>
-                    <p class="fw-bold mb-0 small">{t.name}</p>
-                    <p class="text-muted-kk small mb-0">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Why Kukode -->
-    <section id="why-kukode" class="kk-section bg-surface">
-      <div class="container">
-        <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">{whyEyebrow}</p>
-          <h2>{whyHeading}</h2>
-          <p class="text-muted-kk mx-auto" style="max-width:560px;">{whyDesc}</p>
-        </div>
-        <div class="row g-3">
-          {whyItems.map(item => (
-            <div class="col-6 col-md-4">
-              <div class="kk-card p-4 kk-why-card">
-                <div class="kk-icon-circle">{item.icon || '🎯'}</div>
-                <h3 class="h6 font-heading fw-bold mb-1">{item.title}</h3>
-                <p class="text-muted-kk small mb-0">{item.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing -->
-    <section id="pricing" class="kk-section kk-gradient-alt">
-      <div class="container">
-        <div class="text-center mb-5">
-          <p class="kk-eyebrow mb-2">{pricingEyebrow}</p>
-          <h2>{pricingHeading}</h2>
-          <p>{pricingDesc}</p>
-        </div>
-        <div class="row g-3 align-items-stretch">
-          {pricingPlans.map(plan => (
+    {showStack && (
+      <section id="stack" class="kk-section kk-gradient-alt">
+        <div class="container">
+          <div class="row g-4 align-items-start">
             <div class="col-lg-4">
-              <div class={`kk-card p-4 h-100 ${plan.is_popular ? 'kk-pricing-popular' : ''}`}>
-                <h3 class="h5 font-heading fw-bold mb-0">
-                  {plan.name} {plan.is_popular && <span class="badge rounded-pill text-bg-primary fw-normal">{plan.badge || 'Most popular'}</span>}
-                </h3>
-                <div class="fs-3 fw-bold">{plan.price}</div>
-                {plan.approx && <div class="mb-3">{plan.approx}</div>}
-                <div class="text-muted">{plan.description}</div>
-                <hr style="border-color:var(--bs-border-color)" />
-                {plan.features.map(f => (
-                  <div class="d-flex align-items-center">
-                    <img src="/image/StreamlineColorCheckSquare.png" alt="✓" class="me-2 w-16px" width="16" height="16" loading="lazy" />{f}
+              <div class="kk-eyebrow mb-2">{stackEyebrow}</div>
+              <h2 class="mb-3">{stackHeading}</h2>
+              <p>{stackDesc}</p>
+            </div>
+            <div class="col-lg-8">
+              <div class="row g-4">
+                {stackCategories.map(cat => (
+                  <div class="col-md-4">
+                    <div class="text-uppercase text-secondary fw-bold fs-7 mb-2">{cat.name}</div>
+                    <div class="d-flex flex-wrap gap-2">
+                      {cat.tools.map(tool => <span class="tp-pill">{tool}</span>)}
+                    </div>
                   </div>
                 ))}
-                <a href={plan.cta_link || '#contact'} class={`btn w-100 mt-4 ${plan.is_popular ? 'btn-primary' : 'btn-outline-kk'}`}>{plan.cta_text}</a>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
+
+    <!-- Testimonials -->
+    {showTestimonials && (
+      <section id="testimony" class="kk-section">
+        <div class="container">
+          <div class="text-center mb-5">
+            <p class="kk-eyebrow mb-2">{testimonialsEyebrow}</p>
+            <h2>{testimonialsHeading}</h2>
+          </div>
+          <div class="row g-3 pt-2">
+            {testimonialsItems.map(t => (
+              <div class="col-md-6 col-lg-3">
+                <div class="kk-card p-4 h-100">
+                  <p class="mb-4">{t.quote}</p>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="kk-icon-circle mb-0">{t.icon || '👨‍💼'}</div>
+                    <div>
+                      <p class="fw-bold mb-0 small">{t.name}</p>
+                      <p class="text-muted-kk small mb-0">{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Why Kukode -->
+    {showWhyUs && (
+      <section id="why-kukode" class="kk-section bg-surface">
+        <div class="container">
+          <div class="text-center mb-5">
+            <p class="kk-eyebrow mb-2">{whyEyebrow}</p>
+            <h2>{whyHeading}</h2>
+            <p class="text-muted-kk mx-auto" style="max-width:560px;">{whyDesc}</p>
+          </div>
+          <div class="row g-3">
+            {whyItems.map(item => (
+              <div class="col-6 col-md-4">
+                <div class="kk-card p-4 kk-why-card">
+                  <div class="kk-icon-circle">{item.icon || '🎯'}</div>
+                  <h3 class="h6 font-heading fw-bold mb-1">{item.title}</h3>
+                  <p class="text-muted-kk small mb-0">{item.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Pricing -->
+    {showPricing && (
+      <section id="pricing" class="kk-section kk-gradient-alt">
+        <div class="container">
+          <div class="text-center mb-5">
+            <p class="kk-eyebrow mb-2">{pricingEyebrow}</p>
+            <h2>{pricingHeading}</h2>
+            <p>{pricingDesc}</p>
+          </div>
+          <div class="row g-3 align-items-stretch">
+            {pricingPlans.map(plan => (
+              <div class="col-lg-4">
+                <div class={`kk-card p-4 h-100 ${plan.is_popular ? 'kk-pricing-popular' : ''}`}>
+                  <h3 class="h5 font-heading fw-bold mb-0">
+                    {plan.name} {plan.is_popular && <span class="badge rounded-pill text-bg-primary fw-normal">{plan.badge || 'Most popular'}</span>}
+                  </h3>
+                  <div class="fs-3 fw-bold">{plan.price}</div>
+                  {plan.approx && <div class="mb-3">{plan.approx}</div>}
+                  <div class="text-muted">{plan.description}</div>
+                  <hr style="border-color:var(--bs-border-color)" />
+                  {plan.features.map(f => (
+                    <div class="d-flex align-items-center">
+                      <img src="/image/StreamlineColorCheckSquare.png" alt="✓" class="me-2 w-16px" width="16" height="16" loading="lazy" />{f}
+                    </div>
+                  ))}
+                  <a href={plan.cta_link || '#contact'} class={`btn w-100 mt-4 ${plan.is_popular ? 'btn-primary' : 'btn-outline-kk'}`}>{plan.cta_text}</a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- Blog -->
     <section id="blog" class="kk-section">
@@ -521,42 +561,48 @@ const latestPosts = allPosts
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="kk-section bg-surface">
-      <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`} />
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-lg-4">
-            <div class="kk-eyebrow mb-2">{faqEyebrow}</div>
-            <h2 class="mb-3">{faqHeading}</h2>
-            <p class="mb-4">{faqDesc}</p>
-            <a href={faqCtaLink} class="btn btn-primary" target="_blank">{faqCtaText}</a>
-          </div>
-          <div class="col-lg-8">
-            {faqItems.map(item => (
-              <div class="kk-faq-item">
-                <button class="kk-faq-q">{item.question} <span class="kk-faq-chevron">+</span></button>
-                <div class="kk-faq-a"><div class="kk-faq-a-inner">{item.answer}</div></div>
-              </div>
-            ))}
+    {showFaq && (
+      <section id="faq" class="kk-section bg-surface">
+        {faqSchema && (
+          <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`} />
+        )}
+        <div class="container">
+          <div class="row g-4">
+            <div class="col-lg-4">
+              <div class="kk-eyebrow mb-2">{faqEyebrow}</div>
+              <h2 class="mb-3">{faqHeading}</h2>
+              <p class="mb-4">{faqDesc}</p>
+              <a href={faqCtaLink} class="btn btn-primary" target="_blank">{faqCtaText}</a>
+            </div>
+            <div class="col-lg-8">
+              {faqItems.map(item => (
+                <div class="kk-faq-item">
+                  <button class="kk-faq-q">{item.question} <span class="kk-faq-chevron">+</span></button>
+                  <div class="kk-faq-a"><div class="kk-faq-a-inner">{item.answer}</div></div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <!-- CTA -->
-    <section id="contact" class="kk-section">
-      <div class="container">
-        <div class="kk-cta-band">
-          <p class="kk-eyebrow mb-2" style="color:rgba(255,255,255,0.85);">{ctaEyebrow}</p>
-          <h2 class="mb-3">{ctaHeading}</h2>
-          <p class="mb-4 mx-auto" style="max-width:480px;">{ctaDesc}</p>
-          <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href={ctaBtnPrimaryLink} class="btn btn-light">{ctaBtnPrimaryText}</a>
-            <a href={ctaBtnSecondaryLink} target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">{ctaBtnSecondaryText}</a>
+    {showCta && (
+      <section id="contact" class="kk-section">
+        <div class="container">
+          <div class="kk-cta-band">
+            <p class="kk-eyebrow mb-2" style="color:rgba(255,255,255,0.85);">{ctaEyebrow}</p>
+            <h2 class="mb-3">{ctaHeading}</h2>
+            <p class="mb-4 mx-auto" style="max-width:480px;">{ctaDesc}</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+              <a href={ctaBtnPrimaryLink} class="btn btn-light">{ctaBtnPrimaryText}</a>
+              <a href={ctaBtnSecondaryLink} target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">{ctaBtnSecondaryText}</a>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
   </main>
 
   <Fragment slot="scripts">

@@ -6,6 +6,11 @@ const homepage = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    seo: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+    }).nullish(),
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
     seo_image: z.string().optional(),
@@ -22,7 +27,7 @@ const homepage = defineCollection({
       image: z.string().optional(),
       stat_1: z.string().optional(),
       stat_2: z.string().optional(),
-    }).optional(),
+    }).nullish(),
     hero_title: z.string().optional(),
     hero_description: z.string().optional(),
     hero_cta_text: z.string().optional(),
@@ -33,12 +38,12 @@ const homepage = defineCollection({
     trusted: z.object({
       title: z.string().optional(),
       items: z.array(z.string()).optional(),
-    }).optional(),
+    }).nullish(),
 
     // Marquee
     marquee: z.object({
       items: z.array(z.string()).optional(),
-    }).optional(),
+    }).nullish(),
 
     // Numbers / Metrics
     numbers: z.object({
@@ -46,7 +51,7 @@ const homepage = defineCollection({
         number: z.string(),
         label: z.string(),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // About section
     about: z.object({
@@ -57,7 +62,7 @@ const homepage = defineCollection({
       image: z.string().optional(),
       cta_text: z.string().optional(),
       cta_link: z.string().optional(),
-    }).optional(),
+    }).nullish(),
 
     // Services section
     services: z.object({
@@ -70,7 +75,7 @@ const homepage = defineCollection({
         description: z.string(),
         col_class: z.string().optional(),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // Process section
     process: z.object({
@@ -82,7 +87,7 @@ const homepage = defineCollection({
         title: z.string(),
         description: z.string(),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // Portfolio section
     portfolio: z.object({
@@ -96,7 +101,7 @@ const homepage = defineCollection({
         image: z.string(),
         link: z.string().optional(),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // Tech Stack section
     stack: z.object({
@@ -107,7 +112,7 @@ const homepage = defineCollection({
         name: z.string(),
         tools: z.array(z.string()),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // Testimonials section
     testimonials: z.object({
@@ -119,7 +124,7 @@ const homepage = defineCollection({
         name: z.string(),
         role: z.string(),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // Why Choose Us section
     why_us: z.object({
@@ -131,7 +136,7 @@ const homepage = defineCollection({
         title: z.string(),
         description: z.string(),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // Pricing section
     pricing: z.object({
@@ -149,7 +154,7 @@ const homepage = defineCollection({
         cta_text: z.string(),
         cta_link: z.string().optional(),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // FAQ section
     faq: z.object({
@@ -162,7 +167,7 @@ const homepage = defineCollection({
         question: z.string(),
         answer: z.string(),
       })).optional(),
-    }).optional(),
+    }).nullish(),
 
     // CTA Band section
     cta: z.object({
@@ -173,23 +178,52 @@ const homepage = defineCollection({
       primary_link: z.string().optional(),
       secondary_text: z.string().optional(),
       secondary_link: z.string().optional(),
-    }).optional(),
+    }).nullish(),
   }).passthrough(),
 });
 
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pages' }),
   schema: z.object({
-    title: z.string(),
+    title: z.string().optional(),
     description: z.string().optional(),
     custom_slug: z.string().optional(),
     slug_en: z.string().optional(),
     slug_id: z.string().optional(),
     translation_key: z.string().optional(),
+    seo: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+      meta_title: z.string().optional(),
+      meta_description: z.string().optional(),
+      og_image: z.string().optional(),
+    }).nullish(),
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
     seo_image: z.string().optional(),
     draft: z.boolean().default(false),
+
+    // Polymorphic template object
+    page: z.object({
+      template: z.enum(['default', 'about', 'contact']).default('default'),
+      title: z.string().optional(),
+      content: z.string().optional(),
+      hero: z.object({
+        hero_title: z.string().optional(),
+        hero_description: z.string().optional(),
+        hero_image: z.string().optional(),
+      }).nullish(),
+      form_email_forward: z.string().optional(),
+      seo: z.object({
+        title: z.string().optional(),
+        description: z.string().optional(),
+        image: z.string().optional(),
+        meta_title: z.string().optional(),
+        meta_description: z.string().optional(),
+        og_image: z.string().optional(),
+      }).nullish(),
+    }).passthrough().nullish(),
   }),
 });
 
@@ -200,6 +234,11 @@ const posts = defineCollection({
     description: z.string().optional(),
     custom_slug: z.string().optional(),
     translation_key: z.string().optional(),
+    seo: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+    }).optional(),
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
     seo_image: z.string().optional(),
@@ -256,6 +295,11 @@ const portfolio = defineCollection({
     tools: z.array(z.string()).optional(),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
+    seo: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+    }).optional(),
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
     seo_image: z.string().optional(),

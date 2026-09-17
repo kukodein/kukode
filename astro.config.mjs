@@ -63,6 +63,9 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      xslURL: '/sitemap.xsl',
+      lastmod: new Date(),
+      changefreq: 'weekly',
       i18n: {
         defaultLocale: 'en',
         locales: {

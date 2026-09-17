@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { marked } from 'marked';
 
 const currentLocale = Astro.currentLocale || 'en';
 const isId = currentLocale === 'id';
@@ -24,9 +25,7 @@ const description =
   (isId
     ? 'Studio pengembangan web yang membantu bisnis membangun website modern dan cepat.'
     : 'Web development studio helping growing businesses build fast, modern websites.');
-
-const addressTitle = siteSettings?.footer_address_title || (isId ? 'Kantor Pusat' : 'Head Quarter');
-const address = siteSettings?.footer_address || 'Yogyakarta, Indonesia';
+const descriptionHtml = description ? await marked.parse(description) : '';
 
 // 3 Columns default fallbacks
 const defaultCol1 = {
@@ -82,12 +81,8 @@ const copyrightText =
       <div class="col-12 col-md">
         <img class="mb-3 d-show-light d-none-dark" width="126" height="40" src={logoLight} alt="Kukode" loading="lazy" />
         <img class="mb-3 d-show-dark d-none-light" width="120" height="40" src={logoDark} alt="Kukode" loading="lazy" />
-        <p class="text-muted-kk small">{description}</p>
-        {address && (
-          <p class="text-muted-kk small">
-            <strong>{addressTitle}</strong><br />
-            {address}
-          </p>
+        {descriptionHtml && (
+          <div class="text-muted-kk small footer-description mb-3" set:html={descriptionHtml} />
         )}
 
         <!-- Social Media Icons (rendered if filled) -->
@@ -163,7 +158,16 @@ const copyrightText =
 
     <!-- Copyright with dynamic year -->
     <div class="text-center text-muted-kk small">
-      &copy; {currentYear} {copyrightText}
+      &copy; 2020 - {currentYear} {copyrightText}
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-description :global(p) {
+    margin-bottom: 0.5rem;
+  }
+  .footer-description :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

@@ -2,42 +2,85 @@
   "logo_light": "/image/Logo-Kukode-Landscape.png",
   "logo_dark": "/image/Logo-Kukode-Landscape-White.png",
   "header_nav": [
-    { "label": "Layanan", "url": "/id/#services" },
-    { "label": "Proses", "url": "/id/#process" },
-    { "label": "Portofolio", "url": "/portfolio/" },
-    { "label": "Harga", "url": "/id/#pricing" },
-    { "label": "Blog", "url": "/id/article/" },
-    { "label": "FAQ", "url": "/id/#faq" }
+    {
+      "label": "Layanan",
+      "url": "/id/#services"
+    },
+    {
+      "label": "Proses",
+      "url": "/id/#process"
+    },
+    {
+      "label": "Portofolio",
+      "url": "/portfolio/"
+    },
+    {
+      "label": "Harga",
+      "url": "/id/#pricing"
+    },
+    {
+      "label": "Blog",
+      "url": "/id/article/"
+    },
+    {
+      "label": "FAQ",
+      "url": "/id/#faq"
+    }
   ],
   "header_cta_text": "Hubungi Kami",
-  "header_cta_url": "/id/#contact",
+  "header_cta_url": "/#contact",
   "footer_col_1": {
     "title": "Navigasi",
     "items": [
-      { "label": "Layanan", "url": "/id/#services" },
-      { "label": "Portofolio", "url": "/portfolio/" },
-      { "label": "Harga", "url": "/id/#pricing" },
-      { "label": "Tentang", "url": "/id/tentang/" }
+      {
+        "label": "Layanan",
+        "url": "/id/#services"
+      },
+      {
+        "label": "Portofolio",
+        "url": "/portfolio/"
+      },
+      {
+        "label": "Harga",
+        "url": "/id/#pricing"
+      },
+      {
+        "label": "Tentang",
+        "url": "/id/tentang/"
+      }
     ]
   },
   "footer_col_2": {
     "title": "Sosial",
     "items": [
-      { "label": "Instagram", "url": "https://www.instagram.com/kukode.id" },
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/company/kukode" },
-      { "label": "YouTube", "url": "https://www.youtube.com/@kukode_id" }
+      {
+        "label": "Instagram",
+        "url": "https://www.instagram.com/kukode.id"
+      },
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/company/kukode"
+      },
+      {
+        "label": "YouTube",
+        "url": "https://www.youtube.com/@kukode_id"
+      }
     ]
   },
   "footer_col_3": {
     "title": "Kontak",
     "items": [
-      { "label": "WhatsApp", "url": "https://wa.me/62853293353541" },
-      { "label": "Konsultasi Proyek", "url": "/id/#contact" }
+      {
+        "label": "WhatsApp",
+        "url": "https://wa.me/62853293353541"
+      },
+      {
+        "label": "Konsultasi Proyek",
+        "url": "/id/#contact"
+      }
     ]
   },
   "footer_description": "Studio pengembangan web yang membantu bisnis membangun website modern dan cepat.",
-  "footer_address_title": "Kantor Pusat",
-  "footer_address": "Yogyakarta, Indonesia",
   "social_media": {
     "instagram": "https://www.instagram.com/kukode.id",
     "facebook": "https://www.facebook.com/kukodein",
@@ -47,4 +90,3 @@
   },
   "copyright_text": "Kukode Digital Technology · Semua hak dilindungi."
 }
-

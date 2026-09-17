@@ -17,9 +17,26 @@ const { Content } = await render(project);
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
 const slug = project.data.custom_slug || project.id.replace(/\.(md|mdx)$/, '');
 
-const title = project.data.seo_title || `${project.data.title} | Portfolio - Kukode`;
-const description = project.data.seo_description || project.data.description || 'Case study and project details.';
-const projectImage = project.data.seo_image || project.data.image || '/image/default-thumbnail.jpg';
+const title = project.data.seo?.title || project.data.seo_title || `${project.data.title} | Portfolio - Kukode`;
+const description = project.data.seo?.description || project.data.seo_description || project.data.description || 'Case study and project details.';
+const projectImage = project.data.seo?.image || project.data.seo_image || project.data.image || '/image/default-thumbnail.jpg';
+
+// Fetch archive settings for CTA band
+const allSettings = await getCollection('settings');
+const portfolioSettings = (
+  allSettings.find((s) => s.id === 'en/archives' || s.id === 'en/archives.json') ||
+  allSettings.find((s) => s.id === 'archives' || s.id === 'archives.json')
+)?.data?.portfolio;
+
+const cta = portfolioSettings?.cta || {
+  eyebrow: "Let's Work Together",
+  heading: 'Want a website that converts like this?',
+  description: "Tell us about your project requirements and let's create something exceptional.",
+  primary_text: 'Get a Free Consultation',
+  primary_link: '/#contact',
+  secondary_text: 'Chat on WhatsApp',
+  secondary_link: 'https://wa.me/62853293353541',
+};
 
 // Other projects for the "More Work" section
 const allProjects = await getCollection('portfolio', ({ id, data }) => !data.draft && id !== project.id);
@@ -156,14 +173,20 @@ const otherProjects = allProjects.slice(0, 3);
 
       <!-- Bottom CTA Band -->
       <div class="kk-cta-band mt-5">
-        <p class="kk-eyebrow mb-2" style="color: rgba(255,255,255,0.85);">Let's Work Together</p>
-        <h2 class="mb-3">Want a website that converts like this?</h2>
-        <p class="mb-4 mx-auto" style="max-width: 480px;">
-          Tell us about your project requirements and let's create something exceptional.
-        </p>
+        {cta.eyebrow && <p class="kk-eyebrow mb-2" style="color: rgba(255,255,255,0.85);">{cta.eyebrow}</p>}
+        {cta.heading && <h2 class="mb-3">{cta.heading}</h2>}
+        {cta.description && (
+          <p class="mb-4 mx-auto" style="max-width: 480px;">
+            {cta.description}
+          </p>
+        )}
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-          <a href="/#contact" class="btn btn-light">Get a Free Consultation</a>
-          <a href="https://wa.me/62853293353541" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">Chat on WhatsApp</a>
+          {cta.primary_text && (
+            <a href={cta.primary_link || '/#contact'} class="btn btn-light">{cta.primary_text}</a>
+          )}
+          {cta.secondary_text && (
+            <a href={cta.secondary_link || 'https://wa.me/62853293353541'} target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">{cta.secondary_text}</a>
+          )}
         </div>
       </div>
     </div>

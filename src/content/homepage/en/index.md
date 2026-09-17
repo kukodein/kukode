@@ -1,32 +1,26 @@
 ---
 title: Homepage
 description: Kukode Digital Technology gives the services to improve your company's expansion & online presence.
-seo_title: Kukode Digital Technology - Upgrade Your Web & Business 2026
-seo_description: Kukode Digital Technology gives the services to improve your company's expansion & online presence. See our solutions to improve your website.
-seo_image: /image/default-thumbnail.jpg
-
+seo:
+  title: Kukode Digital Technology - Upgrade Your Web & Business
+  description: Kukode Digital Technology gives the services to improve your company's expansion & online presence. See our solutions to improve your website.
+  image: /image/default-thumbnail.jpg
 hero:
   badge_text: Accepting New Projects
   title: We build websites that genuinely work for your business.
   description: Not just good-looking — every site we build is fast, professional, and designed to convert. You talk directly to the developer, to Us, Kukode. No middlemen, no guesswork.
-  cta_text: Get a Quote
-  cta_link: "#contact"
+  cta_text: 'Get a Quote #UPDATE'
+  cta_link: /contact
   secondary_cta_text: See Our Work
-  secondary_cta_link: "#portfolio"
+  secondary_cta_link: /portfolio
   image: /image/en-home-section-hero.png
   stat_1: ⚡ 98/100 average site speed score
   stat_2: 🔍 Built SEO-ready from day one
-
 trusted:
   title: Businesses we've helped go online
   items:
     - Acme
-    - Northwind
-    - Globex
-    - Initech
-    - Umbrella
-    - Soylent
-
+    - Businesses we've helped go online
 marquee:
   items:
     - Company Profile
@@ -39,18 +33,16 @@ marquee:
     - WooCommerce
     - SEO Ready
     - Mobile First
-
 numbers:
   items:
     - number: 120+
       label: Websites launched
-    - number: "98"
+    - number: '98'
       label: Avg. site speed score
     - number: 5yr
       label: Building websites
     - number: 99%
       label: Clients who'd hire us again
-
 about:
   eyebrow: About Kukode
   heading: A web development team that thinks like a business owner.
@@ -59,7 +51,6 @@ about:
   image: /image/en-home-section-tentang.png
   cta_text: Learn more about us
   cta_link: /about/
-
 services:
   eyebrow: Services
   heading: What can We help you with your business?
@@ -97,28 +88,26 @@ services:
       title: Analytics & Tracking
       description: Know exactly how visitors find and use your site.
       col_class: col-md-4
-
 process:
   eyebrow: How We Work
   heading: Simple, transparent, no drama.
   description: From the first conversation to launch day — you always know exactly where your project stands.
   items:
-    - step_number: "1"
+    - step_number: '1'
       title: Discovery Meet
       description: We talk through your business, goals, and what your current site is missing.
-    - step_number: "2"
+    - step_number: '2'
       title: Design
       description: You'll see wireframes first, then a full visual design matching your brand.
-    - step_number: "3"
+    - step_number: '3'
       title: Development
       description: We build the real thing — fast, responsive, and ready for search engines.
-    - step_number: "4"
+    - step_number: '4'
       title: Testing & Review
       description: We test across devices, check page speed and SEO, then walk through it with you.
-    - step_number: "5"
+    - step_number: '5'
       title: Launch & Support
       description: Your site goes live, and we stay on to handle anything that comes up.
-
 portfolio:
   eyebrow: Our Work
   heading: Work that speaks for itself.
@@ -128,28 +117,27 @@ portfolio:
     - title: Project One
       category: Company Profile
       image: https://picsum.photos/600/400?41
-      link: "#"
+      link: '#'
     - title: Project Two
       category: E-Commerce
       image: https://picsum.photos/600/400?42
-      link: "#"
+      link: '#'
     - title: Project Three
       category: Landing Page
       image: https://picsum.photos/600/400?43
-      link: "#"
+      link: '#'
     - title: Project Four
       category: Blog
       image: https://picsum.photos/600/400?44
-      link: "#"
+      link: '#'
     - title: Project Five
       category: Portfolio
       image: https://picsum.photos/600/400?45
-      link: "#"
+      link: '#'
     - title: Project Six
       category: Web App
       image: https://picsum.photos/600/400?46
-      link: "#"
-
+      link: '#'
 stack:
   eyebrow: Tech Stack
   heading: Built with the right tools.
@@ -190,7 +178,6 @@ stack:
         - Niagahoster
         - Hostinger
         - cPanel
-
 testimonials:
   eyebrow: Testimonials
   heading: Straight from the people we've worked with.
@@ -211,7 +198,6 @@ testimonials:
       icon: 👩
       name: Rina Putri
       role: Founder, Brand D
-
 why_us:
   eyebrow: Why Kukode
   heading: Here's what makes us genuinely different.
@@ -244,7 +230,6 @@ why_us:
     - icon: 🤝
       title: Post-launch support
       description: We stick around after launch to help you grow.
-
 pricing:
   eyebrow: Pricing
   heading: An investment that actually makes sense.
@@ -252,6 +237,7 @@ pricing:
   plans:
     - name: Starter
       is_popular: false
+      badge: ''
       price: IDR 800K
       approx: ≈ USD 50 / project
       description: For businesses just stepping into the digital world.
@@ -262,7 +248,7 @@ pricing:
         - Figma mockup before coding
         - Delivered in 3–5 working days
       cta_text: Let's Talk
-      cta_link: "#contact"
+      cta_link: '#contact'
     - name: Professional
       is_popular: true
       badge: Most popular
@@ -277,9 +263,10 @@ pricing:
         - Open revisions within scope
         - Delivered in 7–10 working days
       cta_text: Choose This Plan
-      cta_link: "#contact"
+      cta_link: '#contact'
     - name: E-Commerce
       is_popular: false
+      badge: ''
       price: IDR 2.5M
       approx: ≈ USD 158 / project
       description: For businesses ready to sell online — commission-free.
@@ -290,8 +277,7 @@ pricing:
         - Automatic shipping calculator
         - Admin panel training included
       cta_text: Let's Talk
-      cta_link: "#contact"
-
+      cta_link: '#contact'
 faq:
   eyebrow: FAQ
   heading: Questions we hear all the time.
@@ -315,7 +301,6 @@ faq:
       answer: Reach out via the contact form or WhatsApp below.
     - question: Can you migrate from WordPress or into WordPress?
       answer: Yes — that's actually one of our specialties.
-
 cta:
   eyebrow: Let's Talk
   heading: Ready to go? Let's have a chat first.
@@ -325,4 +310,3 @@ cta:
   secondary_text: Chat on WhatsApp
   secondary_link: https://wa.me/62853293353541
 ---
-

@@ -10,11 +10,12 @@ const archiveSettings = allSettings.find(
   (s) => s.id === 'id/archives' || s.id === 'id/archives.json'
 )?.data?.categories;
 
-const title = archiveSettings?.seo_title || 'Daftar Kategori | Kukode';
+const title = archiveSettings?.seo?.title || archiveSettings?.seo_title || 'Daftar Kategori | Kukode';
 const description =
+  archiveSettings?.seo?.description ||
   archiveSettings?.seo_description ||
   'Jelajahi artikel dan panduan berdasarkan kategori topik di Kukode.';
-const seoImage = archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const seoImage = archiveSettings?.seo?.image || archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
 const headerTitle = archiveSettings?.header_title || 'Jelajahi Berdasarkan Kategori';
 const headerDesc =
   archiveSettings?.header_description ||

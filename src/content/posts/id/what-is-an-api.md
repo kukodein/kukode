@@ -8,8 +8,10 @@ author: "Ahmad Muzakki"
 custom_slug: "apa-itu-api"
 translation_key: "what-is-an-api"
 draft: false
-seo_title: "Apa itu API? Definisi, Fungsi, dan Cara Kerjanya"
-seo_description: "Panduan lengkap memahami API dalam Bahasa Indonesia - definisi, fungsi, dan cara kerjanya dalam pengembangan web modern."
+seo:
+  title: "Apa itu API? Definisi, Fungsi, dan Cara Kerjanya"
+  description: "Panduan lengkap memahami API dalam Bahasa Indonesia - definisi, fungsi, dan cara kerjanya dalam pengembangan web modern."
+  image: "/image/post/IMG-What-is-API-Application.png"
 ---
 
 ## Apa itu API?

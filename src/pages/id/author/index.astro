@@ -12,11 +12,12 @@ const archiveSettings = allSettings.find(
 
 const authors = await getCollection('authors', ({ id }) => id.startsWith('id/'));
 
-const title = archiveSettings?.seo_title || 'Penulis & Kontributor | Kukode';
+const title = archiveSettings?.seo?.title || archiveSettings?.seo_title || 'Penulis & Kontributor | Kukode';
 const description =
+  archiveSettings?.seo?.description ||
   archiveSettings?.seo_description ||
   'Kenali para penulis dan kontributor ahli di balik artikel dan panduan Kukode.';
-const seoImage = archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const seoImage = archiveSettings?.seo?.image || archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
 const headerTitle = archiveSettings?.header_title || 'Penulis & Kontributor';
 const headerDesc =
   archiveSettings?.header_description ||

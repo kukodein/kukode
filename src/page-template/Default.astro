@@ -1,0 +1,36 @@
+---
+interface Props {
+  page: any;
+  pageData?: any;
+  contentHtml?: string | null;
+}
+
+const { page, pageData, contentHtml } = Astro.props;
+const title = pageData?.title || page?.data?.title || '';
+---
+
+<main class="kk-template-page">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <!-- Breadcrumbs -->
+        <nav class="kk-breadcrumb-nav mb-4" aria-label="breadcrumb">
+          <a href="/" class="text-decoration-none text-muted-kk">Home</a>
+          <span class="mx-1 text-muted-kk">/</span>
+          <span class="text-muted-kk">{title}</span>
+        </nav>
+
+        <h1 class="mb-4">{title}</h1>
+
+        <div class="article-body">
+          {contentHtml ? (
+            <div set:html={contentHtml} />
+          ) : (
+            <slot />
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+

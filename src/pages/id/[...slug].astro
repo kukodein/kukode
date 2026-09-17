@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
+import { marked } from 'marked';
+import DefaultTemplate from '../../page-template/Default.astro';
+import AboutTemplate from '../../page-template/About.astro';
+import ContactTemplate from '../../page-template/Contact.astro';
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages', ({ id, data }) =>
@@ -32,9 +36,26 @@ const enCounterpart = allPages.find((p) => {
 const enSlug = enCounterpart ? (enCounterpart.data.custom_slug || enCounterpart.data.slug_en || enCounterpart.id.replace(/^en\//, '')) : null;
 const alternateEnUrl = enSlug ? `${site}/${enSlug}/` : undefined;
 
-const seoTitle = page.data.seo_title || page.data.title;
-const seoDesc = page.data.seo_description || page.data.description || '';
-const seoImage = page.data.seo_image;
+// Page object and template resolution
+const pageObj = page.data.page || {};
+const template = pageObj.template || 'default';
+const pageTitle = pageObj.title || page.data.title || '';
+
+// SEO resolution
+const pageSeo = page.data.seo || pageObj.seo || {};
+const seoTitle = pageSeo.title || pageSeo.meta_title || page.data.seo_title || pageTitle;
+const seoDesc = pageSeo.description || pageSeo.meta_description || page.data.seo_description || page.data.description || '';
+const seoImage = pageSeo.image || pageSeo.og_image || page.data.seo_image;
+
+// Content markdown parsing if provided in page.content
+const contentHtml = pageObj.content ? await marked.parse(pageObj.content) : null;
+
+const templateMap: Record<string, any> = {
+  default: DefaultTemplate,
+  about: AboutTemplate,
+  contact: ContactTemplate,
+};
+const TemplateComponent = templateMap[template] || DefaultTemplate;
 ---
 
 <BaseLayout
@@ -45,16 +66,7 @@ const seoImage = page.data.seo_image;
   alternateId={`${site}/id/${slug}/`}
   headerAlternateUrl={enSlug ? `/${enSlug}/` : '/'}
 >
-  <main class="kk-template-page">
-    <div class="container py-5">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h1 class="mb-4">{page.data.title}</h1>
-          <div class="article-body">
-            <Content />
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+  <TemplateComponent page={page} pageData={pageObj} contentHtml={contentHtml}>
+    <Content />
+  </TemplateComponent>
 </BaseLayout>

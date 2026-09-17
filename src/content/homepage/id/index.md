@@ -1,32 +1,22 @@
 ---
 title: Beranda
 description: Kukode Digital Technology memberikan layanan untuk meningkatkan ekspansi perusahaan & kehadiran online Anda.
-seo_title: Kukode Digital Technology - Tingkatkan Web & Bisnis Anda
-seo_description: Kukode Digital Technology memberikan layanan untuk meningkatkan ekspansi perusahaan & kehadiran online Anda. Lihat solusi kami untuk meningkatkan website Anda.
-seo_image: /image/default-thumbnail.jpg
-
+seo:
+  title: Kukode Digital Technology - Tingkatkan Web & Bisnis Anda
+  description: Kukode Digital Technology memberikan layanan untuk meningkatkan ekspansi perusahaan & kehadiran online Anda. Lihat solusi kami untuk meningkatkan website Anda.
+  image: /image/default-thumbnail.jpg
 hero:
   badge_text: Menerima Proyek Baru
   title: Kami membangun website yang benar-benar bekerja untuk bisnis Anda.
   description: Bukan sekadar tampilan menarik — setiap website yang kami buat cepat, profesional, dan dirancang untuk mengonversi. Anda berkomunikasi langsung dengan developer, dengan Kami, Kukode. Tanpa perantara, tanpa tebak-tebakan.
   cta_text: Hubungi Kami
-  cta_link: "#contact"
+  cta_link: /contact
   secondary_cta_text: Lihat Karya Kami
-  secondary_cta_link: "#portfolio"
+  secondary_cta_link: /portfolio
   image: /image/en-home-section-hero.png
   stat_1: ⚡ Skor kecepatan rata-rata 98/100
   stat_2: 🔍 SEO-ready sejak hari pertama
-
-trusted:
-  title: Bisnis yang telah kami bantu go online
-  items:
-    - Acme
-    - Northwind
-    - Globex
-    - Initech
-    - Umbrella
-    - Soylent
-
+trusted: null
 marquee:
   items:
     - Company Profile
@@ -39,18 +29,16 @@ marquee:
     - WooCommerce
     - SEO Ready
     - Mobile First
-
 numbers:
   items:
     - number: 120+
       label: Website diluncurkan
-    - number: "98"
+    - number: '98'
       label: Rata-rata skor kecepatan
     - number: 5thn
       label: Membangun website
     - number: 99%
       label: Klien ingin bekerja sama lagi
-
 about:
   eyebrow: Tentang Kukode
   heading: Tim pengembangan web yang berpikir seperti pemilik bisnis.
@@ -58,8 +46,7 @@ about:
   p2: Berbasis di Indonesia, siap kerja remote, dan berkomitmen penuh pada setiap proyek. Anda berhubungan langsung dengan Kami — pihak yang merancang, mengode, dan menyelesaikan situs Anda. Tanpa sales rep. Tanpa account manager. Tanpa kejutan di akhir proyek.
   image: /image/en-home-section-tentang.png
   cta_text: Pelajari lebih lanjut tentang kami
-  cta_link: /id/about/
-
+  cta_link: /about/
 services:
   eyebrow: Layanan
   heading: Apa yang bisa Kami bantu untuk bisnis Anda?
@@ -97,59 +84,56 @@ services:
       title: Analitik & Pelacakan
       description: Ketahui dengan tepat bagaimana pengunjung menemukan dan menggunakan situs Anda.
       col_class: col-md-4
-
 process:
   eyebrow: Cara Kami Bekerja
   heading: Sederhana, transparan, tanpa drama.
   description: Dari percakapan pertama hingga hari peluncuran — Anda selalu tahu persis sejauh mana perkembangan proyek Anda.
   items:
-    - step_number: "1"
+    - step_number: '1'
       title: Diskusi & Riset
       description: Kita mendiskusikan bisnis, target Anda, dan apa yang masih kurang dari situs Anda saat ini.
-    - step_number: "2"
+    - step_number: '2'
       title: Perancangan Desain
       description: Anda akan melihat wireframe terlebih dahulu, lalu desain visual lengkap yang sesuai dengan brand.
-    - step_number: "3"
+    - step_number: '3'
       title: Pengembangan Kode
       description: Kami membangun situs nyata — cepat, responsif, dan siap untuk mesin pencari.
-    - step_number: "4"
+    - step_number: '4'
       title: Pengujian & Review
       description: Kami menguji di berbagai perangkat, memeriksa kecepatan dan SEO, lalu mendemonstrasikannya bersama Anda.
-    - step_number: "5"
+    - step_number: '5'
       title: Peluncuran & Dukungan
       description: Situs Anda online, dan kami tetap siap membantu menangani kebutuhan selanjutnya.
-
 portfolio:
   eyebrow: Karya Kami
   heading: Hasil karya yang berbicara sendiri.
   cta_text: Lihat Semua Proyek
-  cta_link: /id/portfolio/
+  cta_link: /portfolio/
   items:
     - title: Proyek Satu
       category: Profil Perusahaan
       image: https://picsum.photos/600/400?41
-      link: "#"
+      link: '#'
     - title: Proyek Dua
       category: E-Commerce
       image: https://picsum.photos/600/400?42
-      link: "#"
+      link: '#'
     - title: Proyek Tiga
       category: Landing Page
       image: https://picsum.photos/600/400?43
-      link: "#"
+      link: '#'
     - title: Proyek Empat
       category: Blog
       image: https://picsum.photos/600/400?44
-      link: "#"
+      link: '#'
     - title: Proyek Lima
       category: Portofolio
       image: https://picsum.photos/600/400?45
-      link: "#"
+      link: '#'
     - title: Proyek Enam
       category: Aplikasi Web
       image: https://picsum.photos/600/400?46
-      link: "#"
-
+      link: '#'
 stack:
   eyebrow: Tech Stack
   heading: Dibangun dengan teknologi yang tepat.
@@ -190,7 +174,6 @@ stack:
         - Niagahoster
         - Hostinger
         - cPanel
-
 testimonials:
   eyebrow: Testimoni
   heading: Langsung dari orang-orang yang telah bekerja sama dengan kami.
@@ -211,7 +194,6 @@ testimonials:
       icon: 👩
       name: Rina Putri
       role: Pendiri, Brand D
-
 why_us:
   eyebrow: Mengapa Kukode
   heading: Inilah yang membuat kami benar-benar berbeda.
@@ -244,7 +226,6 @@ why_us:
     - icon: 🤝
       title: Dukungan pasca-peluncuran
       description: Kami tetap hadir setelah rilis untuk membantu Anda berkembang.
-
 pricing:
   eyebrow: Harga
   heading: Investasi yang benar-benar masuk akal.
@@ -252,6 +233,7 @@ pricing:
   plans:
     - name: Starter
       is_popular: false
+      badge: ''
       price: IDR 800K
       approx: ≈ USD 50 / proyek
       description: Untuk bisnis yang baru memulai langkah di dunia digital.
@@ -262,7 +244,7 @@ pricing:
         - Mockup Figma sebelum koding
         - Selesai dalam 3–5 hari kerja
       cta_text: Konsultasi Sekarang
-      cta_link: "#contact"
+      cta_link: '#contact'
     - name: Professional
       is_popular: true
       badge: Paling populer
@@ -277,9 +259,10 @@ pricing:
         - Revisi terbuka sesuai ruang lingkup
         - Selesai dalam 7–10 hari kerja
       cta_text: Pilih Paket Ini
-      cta_link: "#contact"
+      cta_link: '#contact'
     - name: E-Commerce
       is_popular: false
+      badge: ''
       price: IDR 2.5M
       approx: ≈ USD 158 / proyek
       description: Untuk bisnis yang siap berjualan online — tanpa potongan komisi.
@@ -290,8 +273,7 @@ pricing:
         - Kalkulator ongkir otomatis
         - Termasuk pelatihan panel admin
       cta_text: Konsultasi Sekarang
-      cta_link: "#contact"
-
+      cta_link: '#contact'
 faq:
   eyebrow: FAQ
   heading: Pertanyaan yang sering kami dengar.
@@ -315,13 +297,12 @@ faq:
       answer: Hubungi kami melalui formulir kontak atau WhatsApp di bawah.
     - question: Bisakah migrasi dari atau ke WordPress?
       answer: Ya, itu adalah salah satu keahlian utama kami.
-
 cta:
   eyebrow: Mari Bicara
   heading: Siap memulai? Mari ngobrol terlebih dahulu.
   description: Konsultasi gratis tanpa paksaan. Ceritakan bisnis Anda dan kami akan mencarikan solusi terbaik bersama.
   primary_text: Hubungi Kami
-  primary_link: /id/contact/
+  primary_link: /contact/
   secondary_text: Chat WhatsApp
   secondary_link: https://wa.me/62853293353541
 ---

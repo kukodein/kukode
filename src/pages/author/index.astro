@@ -13,11 +13,12 @@ const archiveSettings = (
 
 const authors = await getCollection('authors', ({ id }) => id.startsWith('en/'));
 
-const title = archiveSettings?.seo_title || 'Authors & Contributors | Kukode';
+const title = archiveSettings?.seo?.title || archiveSettings?.seo_title || 'Authors & Contributors | Kukode';
 const description =
+  archiveSettings?.seo?.description ||
   archiveSettings?.seo_description ||
   'Meet the expert authors and technical contributors writing for Kukode.';
-const seoImage = archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const seoImage = archiveSettings?.seo?.image || archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
 const headerTitle = archiveSettings?.header_title || 'Authors & Contributors';
 const headerDesc =
   archiveSettings?.header_description ||

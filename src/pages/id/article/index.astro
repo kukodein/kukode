@@ -15,11 +15,12 @@ const allPosts = await getCollection('posts', ({ id, data }) =>
 );
 const posts = allPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 
-const title = archiveSettings?.seo_title || 'Artikel & Berita | Kukode';
+const title = archiveSettings?.seo?.title || archiveSettings?.seo_title || 'Artikel & Berita | Kukode';
 const description =
+  archiveSettings?.seo?.description ||
   archiveSettings?.seo_description ||
   'Baca artikel terbaru tentang pengembangan web, bisnis, dan teknologi dari Kukode.';
-const seoImage = archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const seoImage = archiveSettings?.seo?.image || archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
 const headerTitle = archiveSettings?.header_title || 'Apa yang bisa Kami bantu untuk bisnis Anda?';
 const headerDesc =
   archiveSettings?.header_description ||

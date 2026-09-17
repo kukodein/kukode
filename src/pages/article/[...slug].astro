@@ -60,9 +60,9 @@ const authorWebsite = authorEntry?.data?.website || '';
 const authorSlug = authorEntry?.data?.custom_slug || authorEntry?.id.replace(/^(en|id)\//, '').replace(/\.(md|json)$/, '') || 'ahmad-muzakki';
 const authorUrl = `/author/${authorSlug}/`;
 
-const seoTitle = post.data.seo_title || post.data.title;
-const seoDesc = post.data.seo_description || post.data.description || '';
-const seoImage = post.data.seo_image || post.data.image;
+const seoTitle = post.data.seo?.title || post.data.seo_title || post.data.title;
+const seoDesc = post.data.seo?.description || post.data.seo_description || post.data.description || '';
+const seoImage = post.data.seo?.image || post.data.seo_image || post.data.image;
 
 const articleSchema = {
   "@context": "https://schema.org",

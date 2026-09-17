@@ -13,15 +13,26 @@ const archiveSettings = (
 
 const allProjects = await getCollection('portfolio', ({ data }) => !data.draft);
 
-const title = archiveSettings?.seo_title || 'Our Work & Selected Projects | Kukode';
+const title = archiveSettings?.seo?.title || archiveSettings?.seo_title || 'Our Work & Selected Projects | Kukode';
 const description =
+  archiveSettings?.seo?.description ||
   archiveSettings?.seo_description ||
   'Explore our recent web development, e-commerce, and custom web application projects crafted by Kukode.';
-const seoImage = archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const seoImage = archiveSettings?.seo?.image || archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
 const headerTitle = archiveSettings?.header_title || 'Work that speaks for itself.';
 const headerDesc =
   archiveSettings?.header_description ||
   'Every project is custom-coded for speed, search visibility, and real business results. Here are some of our recent client works.';
+
+const cta = archiveSettings?.cta || {
+  eyebrow: 'Ready to Build?',
+  heading: 'Have an ambitious project in mind?',
+  description: "Let's talk through your goals and build a website that delivers measurable results for your business.",
+  primary_text: 'Start a Conversation',
+  primary_link: '/#contact',
+  secondary_text: 'Chat on WhatsApp',
+  secondary_link: 'https://wa.me/62853293353541',
+};
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -47,7 +58,7 @@ const breadcrumbSchema = {
   <main class="kk-template-page">
     <div class="container py-5">
       <!-- Breadcrumbs -->
-      <nav class="kk-breadcrumb-nav mb-4">
+      <nav class="kk-eyebrow kk-breadcrumb-nav text-center mb-2" aria-label="breadcrumb">
         <a href="/" class="text-decoration-none text-muted-kk">Home</a>
         <span class="mx-1 text-muted-kk">/</span>
         <span class="text-muted-kk">Portfolio</span>
@@ -55,7 +66,6 @@ const breadcrumbSchema = {
 
       <!-- Header -->
       <div class="text-center mb-5">
-        <p class="kk-eyebrow mb-2">Our Portfolio</p>
         <h1 class="display-5 font-heading fw-bold mb-3">{headerTitle}</h1>
         <p class="text-muted-kk mx-auto fs-5" style="max-width: 640px;">
           {headerDesc}
@@ -96,14 +106,20 @@ const breadcrumbSchema = {
 
       <!-- CTA Band -->
       <div class="kk-cta-band mt-5">
-        <p class="kk-eyebrow mb-2" style="color: rgba(255,255,255,0.85);">Ready to Build?</p>
-        <h2 class="mb-3">Have an ambitious project in mind?</h2>
-        <p class="mb-4 mx-auto" style="max-width: 480px;">
-          Let's talk through your goals and build a website that delivers measurable results for your business.
-        </p>
+        {cta.eyebrow && <p class="kk-eyebrow mb-2" style="color: rgba(255,255,255,0.85);">{cta.eyebrow}</p>}
+        {cta.heading && <h2 class="mb-3">{cta.heading}</h2>}
+        {cta.description && (
+          <p class="mb-4 mx-auto" style="max-width: 480px;">
+            {cta.description}
+          </p>
+        )}
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-          <a href="/#contact" class="btn btn-light">Start a Conversation</a>
-          <a href="https://wa.me/62853293353541" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">Chat on WhatsApp</a>
+          {cta.primary_text && (
+            <a href={cta.primary_link || '/#contact'} class="btn btn-light">{cta.primary_text}</a>
+          )}
+          {cta.secondary_text && (
+            <a href={cta.secondary_link || 'https://wa.me/62853293353541'} target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">{cta.secondary_text}</a>
+          )}
         </div>
       </div>
     </div>

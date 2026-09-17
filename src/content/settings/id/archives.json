@@ -1,31 +1,47 @@
 {
   "articles": {
-    "seo_title": "Artikel & Berita | Kukode",
-    "seo_description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital.",
-    "seo_image": "/image/default-thumbnail.jpg",
-    "header_title": "Apa yang bisa Kami bantu untuk bisnis Anda?",
-    "header_description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital."
+    "header_title": "Apa yang bisa Kami bantu untuk bisnis Anda? #UPDATE",
+    "header_description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital. #UPDATE",
+    "seo": {
+      "title": "Artikel & Berita | Kukode #UPDATE",
+      "description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital. #UPDATE",
+      "image": "/image/default-thumbnail.jpg"
+    }
   },
   "portfolio": {
-    "seo_title": "Karya & Portofolio Pilihan | Kukode",
-    "seo_description": "Jelajahi proyek pengembangan web, e-commerce, dan aplikasi web khusus yang kami kerjakan.",
-    "seo_image": "/image/default-thumbnail.jpg",
     "header_title": "Karya yang membuktikan kualitas kami.",
-    "header_description": "Setiap proyek dibuat manual untuk kecepatan tinggi, ramah mesin pencari, dan hasil nyata bagi bisnis Anda."
+    "header_description": "Setiap proyek dibuat manual untuk kecepatan tinggi, ramah mesin pencari, dan hasil nyata bagi bisnis Anda. #UPDATE",
+    "seo": {
+      "title": "Karya & Portofolio Pilihan | Kukode",
+      "description": "Jelajahi proyek pengembangan web, e-commerce, dan aplikasi web khusus yang kami kerjakan. #UPDATE",
+      "image": "/image/default-thumbnail.jpg"
+    },
+    "cta": {
+      "eyebrow": "Siap Memulai?",
+      "heading": "Mari bangun website luar biasa bersama kami",
+      "description": "Punya ide proyek atau ingin memperbarui website yang sudah ada? Hubungi kami sekarang untuk konsultasi gratis dan penawaran terbaik.",
+      "primary_text": "Mulai Proyek",
+      "primary_link": "/#contact",
+      "secondary_text": "Chat via WhatsApp",
+      "secondary_link": "https://wa.me/62853293353541"
+    }
   },
   "authors": {
-    "seo_title": "Penulis & Kontributor | Kukode",
-    "seo_description": "Kenali para penulis dan kontributor ahli di balik artikel dan panduan Kukode.",
-    "seo_image": "/image/default-thumbnail.jpg",
-    "header_title": "Penulis & Kontributor",
-    "header_description": "Kenali sosok di balik panduan, tutorial, dan wawasan teknologi dari Kukode."
+    "header_title": "Penulis & Kontributor #UPDATE",
+    "header_description": "Kenali sosok di balik panduan, tutorial, dan wawasan teknologi dari Kukode.",
+    "seo": {
+      "title": "Penulis & Kontributor | Kukode",
+      "description": "Kenali para penulis dan kontributor ahli di balik artikel dan panduan Kukode.",
+      "image": "/image/default-thumbnail.jpg"
+    }
   },
   "categories": {
-    "seo_title": "Daftar Kategori | Kukode",
-    "seo_description": "Jelajahi artikel dan panduan berdasarkan kategori topik di Kukode.",
-    "seo_image": "/image/default-thumbnail.jpg",
-    "header_title": "Jelajahi Berdasarkan Kategori",
-    "header_description": "Temukan artikel, tutorial, dan panduan yang dikelompokkan berdasarkan topik untuk mendukung bisnis digital Anda."
+    "header_title": "Jelajahi Berdasarkan Kategori #UPDATE",
+    "header_description": "Temukan artikel, tutorial, dan panduan yang dikelompokkan berdasarkan topik untuk mendukung bisnis digital Anda. #UPDATE",
+    "seo": {
+      "title": "Daftar Kategori | Kukode #UPDATE",
+      "description": "Jelajahi artikel dan panduan berdasarkan kategori topik di Kukode.",
+      "image": "/image/default-thumbnail.jpg"
+    }
   }
 }
-

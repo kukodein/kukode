@@ -6,6 +6,10 @@ image: "/image/post/img-full-stack-development.jpg"
 category: "Information"
 author: "Ahmad Muzakki"
 draft: false
+seo:
+  title: "A Full Stack Developer: Skills, Responsibilities, and Career"
+  description: "Explore what it takes to become a full stack developer, the skills required, and career opportunities."
+  image: "/image/post/img-full-stack-development.jpg"
 ---
 
 ## What is a Full Stack Developer?
