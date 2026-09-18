@@ -7,32 +7,76 @@ const currentEnv = ENV || 'development';
 const isNotProduction = currentEnv !== 'production';
 const siteUrl = PUBLIC_SITE_URL || (currentEnv === 'local' ? 'http://localhost:4321' : 'https://kukode.com');
 
-// Integration to add X-Robots-Tag for non-production environments
-function xRobotsTagIntegration() {
+// Integration to generate production caching, security headers, and non-production X-Robots-Tag
+function serverHeadersIntegration() {
   return {
-    name: 'x-robots-tag-integration',
+    name: 'server-headers-integration',
     hooks: {
       'astro:build:done': async ({ dir }) => {
+        const fs = await import('fs/promises');
+        const path = await import('path');
+        const { fileURLToPath } = await import('url');
+        const outDir = fileURLToPath(dir);
+
+        // 1. Build _headers (Netlify & Cloudflare Pages)
+        let headersContent = `/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+`;
         if (isNotProduction) {
-          const fs = await import('fs/promises');
-          const path = await import('path');
-          const { fileURLToPath } = await import('url');
-          const outDir = fileURLToPath(dir);
-
-          // Netlify & Cloudflare Pages _headers
-          await fs.writeFile(
-            path.join(outDir, '_headers'),
-            '/*\n  X-Robots-Tag: noindex, nofollow\n',
-            'utf-8'
-          );
-
-          // Apache / cPanel .htaccess
-          await fs.writeFile(
-            path.join(outDir, '.htaccess'),
-            '<IfModule mod_headers.c>\n  Header set X-Robots-Tag "noindex, nofollow"\n</IfModule>\n',
-            'utf-8'
-          );
+          headersContent += `  X-Robots-Tag: noindex, nofollow\n`;
         }
+        headersContent += `
+# Cache static assets aggressively (1 year)
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/image/*
+  Cache-Control: public, max-age=31536000, immutable
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+`;
+        await fs.writeFile(path.join(outDir, '_headers'), headersContent, 'utf-8');
+
+        // 2. Build .htaccess (Apache / cPanel / LiteSpeed)
+        let htaccessContent = `<IfModule mod_headers.c>
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+`;
+        if (isNotProduction) {
+          htaccessContent += `  Header set X-Robots-Tag "noindex, nofollow"\n`;
+        }
+        htaccessContent += `
+  <FilesMatch "\\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|avif|js|css|swf|woff2|woff|ttf|svg)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+</IfModule>
+`;
+        await fs.writeFile(path.join(outDir, '.htaccess'), htaccessContent, 'utf-8');
       },
     },
   };
@@ -86,6 +130,6 @@ export default defineConfig({
         return true;
       },
     }),
-    xRobotsTagIntegration(),
+    serverHeadersIntegration(),
   ],
 });

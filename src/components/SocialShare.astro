@@ -1,0 +1,121 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  isId?: boolean;
+}
+
+const { title, url, isId = false } = Astro.props;
+
+const shareLabel = isId ? 'Bagikan Artikel Ini:' : 'Share This Article:';
+const copiedLabel = isId ? 'Tautan berhasil disalin!' : 'Link copied to clipboard!';
+const copyBtnText = isId ? 'Salin Tautan' : 'Copy Link';
+
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+
+const waShare = `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`;
+const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+const xShare = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+---
+
+<div class="kk-social-share p-3 my-4 rounded-3 border bg-surface">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+    <span class="fw-semibold small text-muted-kk d-flex align-items-center gap-2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+      {shareLabel}
+    </span>
+
+    <div class="d-flex flex-wrap align-items-center gap-2">
+      <!-- WhatsApp -->
+      <a
+        href={waShare}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-outline-kk btn-sm d-inline-flex align-items-center gap-1 kk-share-btn"
+        title="Share on WhatsApp"
+        aria-label="Share on WhatsApp"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.95 9.95 0 0 1-5.03-1.355L2.005 22l1.352-4.968A9.95 9.95 0 0 1 2.001 12c0-5.523 4.477-10 10-10M8.593 7.3l-.2.008a1 1 0 0 0-.372.1a1.3 1.3 0 0 0-.294.228c-.12.113-.188.211-.261.306A2.73 2.73 0 0 0 6.9 9.62c.002.49.13.967.33 1.413c.409.902 1.082 1.857 1.97 2.742c.214.213.424.427.65.626a9.45 9.45 0 0 0 3.84 2.046l.568.087c.185.01.37-.004.556-.013a2 2 0 0 0 .833-.231a5 5 0 0 0 .383-.22q.001.002.125-.09c.135-.1.218-.171.33-.288q.126-.13.21-.302c.078-.163.156-.474.188-.733c.024-.198.017-.306.014-.373c-.004-.107-.093-.218-.19-.265l-.582-.261s-.87-.379-1.402-.621a.5.5 0 0 0-.176-.041a.48.48 0 0 0-.378.127c-.005-.002-.072.055-.795.931a.35.35 0 0 1-.368.13a1.4 1.4 0 0 1-.191-.066c-.124-.052-.167-.072-.252-.108a6 6 0 0 1-1.575-1.003c-.126-.11-.243-.23-.363-.346a6.3 6.3 0 0 1-1.02-1.268l-.059-.095a1 1 0 0 1-.102-.205c-.038-.147.061-.265.061-.265s.243-.266.356-.41c.11-.14.203-.276.263-.373c.118-.19.155-.385.093-.536q-.42-1.026-.868-2.041c-.059-.134-.234-.23-.393-.249q-.081-.01-.162-.016a3 3 0 0 0-.403.004z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+
+      <!-- LinkedIn -->
+      <a
+        href={liShare}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-outline-kk btn-sm d-inline-flex align-items-center gap-1 kk-share-btn"
+        title="Share on LinkedIn"
+        aria-label="Share on LinkedIn"
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.2a1.64 1.64 0 0 0-1.64 1.64c0 .9.74 1.64 1.64 1.64s1.64-.74 1.64-1.64c0-.9-.74-1.64-1.64-1.64Z"/></svg>
+        <span>LinkedIn</span>
+      </a>
+
+      <!-- X / Twitter -->
+      <a
+        href={xShare}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-outline-kk btn-sm d-inline-flex align-items-center gap-1 kk-share-btn"
+        title="Share on X"
+        aria-label="Share on X"
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>X</span>
+      </a>
+
+      <!-- Copy Link -->
+      <button
+        type="button"
+        class="btn btn-outline-kk btn-sm d-inline-flex align-items-center gap-1 kk-copy-link-btn kk-share-btn"
+        data-url={url}
+        title={copyBtnText}
+        aria-label={copyBtnText}
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        <span>{copyBtnText}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Copy Toast Notification -->
+  <div id="kk-copy-toast" class="kk-copy-toast" role="alert" aria-live="polite">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <span>{copiedLabel}</span>
+  </div>
+</div>
+
+<script is:inline>
+  if (!window.__kkCopyInit) {
+    window.__kkCopyInit = true;
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.kk-copy-link-btn');
+      if (btn) {
+        const urlToCopy = btn.getAttribute('data-url') || window.location.href;
+        navigator.clipboard.writeText(urlToCopy).then(() => {
+          const toast = document.getElementById('kk-copy-toast');
+          if (toast) {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+          }
+        }).catch(() => {
+          // Fallback
+          const input = document.createElement('input');
+          input.value = urlToCopy;
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand('copy');
+          document.body.removeChild(input);
+          const toast = document.getElementById('kk-copy-toast');
+          if (toast) {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+          }
+        });
+      }
+    });
+  }
+</script>
+

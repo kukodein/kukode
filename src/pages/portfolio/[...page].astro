@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Pagination from '../../components/Pagination.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths({ paginate }) {
+  const allProjects = await getCollection('portfolio', ({ data }) => !data.draft);
+  return paginate(allProjects, { pageSize: 12 });
+}
+
+const { page } = Astro.props;
+const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+
+// Fetch archive settings
+const allSettings = await getCollection('settings');
+const archiveSettings = (
+  allSettings.find((s) => s.id === 'en/archives' || s.id === 'en/archives.json') ||
+  allSettings.find((s) => s.id === 'archives' || s.id === 'archives.json')
+)?.data?.portfolio;
+
+const baseTitle = archiveSettings?.seo?.title || archiveSettings?.seo_title || 'Our Work & Selected Projects | Kukode';
+const title = page.currentPage > 1 ? `${baseTitle.replace(/ \| Kukode$/, '')} - Page ${page.currentPage} | Kukode` : baseTitle;
+const description =
+  archiveSettings?.seo?.description ||
+  archiveSettings?.seo_description ||
+  'Explore our recent web development, e-commerce, and custom web application projects crafted by Kukode.';
+const seoImage = archiveSettings?.seo?.image || archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
+const headerTitle = archiveSettings?.header_title || 'Work that speaks for itself.';
+const headerDesc =
+  archiveSettings?.header_description ||
+  'Every project is custom-coded for speed, search visibility, and real business results. Here are some of our recent client works.';
+
+const cta = archiveSettings?.cta || {
+  eyebrow: 'Ready to Build?',
+  heading: 'Have an ambitious project in mind?',
+  description: "Let's talk through your goals and build a website that delivers measurable results for your business.",
+  primary_text: 'Start a Conversation',
+  primary_link: '/#contact',
+  secondary_text: 'Chat on WhatsApp',
+  secondary_link: 'https://wa.me/62853293353541',
+};
+
+const currentUrl = page.currentPage === 1 ? `${site}/portfolio/` : `${site}/portfolio/${page.currentPage}/`;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+    { '@type': 'ListItem', position: 2, name: 'Portfolio', item: `${site}/portfolio/` },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={seoImage}
+  canonical={currentUrl}
+  alternateEn={currentUrl}
+  headerAlternateUrl="/id/"
+>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <main class="kk-template-page">
+    <div class="container py-5">
+      
+      <!-- Header -->
+      <div class="text-center mb-5">
+        <!-- Breadcrumbs -->
+        <nav class="kk-badge-pill kk-breadcrumb-nav mb-2" aria-label="breadcrumb">
+          <span class="kk-dot"></span>
+          <a href="/" class="text-decoration-none">Home</a>
+          <span class="mx-1 text-muted-kk">/</span>
+          <a href="/portfolio/" class="text-decoration-none text-muted-kk">Portfolio</a>
+          {page.currentPage > 1 && (
+            <>
+              <span class="mx-1 text-muted-kk">/</span>
+              <span class="text-muted-kk">Page {page.currentPage}</span>
+            </>
+          )}
+        </nav>
+        <h1 class="display-5 font-heading fw-bold mb-3">{headerTitle}</h1>
+        <p class="text-muted-kk mx-auto" style="max-width: 640px;">
+          {headerDesc}
+        </p>
+      </div>
+
+      <h2 class="visually-hidden">List of Projects</h2>
+
+      <!-- Projects Grid -->
+      <div class="row g-4 mb-5">
+        {page.data.map((item) => {
+          const slug = item.data.custom_slug || item.id.replace(/\.(md|mdx)$/, '');
+          return (
+            <div class="col-md-6 col-lg-4">
+              <a href={`/portfolio/${slug}/`} class="kk-portfolio-card text-decoration-none text-reset d-block h-100">
+                <div class="kk-browser-frame">
+                  <div class="kk-browser-bar"><span></span><span></span><span></span></div>
+                  <div class="kk-browser-body">
+                    {item.data.image && (
+                      <img src={item.data.image} alt={item.data.title} width="600" height="400" loading="lazy" />
+                    )}
+                    <div class="kk-overlay"><span class="btn btn-light btn-sm rounded-pill">View case study</span></div>
+                  </div>
+                </div>
+                <div class="m-2">
+                  <div class="d-flex justify-content-between align-items-center mt-2 mb-1">
+                    <span class="text-muted-kk small text-uppercase">{item.data.category}</span>
+                    {item.data.year && <span class="text-muted-kk small">{item.data.year}</span>}
+                  </div>
+                  <h3 class="h6 font-heading fw-bold">{item.data.title}</h3>
+                  {item.data.description && (
+                    <p class="text-muted-kk small mb-0">{item.data.description}</p>
+                  )}
+                </div>
+              </a>
+            </div>
+          );
+        })}
+      </div>
+
+      {page.data.length === 0 && (
+        <div class="text-center py-5">
+          <p class="text-muted-kk">No portfolio items yet.</p>
+        </div>
+      )}
+
+      <!-- Pagination Component -->
+      <Pagination page={page} />
+
+      <!-- CTA Band -->
+      <div class="kk-cta-band mt-5">
+        {cta.eyebrow && <p class="kk-eyebrow mb-2" style="color: rgba(255,255,255,0.85);">{cta.eyebrow}</p>}
+        {cta.heading && <h2 class="mb-3">{cta.heading}</h2>}
+        {cta.description && (
+          <p class="mb-4 mx-auto" style="max-width: 480px;">
+            {cta.description}
+          </p>
+        )}
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          {cta.primary_text && (
+            <a href={cta.primary_link || '/#contact'} class="btn btn-light">{cta.primary_text}</a>
+          )}
+          {cta.secondary_text && (
+            <a href={cta.secondary_link || 'https://wa.me/62853293353541'} target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">{cta.secondary_text}</a>
+          )}
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+

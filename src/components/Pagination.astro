@@ -1,0 +1,123 @@
+---
+interface Props {
+  page: {
+    currentPage: number;
+    lastPage: number;
+    total: number;
+    url: {
+      current: string;
+      prev: string | undefined;
+      next: string | undefined;
+      first: string | undefined;
+      last: string | undefined;
+    };
+  };
+  class?: string;
+}
+
+const { page, class: className = '' } = Astro.props;
+const currentLocale = Astro.currentLocale || 'en';
+const isId = currentLocale === 'id';
+
+// Do not render anything if there is only 1 page
+if (!page || page.lastPage <= 1) {
+  return;
+}
+
+// Calculate base path from Astro.url.pathname
+const cleanPath = Astro.url.pathname.replace(/\/$/, '');
+const basePath = cleanPath.replace(/\/\d+$/, '');
+
+function getPageUrl(p: number): string {
+  if (p === 1) {
+    return `${basePath}/`;
+  }
+  return `${basePath}/${p}/`;
+}
+
+const prevUrl = page.url.prev ? (page.currentPage === 2 ? `${basePath}/` : `${page.url.prev.replace(/\/$/, '')}/`) : undefined;
+const nextUrl = page.url.next ? `${page.url.next.replace(/\/$/, '')}/` : undefined;
+
+function getPaginationItems(current: number, total: number): (number | 'ellipsis')[] {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  const items: (number | 'ellipsis')[] = [1];
+  if (current > 3) {
+    items.push('ellipsis');
+  }
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+  for (let i = start; i <= end; i++) {
+    items.push(i);
+  }
+  if (current < total - 2) {
+    items.push('ellipsis');
+  }
+  items.push(total);
+  return items;
+}
+
+const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
+const prevText = isId ? 'Sebelumnya' : 'Previous';
+const nextText = isId ? 'Selanjutnya' : 'Next';
+const navAria = isId ? 'Navigasi Halaman' : 'Pagination Navigation';
+---
+
+<nav aria-label={navAria} class={`kk-pagination-wrap my-5 ${className}`}>
+  <ul class="pagination justify-content-center align-items-center gap-1 mb-0 flex-wrap">
+    <!-- Previous Button -->
+    {prevUrl ? (
+      <li class="page-item">
+        <a class="page-link kk-page-btn" href={prevUrl} rel="prev" aria-label={prevText}>
+          &laquo; <span class="d-none d-sm-inline ms-1">{prevText}</span>
+        </a>
+      </li>
+    ) : (
+      <li class="page-item disabled" aria-disabled="true">
+        <span class="page-link kk-page-btn text-muted">
+          &laquo; <span class="d-none d-sm-inline ms-1">{prevText}</span>
+        </span>
+      </li>
+    )}
+
+    <!-- Numbered Links & Ellipses -->
+    {paginationItems.map((item) => {
+      if (item === 'ellipsis') {
+        return (
+          <li class="page-item disabled" aria-hidden="true">
+            <span class="page-link kk-page-ellipsis">&hellip;</span>
+          </li>
+        );
+      }
+
+      const isActive = item === page.currentPage;
+      return (
+        <li class={`page-item ${isActive ? 'active' : ''}`} aria-current={isActive ? 'page' : undefined}>
+          {isActive ? (
+            <span class="page-link kk-page-num">{item}</span>
+          ) : (
+            <a class="page-link kk-page-num" href={getPageUrl(item)}>
+              {item}
+            </a>
+          )}
+        </li>
+      );
+    })}
+
+    <!-- Next Button -->
+    {nextUrl ? (
+      <li class="page-item">
+        <a class="page-link kk-page-btn" href={nextUrl} rel="next" aria-label={nextText}>
+          <span class="d-none d-sm-inline me-1">{nextText}</span> &raquo;
+        </a>
+      </li>
+    ) : (
+      <li class="page-item disabled" aria-disabled="true">
+        <span class="page-link kk-page-btn text-muted">
+          <span class="d-none d-sm-inline me-1">{nextText}</span> &raquo;
+        </span>
+      </li>
+    )}
+  </ul>
+</nav>

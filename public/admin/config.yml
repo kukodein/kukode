@@ -134,6 +134,319 @@ collections:
         required: false
         hint: Email tujuan pengiriman form kontak
         i18n: true
+    - name: service
+      label: Service Page
+      i18n: true
+      fields:
+      - label: Title
+        name: title
+        widget: string
+        i18n: true
+      - label: Service Badge / Tag
+        name: badge
+        widget: string
+        required: false
+        i18n: true
+        hint: Contoh 'Layanan Unggulan Kukode' atau 'Featured Flagship Service'
+      - label: Hero Section
+        name: hero
+        widget: object
+        i18n: true
+        fields:
+        - label: Hero Title
+          name: hero_title
+          widget: string
+          i18n: true
+        - label: Hero Description
+          name: hero_description
+          widget: text
+          required: false
+          i18n: true
+        - label: Hero Image
+          name: hero_image
+          widget: image
+          required: false
+          i18n: duplicate
+        - label: Primary CTA Text
+          name: cta_primary_text
+          widget: string
+          required: false
+          i18n: true
+        - label: Primary CTA Link
+          name: cta_primary_link
+          widget: string
+          required: false
+          i18n: duplicate
+        - label: Secondary CTA Text
+          name: cta_secondary_text
+          widget: string
+          required: false
+          i18n: true
+        - label: Secondary CTA Link
+          name: cta_secondary_link
+          widget: string
+          required: false
+          i18n: duplicate
+        - label: Metric 1 (Load Time)
+          name: stat_1
+          widget: string
+          required: false
+          default: "< 0.8s"
+          i18n: duplicate
+        - label: Metric 2 (Uptime)
+          name: stat_2
+          widget: string
+          required: false
+          default: "99.9%"
+          i18n: duplicate
+        - label: Metric 3 (PageSpeed)
+          name: stat_3
+          widget: string
+          required: false
+          default: "100"
+          i18n: duplicate
+      - label: Website Types & Solutions (Solusi Website)
+        name: website_types
+        widget: list
+        required: false
+        i18n: true
+        fields:
+        - label: Icon Emoji / Text
+          name: icon
+          widget: string
+          i18n: duplicate
+        - label: Title
+          name: title
+          widget: string
+          i18n: true
+        - label: Tag Badge
+          name: tag
+          widget: string
+          required: false
+          i18n: true
+        - label: Description
+          name: desc
+          widget: text
+          i18n: true
+      - label: Architectural Comparison (Perbandingan Arsitektur)
+        name: comparison
+        widget: object
+        required: false
+        i18n: true
+        fields:
+        - label: Legacy System Title
+          name: legacy_title
+          widget: string
+          default: "Website WordPress / Tradisional"
+          i18n: true
+        - label: Legacy Disadvantages
+          name: legacy_items
+          widget: list
+          i18n: true
+          fields:
+          - label: Title
+            name: title
+            widget: string
+            i18n: true
+          - label: Description
+            name: desc
+            widget: text
+            i18n: true
+        - label: Modern Architecture Title
+          name: modern_title
+          widget: string
+          default: "Arsitektur Modern Kukode"
+          i18n: true
+        - label: Modern Badge
+          name: modern_badge
+          widget: string
+          default: "Standar Modern 2026"
+          i18n: true
+        - label: Modern Advantages
+          name: modern_items
+          widget: list
+          i18n: true
+          fields:
+          - label: Title
+            name: title
+            widget: string
+            i18n: true
+          - label: Description
+            name: desc
+            widget: text
+            i18n: true
+      - label: Deliverables Pillars (Rincian Output Proyek)
+        name: deliverables
+        widget: list
+        required: false
+        i18n: true
+        fields:
+        - label: Category Title
+          name: category
+          widget: string
+          i18n: true
+        - label: Icon Emoji
+          name: icon
+          widget: string
+          i18n: duplicate
+        - label: Deliverables List
+          name: items
+          widget: list
+          i18n: true
+      - label: Pricing Packages (Pilihan Paket & Harga)
+        name: pricing_packages
+        widget: list
+        required: false
+        i18n: true
+        fields:
+        - label: Package Name
+          name: name
+          widget: string
+          i18n: true
+        - label: Price
+          name: price
+          widget: string
+          i18n: true
+        - label: Period / Frequency
+          name: period
+          widget: string
+          default: "sekali bayar"
+          i18n: true
+        - label: Featured Badge
+          name: badge
+          widget: string
+          required: false
+          i18n: true
+        - label: Description
+          name: desc
+          widget: text
+          i18n: true
+        - label: Included Features
+          name: features
+          widget: list
+          i18n: true
+        - label: CTA Button Text
+          name: cta_text
+          widget: string
+          default: "Pilih Paket"
+          i18n: true
+        - label: Is Featured / Highlighted
+          name: featured
+          widget: boolean
+          default: false
+          i18n: duplicate
+      - label: Code Ownership Guarantee Text
+        name: ownership_guarantee
+        widget: text
+        required: false
+        i18n: true
+      - label: Tech Stack (Daftar Stack & Logo)
+        name: tech_stack
+        widget: list
+        required: false
+        i18n: true
+        fields:
+        - label: Tech Name
+          name: name
+          widget: string
+          i18n: duplicate
+        - label: Category / Role
+          name: role
+          widget: string
+          i18n: true
+        - label: Description
+          name: desc
+          widget: text
+          i18n: true
+        - label: Logo Icon (SVG / Image)
+          name: logo
+          widget: image
+          required: false
+          i18n: duplicate
+      - label: Add-ons (Layanan Tambahan Opsional)
+        name: add_ons
+        widget: list
+        required: false
+        i18n: true
+        fields:
+        - label: Title
+          name: title
+          widget: string
+          i18n: true
+        - label: Description
+          name: desc
+          widget: text
+          i18n: true
+      - label: Work Process Steps (Tahapan Pengerjaan)
+        name: process_steps
+        widget: list
+        required: false
+        i18n: true
+        fields:
+        - label: Step Number
+          name: step_number
+          widget: string
+          i18n: duplicate
+        - label: Step Title
+          name: title
+          widget: string
+          i18n: true
+        - label: Duration
+          name: duration
+          widget: string
+          required: false
+          i18n: true
+        - label: Step Description
+          name: desc
+          widget: text
+          i18n: true
+      - label: FAQ (Tanya Jawab Interaktif)
+        name: faq
+        widget: list
+        required: false
+        i18n: true
+        fields:
+        - label: Question
+          name: question
+          widget: string
+          i18n: true
+        - label: Answer
+          name: answer
+          widget: text
+          i18n: true
+      - label: Call-to-Action Band
+        name: cta_band
+        widget: object
+        required: false
+        i18n: true
+        fields:
+        - label: Heading
+          name: heading
+          widget: string
+          i18n: true
+        - label: Description
+          name: description
+          widget: text
+          i18n: true
+        - label: Button Text
+          name: cta_text
+          widget: string
+          i18n: true
+        - label: Button Link
+          name: cta_link
+          widget: string
+          required: false
+          i18n: duplicate
+        - label: Guarantee / Subtext
+          name: guarantee_text
+          widget: string
+          required: false
+          i18n: true
+      - label: Content / Additional Markdown
+        name: content
+        widget: markdown
+        required: false
+        i18n: true
 - name: posts
   label: Posts
   label_singular: Post
@@ -394,6 +707,19 @@ collections:
     name: body
     widget: markdown
     required: false
+  - label: Project Gallery
+    name: gallery
+    widget: list
+    required: false
+    hint: Screenshot atau mockup visual proyek (dapat diperbesar pengunjung dengan GLightbox)
+    fields:
+      - label: Image
+        name: image
+        widget: image
+      - label: Caption / Title
+        name: caption
+        widget: string
+        required: false
   - label: SEO Settings
     name: seo
     widget: object
@@ -1350,3 +1676,63 @@ collections:
           widget: image
           required: false
           i18n: true
+  - name: not_found
+    label: 404 Page Settings
+    file: src/content/settings/{{locale}}/404.json
+    i18n: true
+    fields:
+    - label: SEO Settings
+      name: seo
+      widget: object
+      i18n: true
+      fields:
+      - label: Meta Title
+        name: title
+        widget: string
+        default: 404 - Page Not Found | Kukode
+        required: false
+        i18n: true
+      - label: Meta Description
+        name: description
+        widget: text
+        default: Sorry, the page you are looking for does not exist.
+        required: false
+        i18n: true
+      - label: Meta Image
+        name: image
+        widget: image
+        default: /image/default-thumbnail.jpg
+        required: false
+        i18n: true
+    - label: Badge / Eyebrow
+      name: eyebrow
+      widget: string
+      default: Error 404
+      required: false
+      i18n: true
+    - label: Main Heading
+      name: heading
+      widget: string
+      default: "404"
+      i18n: true
+    - label: Subheading
+      name: subheading
+      widget: string
+      default: Page Not Found
+      i18n: true
+    - label: Description Message
+      name: description
+      widget: text
+      default: Sorry, the page you are looking for does not exist or has been moved.
+      i18n: true
+    - label: Button Text
+      name: button_text
+      widget: string
+      default: Back to Home
+      i18n: true
+    - label: Button Link
+      name: button_link
+      widget: string
+      default: /
+      i18n: true
+

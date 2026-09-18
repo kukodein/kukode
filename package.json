@@ -7,7 +7,10 @@
     "dev:cms": "concurrently \"astro dev\" \"npx @sveltia/cms-proxy\"",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "migrate:posts": "node scripts/migrate-posts.mjs",
+    "migrate:pages": "node scripts/migrate-pages.mjs",
+    "migrate:portfolio": "node scripts/migrate-portfolio.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.0.0",

@@ -6,6 +6,13 @@ client: "TechCorp Global Inc."
 year: "2025"
 description: "A high-performance corporate website designed to establish authority and generate qualified enterprise leads."
 image: "https://picsum.photos/600/400?41"
+gallery:
+  - image: "https://picsum.photos/1200/800?101"
+    caption: "Homepage Hero & Value Proposition Layout"
+  - image: "https://picsum.photos/1200/800?102"
+    caption: "Interactive Solutions Grid & Case Studies"
+  - image: "https://picsum.photos/1200/800?103"
+    caption: "Mobile Responsive Navigation & Lead Capture Form"
 live_url: "https://example.com/techcorp"
 tools:
   - Astro

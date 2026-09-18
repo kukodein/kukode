@@ -1,19 +1,19 @@
 {
   "articles": {
-    "header_title": "Apa yang bisa Kami bantu untuk bisnis Anda? #UPDATE",
-    "header_description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital. #UPDATE",
+    "header_title": "Apa yang bisa Kami bantu untuk bisnis Anda?",
+    "header_description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital.",
     "seo": {
-      "title": "Artikel & Berita | Kukode #UPDATE",
-      "description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital. #UPDATE",
+      "title": "Artikel & Berita | Kukode",
+      "description": "Wawasan, tutorial, dan berita dari dunia pengembangan web dan bisnis digital.",
       "image": "/image/default-thumbnail.jpg"
     }
   },
   "portfolio": {
     "header_title": "Karya yang membuktikan kualitas kami.",
-    "header_description": "Setiap proyek dibuat manual untuk kecepatan tinggi, ramah mesin pencari, dan hasil nyata bagi bisnis Anda. #UPDATE",
+    "header_description": "Setiap proyek dibuat manual untuk kecepatan tinggi, ramah mesin pencari, dan hasil nyata bagi bisnis Anda.",
     "seo": {
       "title": "Karya & Portofolio Pilihan | Kukode",
-      "description": "Jelajahi proyek pengembangan web, e-commerce, dan aplikasi web khusus yang kami kerjakan. #UPDATE",
+      "description": "Jelajahi proyek pengembangan web, e-commerce, dan aplikasi web khusus yang kami kerjakan.",
       "image": "/image/default-thumbnail.jpg"
     },
     "cta": {
@@ -27,7 +27,7 @@
     }
   },
   "authors": {
-    "header_title": "Penulis & Kontributor #UPDATE",
+    "header_title": "Penulis & Kontributor",
     "header_description": "Kenali sosok di balik panduan, tutorial, dan wawasan teknologi dari Kukode.",
     "seo": {
       "title": "Penulis & Kontributor | Kukode",
@@ -36,10 +36,10 @@
     }
   },
   "categories": {
-    "header_title": "Jelajahi Berdasarkan Kategori #UPDATE",
-    "header_description": "Temukan artikel, tutorial, dan panduan yang dikelompokkan berdasarkan topik untuk mendukung bisnis digital Anda. #UPDATE",
+    "header_title": "Jelajahi Berdasarkan Kategori",
+    "header_description": "Temukan artikel, tutorial, dan panduan yang dikelompokkan berdasarkan topik untuk mendukung bisnis digital Anda.",
     "seo": {
-      "title": "Daftar Kategori | Kukode #UPDATE",
+      "title": "Daftar Kategori | Kukode",
       "description": "Jelajahi artikel dan panduan berdasarkan kategori topik di Kukode.",
       "image": "/image/default-thumbnail.jpg"
     }

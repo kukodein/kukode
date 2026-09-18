@@ -5,6 +5,9 @@ import Footer from '../components/Footer.astro';
 import SEOHead from '../components/SEOHead.astro';
 import AnalyticsHead from '../components/AnalyticsHead.astro';
 import AnalyticsBody from '../components/AnalyticsBody.astro';
+import WhatsAppWidget from '../components/WhatsAppWidget.astro';
+import BackToTop from '../components/BackToTop.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title: string;
@@ -43,11 +46,21 @@ const {
 <!DOCTYPE html>
 <html lang={currentLocale} data-bs-theme="light">
   <head>
-    <!-- Anti-FOUC: Apply saved theme immediately -->
+    <!-- Anti-FOUC: Apply saved or system theme immediately -->
     <script is:inline>
       (function () {
-        const saved = localStorage.getItem('kk-theme') || 'light';
-        document.documentElement.setAttribute('data-bs-theme', saved);
+        const saved = localStorage.getItem('kk-theme');
+        const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (systemDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-bs-theme', theme);
+
+        if (window.matchMedia) {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+            if (!localStorage.getItem('kk-theme')) {
+              document.documentElement.setAttribute('data-bs-theme', e.matches ? 'dark' : 'light');
+            }
+          });
+        }
       })();
     </script>
     <meta charset="UTF-8" />
@@ -78,13 +91,17 @@ const {
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!-- Preload Critical Fonts -->
+    <link rel="preload" href="/fonts/Inter-VariableFont_opsz,wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/GoogleSans-VariableFont_GRAD,opsz,wght.woff2" as="font" type="font/woff2" crossorigin />
+
     <!-- Bootstrap CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Custom Styles -->
     <link href="/css/kukode.css" rel="stylesheet" />
 
     <!-- RSS -->
-    <link rel="alternate" type="application/rss+xml" title="Kukode Blog" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={currentLocale === 'id' ? 'Kukode Blog (ID)' : 'Kukode Blog (EN)'} href={currentLocale === 'id' ? '/id/rss.xml' : '/rss.xml'} />
 
     <!-- ClientRouter for fast page transitions -->
     <ClientRouter />
@@ -95,14 +112,26 @@ const {
     <slot name="head" />
   </head>
   <body>
+    <!-- Skip to main content (A11y) -->
+    <a href="#main-content" class="kk-skip-link">
+      {currentLocale === 'id' ? 'Menuju ke konten utama' : 'Skip to main content'}
+    </a>
+
     <!-- Google Tag Manager (noscript) -->
     <AnalyticsBody />
 
     <Header alternateUrl={headerAlternateUrl || (currentLocale === 'id' ? alternateEn : alternateId)} />
 
-    <slot />
+    <div id="main-content">
+      <slot />
+    </div>
 
     <Footer />
+
+    <!-- Floating WhatsApp CTA & Back to Top -->
+    <WhatsAppWidget />
+    <BackToTop />
+    <CookieConsent />
 
     <!-- Bootstrap JS -->
     <script is:inline src="/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -112,7 +141,9 @@ const {
     <!-- Re-init on client-side navigation -->
     <script is:inline>
       function applyTheme() {
-        const theme = localStorage.getItem('kk-theme') || 'light';
+        const saved = localStorage.getItem('kk-theme');
+        const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (systemDark ? 'dark' : 'light');
         document.documentElement.setAttribute('data-bs-theme', theme);
       }
       document.addEventListener('astro:after-swap', applyTheme);

@@ -1,0 +1,1102 @@
+---
+interface Props {
+  page: any;
+  pageData?: any;
+  contentHtml?: string | null;
+}
+
+const { page, pageData, contentHtml } = Astro.props;
+
+// Determine locale
+const currentLocale = Astro.currentLocale || (page?.id?.startsWith('id/') ? 'id' : 'en');
+const isId = currentLocale === 'id';
+
+// Core Titles & Copy
+const title = pageData?.title || page?.data?.title || (isId ? 'Jasa Pembuatan Website Company Profile' : 'Company Profile Website Development');
+const badge = pageData?.badge || (isId ? 'Layanan Unggulan Kukode' : 'Featured Flagship Service');
+const heroImage = pageData?.hero?.hero_image || '/image/en-home-section-hero.png';
+
+const waPrefill = isId
+  ? encodeURIComponent(`Halo Kukode, saya ingin konsultasi mengenai Jasa Pembuatan Website Company Profile.`)
+  : encodeURIComponent(`Hello Kukode, I would like to consult about Company Profile Website Development.`);
+const waLink = `https://wa.me/62853293353541?text=${waPrefill}`;
+
+const heroTitle = pageData?.hero?.hero_title || (isId 
+  ? 'Jasa Pembuatan Website Company Profile Cepat, Berwibawa & Konversi Tinggi.' 
+  : 'Enterprise Company Profile Website Engineered for Speed & Authority.');
+const heroDescription = pageData?.hero?.hero_description || (isId
+  ? 'Tinggalkan website lemot berbasis template pasaran. Kami merancang website profil perusahaan kustom dengan arsitektur Jamstack mutakhir: memuat dalam sepersekian detik, kebal hacker, dan siap meyakinkan calon klien & investor korporat Anda.'
+  : 'Ditch slow, plugin-bloated templates. We engineer high-authority corporate web flagships built on modern static architectures: sub-second load times, impenetrable security, and designed to convert enterprise inquiries.');
+const ctaPrimaryText = pageData?.hero?.cta_primary_text || (isId ? 'Konsultasi Gratis via WhatsApp' : 'Get Free WhatsApp Consultation');
+const ctaPrimaryLink = pageData?.hero?.cta_primary_link || waLink;
+const ctaSecondaryText = pageData?.hero?.cta_secondary_text || (isId ? 'Lihat Paket Harga' : 'View Pricing Plans');
+const ctaSecondaryLink = pageData?.hero?.cta_secondary_link || '#pricing';
+const stat1 = pageData?.hero?.stat_1 || '< 0.8s';
+const stat2 = pageData?.hero?.stat_2 || '99.9%';
+const stat3 = pageData?.hero?.stat_3 || '100';
+
+// 1. Website Types / Solutions
+const defaultWebsiteTypes = isId ? [
+  {
+    icon: '🏢',
+    title: 'Corporate Company Profile',
+    tag: 'Paling Populer',
+    desc: 'Untuk korporasi, perusahaan B2B, manufaktur, dan firma profesional. Fokus membangun reputasi resmi, menampilkan portofolio klien, struktur direksi, legalitas, dan formulir tender/inquiry.'
+  },
+  {
+    icon: '🎯',
+    title: 'High-Converting Landing Page',
+    tag: 'Fokus Konversi',
+    desc: 'Untuk peluncuran produk baru, promosi event/webinar, atau kampanye iklan Google & Meta Ads. Struktur one-page dengan copywriting tajam dan alur konversi WhatsApp instan.'
+  },
+  {
+    icon: '📦',
+    title: 'Digital Catalog & B2B Showcase',
+    tag: 'Katalog Produk',
+    desc: 'Untuk distributor, supplier, dan pabrik yang ingin menampilkan puluhan hingga ratusan produk lengkap dengan spesifikasi teknis dan tombol minta penawaran harga tanpa kerumitan e-commerce.'
+  },
+  {
+    icon: '📐',
+    title: 'Architecture & Studio Portfolio',
+    tag: 'Visual Eksklusif',
+    desc: 'Untuk biro arsitek, konsultan desain interior, fotografer, dan agensi kreatif yang butuh etalase visual mewah dengan kemampuan zoom foto full-screen GLightbox.'
+  },
+  {
+    icon: '📰',
+    title: 'Editorial & Blog Knowledge Hub',
+    tag: 'Otoritas SEO',
+    desc: 'Untuk organisasi atau lembaga riset yang memprioritaskan publikasi artikel edukasi berkala guna memenangkan ranking pencarian organik Google secara berkelanjutan.'
+  },
+  {
+    icon: '⚙️',
+    title: 'Custom Web & Client Portal',
+    tag: 'Solusi Kustom',
+    desc: 'Pengembangan fungsionalitas khusus seperti kalkulator estimasi biaya interaktif, formulir bertingkat (multi-step quotation), dan portal dokumen klien terintegrasi.'
+  }
+] : [
+  {
+    icon: '🏢',
+    title: 'Corporate Company Profile',
+    tag: 'Most Popular',
+    desc: 'Tailored for enterprises, B2B brands, manufacturers, and consulting practices. Establishes institutional credibility, executive leadership, credentials, and business inquiry pipelines.'
+  },
+  {
+    icon: '🎯',
+    title: 'High-Converting Landing Page',
+    tag: 'Conversion Focused',
+    desc: 'Engineered for dedicated product launches, paid Google & Meta ad campaigns, or corporate events. Sharp persuasive copy with instant mobile call-to-action triggers.'
+  },
+  {
+    icon: '📦',
+    title: 'Digital Catalog & B2B Showcase',
+    tag: 'Product Showcase',
+    desc: 'For distributors, suppliers, and industrial manufacturers needing structured product matrices and RFQ (Request for Quote) flows without checkout friction.'
+  },
+  {
+    icon: '📐',
+    title: 'Architecture & Studio Portfolio',
+    tag: 'Visual Prestige',
+    desc: 'For architectural practices, interior studios, and agencies demanding a high-fidelity visual experience with full-screen GLightbox image previews.'
+  },
+  {
+    icon: '📰',
+    title: 'Editorial & Blog Knowledge Hub',
+    tag: 'SEO Authority',
+    desc: 'Engineered for long-term organic visibility through high-frequency research publication, industry guides, and sub-second Core Web Vitals.'
+  },
+  {
+    icon: '⚙️',
+    title: 'Custom Web & Client Portal',
+    tag: 'Custom Scope',
+    desc: 'Specialized functional modules including interactive pricing calculators, multi-step lead quotation forms, and custom document portals.'
+  }
+];
+
+const websiteTypes = (pageData?.website_types && Array.isArray(pageData.website_types) && pageData.website_types.length > 0)
+  ? pageData.website_types
+  : defaultWebsiteTypes;
+
+// 2. Architectural Comparison
+const defaultComparison = isId ? {
+  legacy_title: 'Website WordPress / Tradisional',
+  legacy_items: [
+    { title: 'Loading Lambat (4 - 8 Detik)', desc: 'Database MySQL berat dan puluhan plugin membuat pengunjung langsung kabur.' },
+    { title: 'Rentan Serangan Hacker & Malware', desc: 'Endpoint login admin dan plugin rentan disusupi bot jahat dan malware.' },
+    { title: 'Biaya Lisensi Plugin Menumpuk', desc: 'Tagihan perpanjangan plugin page-builder mahal setiap tahun.' },
+    { title: 'Sering Rusak Saat Update', desc: 'Update tema sering merusak layout dan butuh biaya perbaikan developer.' }
+  ],
+  modern_title: 'Arsitektur Modern Kukode',
+  modern_badge: 'Standar Modern 2026',
+  modern_items: [
+    { title: 'Loading Super Kilat (< 500ms)', desc: 'File statis murni tanpa database, skor Google PageSpeed konsisten 98-100.' },
+    { title: '100% Kebal Serangan Hacker', desc: 'Tanpa database publik atau celah PHP. Tidak ada pintu masuk hacker.' },
+    { title: 'Bebas Biaya Lisensi Selamanya', desc: 'Biaya transparan sekali bayar. Kode dan website sepenuhnya milik Anda 100%.' },
+    { title: 'CMS Sveltia Mandiri & Praktis', desc: 'Edit teks, foto, portofolio, dan berita semudah mengetik dokumen Word.' }
+  ]
+} : {
+  legacy_title: 'Traditional / WordPress CMS',
+  legacy_items: [
+    { title: 'Sluggish Load Times (4-8s)', desc: 'Heavy SQL databases and 30+ plugins cause high visitor bounce rates.' },
+    { title: 'Vulnerable to Hacks & Exploits', desc: 'WordPress admin login endpoints and unpatched plugins are prime targets.' },
+    { title: 'Hidden Recurring Plugin Fees', desc: 'Forced renewals for premium page-builders and security plugins every year.' },
+    { title: 'Fragile System Updates', desc: 'Automatic updates break styling, requiring recurring paid developer fixes.' }
+  ],
+  modern_title: 'Kukode Jamstack Engineering',
+  modern_badge: 'Modern Standard',
+  modern_items: [
+    { title: 'Sub-Second Page Loads (< 500ms)', desc: 'Pure compiled HTML distributed on edge CDN. Instant response globally.' },
+    { title: 'Impenetrable Static Security', desc: 'Zero database attack vectors or PHP runtime endpoints for hackers to exploit.' },
+    { title: 'Zero Hidden Plugin Fees Forever', desc: 'One-time transparent investment. You own 100% of your source code and data.' },
+    { title: 'Intuitive Sveltia Headless CMS', desc: 'Distraction-free visual dashboard allowing non-technical staff to edit effortlessly.' }
+  ]
+};
+
+const comparisonData = (pageData?.comparison && pageData.comparison.legacy_items && pageData.comparison.legacy_items.length > 0)
+  ? pageData.comparison
+  : defaultComparison;
+
+// 3. Deliverables Pillars
+const defaultDeliverables = isId ? [
+  {
+    category: '1. Desain & Antarmuka (UI/UX)',
+    icon: '🎨',
+    items: [
+      'Desain kustom eksklusif mencerminkan identitas brand (bukan template pasaran)',
+      '100% responsif mobile-first, tablet, dan layar desktop resolusi tinggi',
+      'Fitur modern Dark Mode & Light Mode switch otomatis/manual',
+      'Tipografi berwibawa (Google Sans & Inter) dan favicon kit lengkap'
+    ]
+  },
+  {
+    category: '2. Pengelolaan Konten (CMS Mandiri)',
+    icon: '📝',
+    items: [
+      'Dashboard Sveltia CMS visual yang bersih, mandiri, dan bebas ribet',
+      'Publikasi artikel blog, studi kasus, dan berita tanpa batas',
+      'Galeri foto proyek dengan kemampuan zoom lightbox interaktif',
+      'Edit informasi kontak, alamat, layanan, dan profil tim semudah mengetik dokumen'
+    ]
+  },
+  {
+    category: '3. Kecepatan Akses & SEO Google',
+    icon: '⚡',
+    items: [
+      'Jaminan Google PageSpeed skor 95+ (Lolos Core Web Vitals)',
+      'Struktur data Schema.org JSON-LD (FAQPage, Organization, Breadcrumbs)',
+      'OpenGraph preview cards untuk WhatsApp, LinkedIn, Facebook, dan X',
+      'Pendaftaran ke Google Search Console & sitemap XML otomatis'
+    ]
+  },
+  {
+    category: '4. Infrastruktur, Keamanan & Legalitas',
+    icon: '🛡️',
+    items: [
+      'Sertifikat keamanan SSL HTTPS 256-bit gratis selamanya',
+      'Deployment di edge network Cloudflare Pages (300+ server dunia)',
+      '100% hak milik penuh atas domain, source code, dan seluruh aset Anda',
+      'Garansi bebas bug (bug-free warranty) dan sesi video panduan CMS'
+    ]
+  }
+] : [
+  {
+    category: '1. UI/UX Design & Branding',
+    icon: '🎨',
+    items: [
+      'Bespoke visual layouts tailored to your brand identity (zero generic templates)',
+      '100% fluid ergonomics across mobile phones, tablets, and widescreen desktops',
+      'Built-in modern Dark Mode and Light Mode theme toggle',
+      'Licensed Google Sans & Inter typography pairings and complete icon suites'
+    ]
+  },
+  {
+    category: '2. Independent Content Management',
+    icon: '📝',
+    items: [
+      'Intuitive, visual Sveltia CMS admin with zero technical barrier',
+      'Unlimited publishing of corporate news, articles, and case studies',
+      'Interactive visual project galleries with full-screen lightbox zoom',
+      'Effortlessly update executive bios, addresses, and services anytime'
+    ]
+  },
+  {
+    category: '3. Performance & Organic SEO',
+    icon: '⚡',
+    items: [
+      'Guaranteed 95+ Google PageSpeed score (Passing all Core Web Vitals)',
+      'Structured Schema.org JSON-LD data (FAQPage, Organization, Breadcrumbs)',
+      'High-CTR OpenGraph social media preview cards across all channels',
+      'Automated XML sitemaps and Google Search Console indexing configuration'
+    ]
+  },
+  {
+    category: '4. Security, Edge Infrastructure & Ownership',
+    icon: '🛡️',
+    items: [
+      'Enterprise-grade 256-bit SSL HTTPS encryption certificate',
+      'Global edge distribution on Cloudflare Pages (300+ data centers)',
+      '100% client code and data ownership with zero vendor lock-in',
+      'Complimentary bug-free warranty and custom CMS video training'
+    ]
+  }
+];
+
+const deliverablesPillars = (pageData?.deliverables && Array.isArray(pageData.deliverables) && pageData.deliverables.length > 0 && pageData.deliverables[0]?.category)
+  ? pageData.deliverables
+  : defaultDeliverables;
+
+// 4. Pricing Packages
+const defaultPricingPackages = isId ? [
+  {
+    name: 'Starter Landing Page',
+    price: 'Rp 2.500.000',
+    period: 'sekali bayar',
+    badge: null,
+    desc: 'Solusi cepat dan efisien untuk peluncuran produk baru, UMKM, atau kampanye iklan Google & Meta Ads.',
+    features: [
+      '1 Halaman Single-Page Panjang Terstruktur',
+      'Desain Responsif Mobile-First Kustom',
+      'Kecepatan Skor Google PageSpeed 95+',
+      'Integrasi Tombol WhatsApp & Form Kontak',
+      'Gratis Domain (.com/.id) & Hosting 1 Tahun',
+      'Sertifikat Keamanan SSL HTTPS',
+      'Garansi Bug 30 Hari & Panduan'
+    ],
+    cta_text: 'Pilih Paket Starter',
+    featured: false
+  },
+  {
+    name: 'Professional Corporate',
+    price: 'Rp 4.900.000',
+    period: 'sekali bayar',
+    badge: 'Paling Direkomendasikan ⭐',
+    desc: 'Pilihan standar terbaik bagi perusahaan korporat, B2B, manufaktur, dan kantor konsultan profesional.',
+    features: [
+      'Hingga 5 - 7 Halaman Lengkap (Beranda, Tentang, Layanan, Portofolio, Blog, Kontak)',
+      'Dashboard Sveltia CMS Mandiri (Edit Konten Kapan Saja)',
+      'Struktur SEO Semantik & Schema JSON-LD Lengkap',
+      'Galeri Proyek dengan GLightbox Zoom Fullscreen',
+      'Formulir Kontak Terhubung ke WhatsApp & Email',
+      'Gratis Domain Perusahaan & Hosting Edge CDN 1 Tahun',
+      'Garansi Bug 60 Hari & Sesi Video Training CMS'
+    ],
+    cta_text: 'Pilih Paket Professional',
+    featured: true
+  },
+  {
+    name: 'Custom Enterprise & Bilingual',
+    price: 'Mulai Rp 9.500.000',
+    period: 'sesuai lingkup',
+    badge: 'Skala Besar',
+    desc: 'Untuk korporasi multinasional, grup holding, atau perusahaan yang memerlukan sistem dwibahasa penuh.',
+    features: [
+      'Jumlah Halaman Fleksibel / Sesuai Kebutuhan',
+      'Sistem Dwibahasa Penuh (Bahasa Indonesia & Inggris)',
+      'Fitur Filter / Pencarian Katalog Produk Khusus',
+      'Desain UI/UX Eksklusif Dirancang Khusus dari Nol',
+      'Integrasi API / CRM / Formulir Multi-Tahap Kustom',
+      'Prioritas Support Langsung bersama Lead Engineer',
+      'Garansi Bug 90 Hari & Dokumentasi SLA Resmi'
+    ],
+    cta_text: 'Konsultasi Enterprise',
+    featured: false
+  }
+] : [
+  {
+    name: 'Starter Landing Page',
+    price: '$199',
+    period: 'one-time investment',
+    badge: null,
+    desc: 'A rapid, conversion-engineered launchpad for new product lines, SMBs, or targeted ad campaigns.',
+    features: [
+      '1 Long-Form High-Converting Single Page',
+      'Custom Mobile-First Responsive Design',
+      '95+ Core Web Vitals Guaranteed Benchmark',
+      'Direct WhatsApp & Smart Lead Capture',
+      'Complimentary Domain & Edge Hosting (1 Year)',
+      '256-bit SSL HTTPS Security Certificate',
+      '30-Day Bug-Free Warranty & Documentation'
+    ],
+    cta_text: 'Select Starter Plan',
+    featured: false
+  },
+  {
+    name: 'Professional Corporate',
+    price: '$399',
+    period: 'one-time investment',
+    badge: 'Most Popular Choice ⭐',
+    desc: 'The gold standard for B2B enterprises, corporate headquarters, and professional consulting firms.',
+    features: [
+      'Up to 5 - 7 Core Pages (Home, About, Services, Case Studies, Blog, Contact)',
+      'Independent Sveltia Headless CMS Editorial Panel',
+      'Comprehensive Semantic On-Page SEO & Schema JSON-LD',
+      'Visual Project Showcase with GLightbox Full-Screen Zoom',
+      'Dual WhatsApp & Encrypted Email Contact Workflows',
+      'Complimentary Custom Domain & Edge Hosting (1 Year)',
+      '60-Day Dedicated Warranty & Video CMS Walkthrough'
+    ],
+    cta_text: 'Select Professional Plan',
+    featured: true
+  },
+  {
+    name: 'Custom Enterprise & Bilingual',
+    price: 'From $799',
+    period: 'custom scope',
+    badge: 'Enterprise Scope',
+    desc: 'For multinational enterprises, holding corporations, and brands requiring full bilingual capabilities.',
+    features: [
+      'Flexible / Unlimited Page Scope Architecture',
+      'Complete Full Bilingual Architecture (English & Indonesian)',
+      'Custom Search, Filtering & Product Matrix Modules',
+      '100% Bespoke UI/UX Wireframing from Scratch',
+      'Custom CRM, Webhook & Multi-Step Inquiry Integrations',
+      'Direct Priority Support with Lead Software Engineer',
+      '90-Day Extended SLA Warranty & Corporate Agreement'
+    ],
+    cta_text: 'Discuss Enterprise Scope',
+    featured: false
+  }
+];
+
+const pricingPackages = (pageData?.pricing_packages && Array.isArray(pageData.pricing_packages) && pageData.pricing_packages.length > 0)
+  ? pageData.pricing_packages
+  : defaultPricingPackages;
+
+const ownershipGuaranteeText = pageData?.ownership_guarantee || (isId 
+  ? 'Seluruh source code, file konten, dan akun domain sepenuhnya menjadi hak milik Anda tanpa keterikatan lisensi agensi.' 
+  : 'All source code, content markdown files, and domain credentials remain 100% your property with zero vendor lock-in.');
+
+// 5. Tech Stack Breakdown (Now with official SVG logos)
+const defaultTechStack = isId ? [
+  {
+    name: 'Astro 5 SSG',
+    role: 'Static Engine',
+    desc: 'Menghasilkan kode HTML murni tanpa runtime JavaScript berat. Loading instan seketika.',
+    logo: '/image/stack/astro.svg'
+  },
+  {
+    name: 'Sveltia CMS',
+    role: 'Headless Content',
+    desc: 'Panel admin visual berbasis Git Markdown. Konten aman tanpa risiko database MySQL rusak.',
+    logo: '/image/stack/sveltia.svg'
+  },
+  {
+    name: 'Cloudflare Pages',
+    role: 'Global Edge CDN',
+    desc: 'Website disajikan dari 300+ kota di seluruh dunia dengan latensi akses di bawah 35ms.',
+    logo: '/image/stack/cloudflare.svg'
+  },
+  {
+    name: 'GLightbox Engine',
+    role: 'Visual Showcase',
+    desc: 'Fitur preview gambar resolusi tinggi dengan zoom dan swipe mulus di perangkat mobile.',
+    logo: '/image/stack/glightbox.svg'
+  }
+] : [
+  {
+    name: 'Astro 5 SSG',
+    role: 'Static Engine',
+    desc: 'Compiles down to zero-overhead HTML. Eliminates database bottlenecks for sub-second speeds.',
+    logo: '/image/stack/astro.svg'
+  },
+  {
+    name: 'Sveltia CMS',
+    role: 'Headless Content',
+    desc: 'Git-backed Markdown editorial dashboard. Zero MySQL database vulnerabilities or plugin breaks.',
+    logo: '/image/stack/sveltia.svg'
+  },
+  {
+    name: 'Cloudflare Pages',
+    role: 'Global Edge CDN',
+    desc: 'Assets served from 300+ global edge facilities with guaranteed sub-35ms network latency.',
+    logo: '/image/stack/cloudflare.svg'
+  },
+  {
+    name: 'GLightbox Engine',
+    role: 'Visual Showcase',
+    desc: 'High-res image zoom capability with native touch-swipe ergonomics on mobile displays.',
+    logo: '/image/stack/glightbox.svg'
+  }
+];
+
+const techStackDetails = (pageData?.tech_stack && Array.isArray(pageData.tech_stack) && pageData.tech_stack.length > 0 && typeof pageData.tech_stack[0] === 'object')
+  ? pageData.tech_stack
+  : defaultTechStack;
+
+// 6. Add-ons
+const defaultAddOns = isId ? [
+  {
+    title: 'Professional Copywriting',
+    desc: 'Penyusunan teks narasi profil perusahaan, visi-misi, dan deskripsi layanan oleh copywriter profesional.'
+  },
+  {
+    title: 'Multilanguage Expansion',
+    desc: 'Penambahan versi bahasa ekstra (misal: Bahasa Mandarin atau Jepang) dengan routing otomatis.'
+  },
+  {
+    title: 'Monthly Content Maintenance',
+    desc: 'Bantuan berkala untuk upload artikel mingguan, update foto kegiatan, dan pemantauan performa bulanan.'
+  }
+] : [
+  {
+    title: 'Professional Copywriting',
+    desc: 'Strategic corporate storytelling, value propositions, and service descriptions crafted by expert copywriters.'
+  },
+  {
+    title: 'Multilingual Expansion',
+    desc: 'Addition of extra language variants (e.g. Mandarin or Japanese) with dedicated sub-path routing.'
+  },
+  {
+    title: 'Monthly Maintenance & Support',
+    desc: 'Regular editorial assistance for publishing articles, quarterly speed audits, and ongoing technical guidance.'
+  }
+];
+
+const addOns = (pageData?.add_ons && Array.isArray(pageData.add_ons) && pageData.add_ons.length > 0)
+  ? pageData.add_ons
+  : defaultAddOns;
+
+// 7. Work Process Steps
+const defaultProcessSteps = isId ? [
+  {
+    step_number: '01',
+    title: 'Discovery & Materi',
+    duration: 'Hari 1 - 2',
+    desc: 'Diskusi target pasar, sitemap halaman, dan pengumpulan logo serta materi profil.'
+  },
+  {
+    step_number: '02',
+    title: 'Konsep Desain UI',
+    duration: 'Hari 3 - 5',
+    desc: 'Merancang tata letak visual, palet warna berwibawa, dan tipografi modern.'
+  },
+  {
+    step_number: '03',
+    title: 'Koding & Setup CMS',
+    duration: 'Hari 6 - 9',
+    desc: 'Pengembangan arsitektur Jamstack super cepat serta konfigurasi dashboard CMS mandiri.'
+  },
+  {
+    step_number: '04',
+    title: 'Audit & Review',
+    duration: 'Hari 10 - 12',
+    desc: 'Pengecekan PageSpeed 95+, uji responsif mobile, dan penyesuaian akhir bersama Anda.'
+  },
+  {
+    step_number: '05',
+    title: 'Live & Handover',
+    duration: 'Hari 13 - 14',
+    desc: 'Peluncuran resmi ke domain, pendaftaran Google Search Console, dan panduan CMS.'
+  }
+] : [
+  {
+    step_number: '01',
+    title: 'Discovery & Assets',
+    duration: 'Days 1 - 2',
+    desc: 'Aligning on business goals, site architecture, logo, and core copy assets.'
+  },
+  {
+    step_number: '02',
+    title: 'UI/UX Concept',
+    duration: 'Days 3 - 5',
+    desc: 'Crafting high-fidelity visual layouts tailored to executive audiences.'
+  },
+  {
+    step_number: '03',
+    title: 'Engineering & CMS',
+    duration: 'Days 6 - 9',
+    desc: 'Building lean static components and wiring your custom editorial dashboard.'
+  },
+  {
+    step_number: '04',
+    title: 'QA & Speed Audit',
+    duration: 'Days 10 - 12',
+    desc: 'Rigorous cross-browser QA, mobile testing, and collaborative client review.'
+  },
+  {
+    step_number: '05',
+    title: 'Go-Live & Handover',
+    duration: 'Days 13 - 14',
+    desc: 'Custom domain connection, Google Search Console indexing, and CMS training.'
+  }
+];
+
+const processSteps = (pageData?.process_steps && Array.isArray(pageData.process_steps) && pageData.process_steps.length > 0 && pageData.process_steps[0]?.desc)
+  ? pageData.process_steps
+  : defaultProcessSteps;
+
+// 8. FAQ List for Accordion & Schema
+const defaultFaqList = isId ? [
+  {
+    question: 'Berapa lama proses pembuatan website company profile ini?',
+    answer: 'Rata-rata pengerjaan berkisar antara 7 hingga 14 hari kerja terhitung sejak seluruh materi profil perusahaan (teks visi-misi, foto layanan/produk, dan logo) kami terima.'
+  },
+  {
+    question: 'Apakah tim kami bisa mengubah teks dan menambah portofolio/berita sendiri?',
+    answer: 'Tentu saja! Kami mengintegrasikan Sveltia CMS yang sangat intuitif dan bersih. Anda dan tim dapat memperbarui informasi kontak, merilis artikel berita, atau menambah portofolio proyek kapan saja tanpa perlu menyentuh koding.'
+  },
+  {
+    question: 'Mengapa arsitektur Kukode jauh lebih aman dibanding WordPress biasa?',
+    answer: 'Kukode menggunakan arsitektur Modern Jamstack (Astro SSG) di mana seluruh halaman dikompilasi menjadi file statis super cepat. Tidak ada database MySQL publik atau celah PHP yang bisa dieksploitasi oleh hacker untuk menanam malware atau SQL injection.'
+  },
+  {
+    question: 'Apakah ada biaya langganan plugin tersembunyi setiap tahun?',
+    answer: 'Sama sekali tidak ada! Biaya jasa pembuatan adalah one-time (sekali bayar). Anda tidak akan dipusingkan dengan tagihan perpanjangan plugin mahal setiap tahun seperti yang sering terjadi pada website WordPress.'
+  },
+  {
+    question: 'Apakah website ini sudah dioptimalkan agar mudah muncul di Google (SEO)?',
+    answer: 'Ya. Setiap halaman kami bangun dengan struktur HTML semantik, meta tag OpenGraph, XML sitemap otomatis, schema JSON-LD teruji, dan skor Core Web Vitals 95+ agar Google dapat mengindeks dan merekomendasikan website Anda secara optimal.'
+  }
+] : [
+  {
+    question: 'How long does the company profile development process take?',
+    answer: 'Delivery typically ranges between 7 to 14 business days, starting from the moment we receive your core branding assets, copy, and visual materials.'
+  },
+  {
+    question: 'Can our internal team edit copy, add news, or upload new case studies independently?',
+    answer: 'Absolutely. We configure an intuitive Sveltia CMS dashboard specifically tailored to your page structure. Your marketing team can publish new posts or update services in minutes with zero coding experience.'
+  },
+  {
+    question: 'Why is Kukode\'s Jamstack architecture significantly more secure than traditional WordPress?',
+    answer: 'We build with modern static compilation (Astro SSG). Without exposed MySQL databases or PHP runtime vulnerabilities, your website is completely impervious to brute-force attacks and malware injections.'
+  },
+  {
+    question: 'Are there hidden annual plugin renewals or recurring agency retainers?',
+    answer: 'None whatsoever. Our development fee is a one-time investment. You own 100% of your code and digital assets without unexpected licensing fees.'
+  },
+  {
+    question: 'Is modern on-page SEO included from the start?',
+    answer: 'Yes! Every build includes semantic markup, automated XML sitemaps, OpenGraph metadata, structured JSON-LD schemas, and sub-second load times to ensure favorable Google rankings.'
+  }
+];
+
+const faqList = (pageData?.faq && Array.isArray(pageData.faq) && pageData.faq.length > 0)
+  ? pageData.faq
+  : defaultFaqList;
+
+// Generate FAQ Schema JSON-LD
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faqList.map((item: any) => ({
+    '@type': 'Question',
+    'name': item.question,
+    'acceptedAnswer': {
+      '@type': 'Answer',
+      'text': item.answer
+    }
+  }))
+};
+
+// 9. CTA Band
+const defaultCtaBand = isId ? {
+  heading: 'Siap Membangun Website Profil Perusahaan Terbaik?',
+  description: 'Diskusikan kebutuhan perusahaan Anda langsung bersama engineer Kukode. Kami bantu analisa arsitektur, estimasi biaya transparan, dan saran struktur halaman secara gratis.',
+  cta_text: 'Hubungi Kami via WhatsApp',
+  cta_link: waLink,
+  guarantee_text: 'Respon Cepat Tim Engineer • Konsultasi 100% Gratis • Tanpa Spam'
+} : {
+  heading: 'Ready to Build a High-Authority Corporate Website?',
+  description: 'Speak directly with our lead software engineers. We will analyze your requirements and provide a free structural breakdown and transparent estimate.',
+  cta_text: 'Chat via WhatsApp',
+  cta_link: waLink,
+  guarantee_text: 'Rapid Engineer Response • 100% Free Strategy Session • Zero Pressure'
+};
+
+const ctaBandData = (pageData?.cta_band && pageData.cta_band.heading)
+  ? pageData.cta_band
+  : defaultCtaBand;
+---
+
+<main class="kk-template-page">
+  <!-- FAQ Schema Injection -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- 1. HERO SECTION -->
+  <section class="kk-hero py-5 border-bottom position-relative">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7 text-start">
+          <div class="mb-3">
+            <div class="kk-glow-badge">
+              <span class="kk-pulse-dot"></span>
+              <span>{badge} &bull; {isId ? 'Batch Proyek 2026 Dibuka' : 'Accepting Q2 2026 Projects'}</span>
+            </div>
+          </div>
+
+          <h1 class="display-5 font-heading fw-bold mb-3 lh-tight">
+            {heroTitle}
+          </h1>
+
+          <p class="lead text-muted-kk mb-4" style="max-width: 640px;">
+            {heroDescription}
+          </p>
+
+          <div class="d-flex gap-3 flex-wrap align-items-center mb-4">
+            <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.95 9.95 0 0 1-5.03-1.355L2.005 22l1.352-4.968A9.95 9.95 0 0 1 2.001 12c0-5.523 4.477-10 10-10M8.593 7.3l-.2.008a1 1 0 0 0-.372.1a1.3 1.3 0 0 0-.294.228c-.12.113-.188.211-.261.306A2.73 2.73 0 0 0 6.9 9.62c.002.49.13.967.33 1.413c.409.902 1.082 1.857 1.97 2.742c.214.213.424.427.65.626a9.45 9.45 0 0 0 3.84 2.046l.568.087c.185.01.37-.004.556-.013a2 2 0 0 0 .833-.231a5 5 0 0 0 .383-.22q.001.002.125-.09c.135-.1.218-.171.33-.288q.126-.13.21-.302c.078-.163.156-.474.188-.733c.024-.198.017-.306.014-.373c-.004-.107-.093-.218-.19-.265l-.582-.261s-.87-.379-1.402-.621a.5.5 0 0 0-.176-.041a.48.48 0 0 0-.378.127c-.005-.002-.072.055-.795.931a.35.35 0 0 1-.368.13a1.4 1.4 0 0 1-.191-.066c-.124-.052-.167-.072-.252-.108a6 6 0 0 1-1.575-1.003c-.126-.11-.243-.23-.363-.346a6.3 6.3 0 0 1-1.02-1.268l-.059-.095a1 1 0 0 1-.102-.205c-.038-.147.061-.265.061-.265s.243-.266.356-.41c.11-.14.203-.276.263-.373c.118-.19.155-.385.093-.536q-.42-1.026-.868-2.041c-.059-.134-.234-.23-.393-.249q-.081-.01-.162-.016a3 3 0 0 0-.403.004z"></path></svg>
+              <span>{ctaPrimaryText}</span>
+            </a>
+            <a href={ctaSecondaryLink} class="btn btn-outline-kk">
+              {ctaSecondaryText} &darr;
+            </a>
+          </div>
+
+          <div class="d-flex flex-wrap gap-3 pt-2 text-muted-kk small">
+            <span class="d-inline-flex align-items-center gap-1">
+              <span class="text-warning">⭐⭐⭐⭐⭐</span> <strong class="text-body">4.9/5</strong> {isId ? 'Kepuasan Klien' : 'Client Rating'}
+            </span>
+            <span class="d-inline-flex align-items-center gap-1">
+              <span class="text-success fw-bold">✓</span> {isId ? 'Garansi Skor 95+' : 'Guaranteed 95+ Score'}
+            </span>
+            <span class="d-inline-flex align-items-center gap-1">
+              <span class="text-success fw-bold">✓</span> {isId ? 'Pengerjaan 7-14 Hari' : '7-14 Days Turnaround'}
+            </span>
+          </div>
+        </div>
+
+        <!-- Live Visual Preview -->
+        <div class="col-lg-5">
+          <div class="position-relative">
+            <div class="kk-browser-frame shadow-lg">
+              <div class="kk-browser-bar d-flex align-items-center justify-content-between px-3 py-2">
+                <div class="d-flex gap-2">
+                  <span style="background: #ff5f56;"></span>
+                  <span style="background: #ffbd2e;"></span>
+                  <span style="background: #27c93f;"></span>
+                </div>
+                <div class="bg-surface px-3 py-1 rounded-pill small font-monospace text-muted-kk" style="font-size: 0.72rem;">
+                  https://yourcompany.com
+                </div>
+                <span style="width: 20px;"></span>
+              </div>
+              <div class="kk-browser-body bg-light position-relative">
+                <img
+                  src={heroImage}
+                  alt={title}
+                  class="img-fluid w-100 object-fit-cover"
+                  style="max-height: 380px;"
+                  loading="eager"
+                />
+              </div>
+            </div>
+
+            <div class="position-absolute top-0 start-0 translate-middle-y bg-body p-2 px-3 rounded-pill border shadow-sm d-flex align-items-center gap-2">
+              <span class="kk-pulse-dot"></span>
+              <span class="small font-heading fw-bold text-success">⚡ {stat1} Load Time</span>
+            </div>
+
+            <div class="position-absolute bottom-0 end-0 translate-middle-y bg-body p-2 px-3 rounded-pill border shadow-sm d-flex align-items-center gap-2">
+              <span class="text-primary fs-6">🛡️</span>
+              <span class="small font-heading fw-bold">{isId ? '100% Kebal Malware' : 'Zero Database Hacks'}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real Metrics Band -->
+      <div class="row g-4 mt-4 pt-3">
+        <div class="col-md-4">
+          <div class="p-4 rounded-3 border bg-surface h-100">
+            <div class="display-6 font-heading fw-bold text-primary mb-1">{stat1}</div>
+            <h3 class="h6 font-heading fw-bold">{isId ? 'Kecepatan Akses Sub-Detik' : 'Sub-Second Page Load'}</h3>
+            <p class="text-muted-kk small mb-0">{isId ? 'Memastikan calon klien tidak kabur akibat loading lemot.' : 'Never lose potential enterprise leads to sluggish bounce rates.'}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-4 rounded-3 border bg-surface h-100">
+            <div class="display-6 font-heading fw-bold text-success mb-1">{stat2}</div>
+            <h3 class="h6 font-heading fw-bold">{isId ? 'Jaminan Uptime Global Edge' : 'Global Edge Availability'}</h3>
+            <p class="text-muted-kk small mb-0">{isId ? 'Didistribusikan di 300+ data center dunia tanpa down.' : 'Deployed directly to global edge networks with zero downtime.'}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-4 rounded-3 border bg-surface h-100">
+            <div class="display-6 font-heading fw-bold text-warning mb-1">{stat3}</div>
+            <h3 class="h6 font-heading fw-bold">{isId ? 'Skor Google PageSpeed Hijau' : 'Lighthouse 100 Score'}</h3>
+            <p class="text-muted-kk small mb-0">{isId ? 'Fondasi SEO teknis sempurna untuk ranking pencarian teratas.' : 'Flawless technical SEO signals rewarding higher organic ranking.'}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. JENIS-JENIS WEBSITE YANG BISA DIBUAT KUKODE -->
+  <section class="kk-section py-5 bg-surface border-bottom">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Spesialisasi & Use Cases' : 'Types & Capabilities'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? 'Solusi Website yang Kami Rancang untuk Bisnis Anda' : 'Website Solutions Engineered for Every Business Scale'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 620px;">
+          {isId 
+            ? 'Setiap jenis website memiliki karakter dan target konversi berbeda. Kami membangun website sesuai tujuan strategis spesifik perusahaan Anda.' 
+            : 'Different business models require tailored digital strategies. Here is what we build to maximize impact and ROI.'}
+        </p>
+      </div>
+
+      <div class="row g-4">
+        {websiteTypes.map((type: any) => (
+          <div class="col-md-6 col-lg-4">
+            <div class="kk-solution-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="fs-2">{type.icon}</span>
+                {type.tag && (
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small">{type.tag}</span>
+                )}
+              </div>
+              <h3 class="h5 font-heading fw-bold mb-2">{type.title}</h3>
+              <p class="text-muted-kk small mb-0 leading-relaxed">{type.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. PERBANDINGAN ARSITEKTUR (LEGACY VS KUKODE JAMSTACK) -->
+  <section class="kk-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Perbandingan Objektif' : 'Architectural Comparison'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? 'Mengapa Perusahaan Modern Beralih dari WordPress' : 'Why Forward-Thinking Brands Leave WordPress Behind'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 640px;">
+          {isId
+            ? 'Pilihan arsitektur teknologi menentukan keamanan reputasi perusahaan dan efisiensi biaya operasional jangka panjang Anda.'
+            : 'Your architectural choice directly impacts security posture, server overhead, and enterprise reputation.'}
+        </p>
+      </div>
+
+      <div class="row g-4 justify-content-center align-items-stretch">
+        <!-- Bad Box -->
+        <div class="col-lg-5">
+          <div class="kk-compare-box bad">
+            <h3 class="h5 font-heading fw-bold text-danger mb-4">{comparisonData.legacy_title}</h3>
+            <ul class="list-unstyled d-flex flex-column gap-3 mb-0 text-muted-kk">
+              {comparisonData.legacy_items.map((item: any) => (
+                <li class="d-flex align-items-start gap-3">
+                  <span class="text-danger fw-bold fs-5 leading-none">✕</span>
+                  <div>
+                    <strong class="text-body d-block">{item.title}</strong>
+                    <span class="small">{item.desc}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Good Box -->
+        <div class="col-lg-5">
+          <div class="kk-compare-box good">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="h5 font-heading fw-bold text-primary mb-0">{comparisonData.modern_title}</h3>
+              {comparisonData.modern_badge && (
+                <span class="badge bg-primary text-white px-3 py-1">{comparisonData.modern_badge}</span>
+              )}
+            </div>
+            <ul class="list-unstyled d-flex flex-column gap-3 mb-0 text-muted-kk">
+              {comparisonData.modern_items.map((item: any) => (
+                <li class="d-flex align-items-start gap-3">
+                  <span class="text-primary fw-bold fs-5 leading-none">✓</span>
+                  <div>
+                    <strong class="text-body d-block">{item.title}</strong>
+                    <span class="small">{item.desc}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. RINCIAN LENGKAP DELIVERABLES (APA SAJA YANG DIDAPATKAN) -->
+  <section class="kk-section py-5 bg-surface border-bottom">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Rincian Output' : 'Comprehensive Scope'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? 'Semua yang Anda Dapatkan di Setiap Proyek' : 'What You Receive in Every Deployment'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 620px;">
+          {isId 
+            ? 'Transparansi tanpa ada fitur yang disembunyikan. 4 pilar lengkap yang kami serahkan untuk pertumbuhan bisnis Anda.' 
+            : 'Zero hidden exclusions. Four foundational pillars delivered with every single client partnership.'}
+        </p>
+      </div>
+
+      <div class="row g-4">
+        {deliverablesPillars.map((pillar: any) => (
+          <div class="col-md-6">
+            <div class="p-4 rounded-3 border bg-body h-100">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="fs-3">{pillar.icon}</span>
+                <h3 class="h5 font-heading fw-bold mb-0">{pillar.category}</h3>
+              </div>
+              <ul class="list-unstyled d-flex flex-column gap-2 mb-0 small text-muted-kk">
+                {pillar.items && pillar.items.map((it: string) => (
+                  <li class="d-flex align-items-start gap-2">
+                    <span class="text-primary fw-bold">✓</span>
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TRANSPARANSI HARGA & PAKET -->
+  <section class="kk-section py-5" id="pricing">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Investasi Transparan' : 'Transparent Investment'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? 'Pilihan Paket Jasa Pembuatan Website' : 'Engineered Packages for Growth'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 600px;">
+          {isId 
+            ? 'Biaya sekali bayar yang transparan tanpa ada tagihan langganan plugin tersembunyi.' 
+            : 'Predictable one-time investment with zero recurring agency retainer traps.'}
+        </p>
+      </div>
+
+      <div class="row g-4 align-items-stretch">
+        {pricingPackages.map((pkg: any) => (
+          <div class="col-lg-4">
+            <div class={`kk-pricing-card ${pkg.featured ? 'featured' : ''}`}>
+              {pkg.badge && (
+                <div class="kk-pricing-tag">{pkg.badge}</div>
+              )}
+              <div class="mb-4">
+                <h3 class="h5 font-heading fw-bold mb-2">{pkg.name}</h3>
+                <p class="text-muted-kk small mb-3">{pkg.desc}</p>
+                <div class="d-flex align-items-baseline gap-2">
+                  <span class="display-6 font-heading fw-bold text-body">{pkg.price}</span>
+                  <span class="text-muted-kk small">/ {pkg.period}</span>
+                </div>
+              </div>
+
+              <hr class="border-secondary opacity-15 my-2" />
+
+              <div class="my-4 flex-grow-1">
+                <div class="small fw-semibold text-uppercase text-muted-kk mb-3" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+                  {isId ? 'Fasilitas yang Didapat:' : 'What is Included:'}
+                </div>
+                <ul class="list-unstyled d-flex flex-column gap-2 mb-0 small text-muted-kk">
+                  {pkg.features && pkg.features.map((feat: string) => (
+                    <li class="d-flex align-items-start gap-2">
+                      <span class="text-primary fw-bold">✓</span>
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <a
+                href={`https://wa.me/62853293353541?text=${encodeURIComponent(`Halo Kukode, saya tertarik untuk konsultasi mengenai ${pkg.name}.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`btn ${pkg.featured ? 'btn-primary' : 'btn-outline-kk'} w-100 mt-3 shadow-sm`}
+              >
+                {pkg.cta_text || pkg.ctaText || (isId ? 'Pilih Paket' : 'Choose Package')} &rarr;
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Zero Lock-in Assurance -->
+      <div class="mt-4 p-3 rounded-3 bg-surface border text-center text-muted-kk small max-w-700 mx-auto">
+        🔒 <strong>{isId ? 'Garansi Kepemilikan 100%' : '100% Code Ownership Guarantee'}</strong>: 
+        {ownershipGuaranteeText}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. TECH STACK & WHY WE USE IT (WITH LOGOS) -->
+  <section class="kk-section py-5 bg-surface border-top border-bottom">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Fondasi Teknologi' : 'Engineering Stack'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? 'Teknologi di Balik Kecepatan Website Kukode' : 'Why We Built With This Modern Stack'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 600px;">
+          {isId 
+            ? 'Kami tidak menggunakan plugin berat. Kami mengkurasi teknologi standar industri global yang menjamin performa tanpa kompromi.' 
+            : 'We reject bloated plugins in favor of industry-standard tools that guarantee long-term stability and velocity.'}
+        </p>
+      </div>
+
+      <div class="row g-4">
+        {techStackDetails.map((tech: any) => (
+          <div class="col-md-6 col-lg-3">
+            <div class="p-4 rounded-3 border bg-body h-100 d-flex flex-column transition-all hover-shadow">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                {tech.logo ? (
+                  <div class="p-2 rounded-2 bg-surface border d-inline-flex align-items-center justify-content-center shadow-xs" style="width: 46px; height: 46px;">
+                    <img src={tech.logo} alt={tech.name} width="28" height="28" class="object-fit-contain" loading="lazy" />
+                  </div>
+                ) : (
+                  <div class="p-2 rounded-2 bg-surface border d-inline-flex align-items-center justify-content-center fs-5" style="width: 46px; height: 46px;">
+                    ⚡
+                  </div>
+                )}
+                <span class="badge text-bg-primary fw-semibold small">{tech.role}</span>
+              </div>
+              <h4 class="h5 font-heading fw-bold mb-2">{tech.name}</h4>
+              <p class="text-muted-kk small mb-0 leading-relaxed flex-grow-1">{tech.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. ADD-ONS / LAYANAN TAMBAHAN OPSIONAL -->
+  <section class="kk-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Layanan Tambahan' : 'Optional Add-ons'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? 'Kebutuhan Ekstra untuk Menyempurnakan Website' : 'Need Extra Capabilities?'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 580px;">
+          {isId ? 'Tingkatkan jangkauan bisnis Anda dengan opsi layanan pendukung tambahan.' : 'Complement your digital flagship with optional specialized services.'}
+        </p>
+      </div>
+
+      <div class="row g-4">
+        {addOns.map((addon: any) => (
+          <div class="col-md-4">
+            <div class="kk-addon-box">
+              <h4 class="h6 font-heading fw-bold text-primary mb-2">{addon.title}</h4>
+              <p class="text-muted-kk small mb-0 leading-relaxed">{addon.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. TRANSPARENT 5-STEP WORK PROCESS -->
+  <section class="kk-section py-5 bg-light-subtle border-top border-bottom">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Alur Pengerjaan' : 'Our Process'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? '5 Langkah Transparan Menuju Peluncuran' : '5 Predictable Steps to Production'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 600px;">
+          {isId ? 'Timeline terukur tanpa birokrasi berbelit. Anda selalu mengetahui perkembangan setiap tahapannya.' : 'Transparent timelines with zero guesswork. Track your project’s momentum from day one.'}
+        </p>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-10">
+          <div class="row g-4">
+            {processSteps.map((step: any, idx: number) => {
+              const isLast = idx === processSteps.length - 1;
+              return (
+                <div class="col-md-6 col-lg">
+                  <div class={`kk-bento-card p-4 h-100 ${isLast ? 'border-primary' : ''}`}>
+                    <div class={`badge ${isLast ? 'text-bg-success' : 'text-bg-primary'} fs-6 fw-bold mb-3`}>
+                      {step.step_number || `0${idx + 1}`}
+                    </div>
+                    <h4 class="h6 font-heading fw-bold mb-1">{step.title}</h4>
+                    {step.duration && (
+                      <div class={`${isLast ? 'text-success' : 'text-primary'} small fw-semibold mb-2`}>
+                        {step.duration}
+                      </div>
+                    )}
+                    <p class="text-muted-kk small mb-0 leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPTIONAL MARKDOWN CONTENT (IF WRITTEN IN CMS) -->
+  {contentHtml && (
+    <section class="kk-section py-5 bg-surface border-bottom">
+      <div class="container">
+        <div class="kk-article-content max-w-800 mx-auto" set:html={contentHtml} />
+      </div>
+    </section>
+  )}
+
+  <!-- 9. INTERACTIVE FAQ ACCORDION -->
+  <section class="kk-section py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="text-center mb-5">
+            <p class="kk-eyebrow mb-2">FAQ</p>
+            <h2 class="display-6 font-heading fw-bold">{isId ? 'Pertanyaan yang Sering Diajukan' : 'Frequently Asked Questions'}</h2>
+            <p class="text-muted-kk">{isId ? 'Transparansi penuh seputar teknis, biaya, dan kemudahan pengelolaan website.' : 'Clear, honest answers regarding deliverables, timeline, and ownership.'}</p>
+          </div>
+
+          <div class="accordion accordion-flush rounded-4 border overflow-hidden shadow-sm" id="serviceFaqAccordionV2">
+            {faqList.map((faq: any, idx: number) => {
+              const headingId = `faq-v2-head-${idx}`;
+              const collapseId = `faq-v2-collapse-${idx}`;
+              const isOpen = idx === 0;
+              return (
+                <div class="accordion-item bg-surface">
+                  <h3 class="accordion-header" id={headingId}>
+                    <button
+                      class={`accordion-button ${isOpen ? '' : 'collapsed'} font-heading fw-semibold p-4`}
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#${collapseId}`}
+                      aria-expanded={isOpen ? 'true' : 'false'}
+                      aria-controls={collapseId}
+                    >
+                      {faq.question}
+                    </button>
+                  </h3>
+                  <div
+                    id={collapseId}
+                    class={`accordion-collapse collapse ${isOpen ? 'show' : ''}`}
+                    aria-labelledby={headingId}
+                    data-bs-parent="#serviceFaqAccordionV2"
+                  >
+                    <div class="accordion-body px-4 pb-4 pt-0 text-muted-kk leading-relaxed">
+                      {faq.answer}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. HIGH IMPACT BOTTOM CTA BAND -->
+  <section class="kk-section py-5">
+    <div class="container">
+      <div class="kk-cta-band shadow-lg">
+        <p class="kk-eyebrow mb-2" style="color: rgba(255,255,255,0.85);">{isId ? 'Konsultasi Gratis Tanpa Komitmen' : 'Zero-Risk Consultation'}</p>
+        <h2 class="display-6 font-heading fw-bold mb-3">{ctaBandData.heading}</h2>
+        <p class="mb-4 mx-auto lead" style="max-width: 600px; font-size: 1.05rem;">
+          {ctaBandData.description}
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href={ctaBandData.cta_link || waLink} target="_blank" rel="noopener noreferrer" class="btn btn-light d-inline-flex align-items-center gap-2 shadow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.95 9.95 0 0 1-5.03-1.355L2.005 22l1.352-4.968A9.95 9.95 0 0 1 2.001 12c0-5.523 4.477-10 10-10M8.593 7.3l-.2.008a1 1 0 0 0-.372.1a1.3 1.3 0 0 0-.294.228c-.12.113-.188.211-.261.306A2.73 2.73 0 0 0 6.9 9.62c.002.49.13.967.33 1.413c.409.902 1.082 1.857 1.97 2.742c.214.213.424.427.65.626a9.45 9.45 0 0 0 3.84 2.046l.568.087c.185.01.37-.004.556-.013a2 2 0 0 0 .833-.231a5 5 0 0 0 .383-.22q.001.002.125-.09c.135-.1.218-.171.33-.288q.126-.13.21-.302c.078-.163.156-.474.188-.733c.024-.198.017-.306.014-.373c-.004-.107-.093-.218-.19-.265l-.582-.261s-.87-.379-1.402-.621a.5.5 0 0 0-.176-.041a.48.48 0 0 0-.378.127c-.005-.002-.072.055-.795.931a.35.35 0 0 1-.368.13a1.4 1.4 0 0 1-.191-.066c-.124-.052-.167-.072-.252-.108a6 6 0 0 1-1.575-1.003c-.126-.11-.243-.23-.363-.346a6.3 6.3 0 0 1-1.02-1.268l-.059-.095a1 1 0 0 1-.102-.205c-.038-.147.061-.265.061-.265s.243-.266.356-.41c.11-.14.203-.276.263-.373c.118-.19.155-.385.093-.536q-.42-1.026-.868-2.041c-.059-.134-.234-.23-.393-.249q-.081-.01-.162-.016a3 3 0 0 0-.403.004z"></path></svg>
+            <span>{ctaBandData.cta_text || (isId ? 'Hubungi Kami via WhatsApp' : 'Chat via WhatsApp')}</span>
+          </a>
+          <a href={isId ? '/id/#contact' : '/#contact'} class="btn btn-outline-light">
+            {isId ? 'Kirim Pesan Formulir' : 'Send Project Brief'}
+          </a>
+        </div>
+        {ctaBandData.guarantee_text && (
+          <div class="mt-3 small opacity-75">
+            {ctaBandData.guarantee_text}
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</main>

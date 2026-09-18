@@ -1,7 +1,7 @@
 ---
 title: "Apa itu API? Definisi, Fungsi, dan Cara Kerjanya"
 description: "Pelajari apa itu API, cara kerjanya, dan mengapa penting untuk pengembangan web modern."
-pubDate: 2024-09-15
+pubDate: 2025-09-15
 image: "/image/post/IMG-What-is-API-Application.png"
 category: "Information"
 author: "Ahmad Muzakki"

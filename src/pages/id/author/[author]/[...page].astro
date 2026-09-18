@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths({ paginate }) {
+  const authors = await getCollection('authors', ({ id }) => id.startsWith('id/'));
+  const allPosts = await getCollection('posts', ({ id, data }) => id.startsWith('id/') && !data.draft);
+
+  return authors.flatMap((author) => {
+    const slug = author.data.custom_slug || author.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
+    const authorPosts = allPosts
+      .filter((p) => p.data.author.toLowerCase() === author.data.name.toLowerCase())
+      .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+    return paginate(authorPosts, {
+      params: { author: slug },
+      pageSize: 12,
+      props: { author, authorSlug: slug },
+    });
+  });
+}
+
+const { page, author, authorSlug } = Astro.props;
+const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+const slug = authorSlug;
+
+// Check for English author counterpart
+const allAuthors = await getCollection('authors');
+const enAuthor = allAuthors.find((a) => {
+  if (!a.id.startsWith('en/')) return false;
+  return (
+    a.data.name.toLowerCase() === author.data.name.toLowerCase() ||
+    a.id.replace(/^en\//, '').replace(/\.(md|json)$/, '') === slug
+  );
+});
+
+const enSlug = enAuthor
+  ? enAuthor.data.custom_slug || enAuthor.id.replace(/^en\//, '').replace(/\.(md|json)$/, '')
+  : null;
+
+const currentUrl = page.currentPage === 1 ? `${site}/id/author/${slug}/` : `${site}/id/author/${slug}/${page.currentPage}/`;
+const alternateEnUrl = enSlug ? (page.currentPage === 1 ? `${site}/author/${enSlug}/` : `${site}/author/${enSlug}/${page.currentPage}/`) : undefined;
+const headerAlternateUrl = enSlug ? (page.currentPage === 1 ? `/author/${enSlug}/` : `/author/${enSlug}/${page.currentPage}/`) : '/author/';
+
+const baseTitle = author.data.seo?.title || author.data.seo_title || `${author.data.name} - Penulis di Kukode`;
+const title = page.currentPage > 1 ? `${author.data.name} - Halaman ${page.currentPage} | Penulis di Kukode` : baseTitle;
+const description =
+  author.data.seo?.description ||
+  author.data.seo_description ||
+  author.data.bio ||
+  `Baca artikel dan panduan yang ditulis oleh ${author.data.name} di Kukode.`;
+const authorAvatar = author.data.seo?.image || author.data.seo_image || author.data.avatar || '/image/kukode-logo-transparent.png';
+const fullAvatarUrl = authorAvatar.startsWith('http') ? authorAvatar : `${site}${authorAvatar}`;
+
+const profileSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: author.data.name,
+    jobTitle: author.data.role || 'Penulis Konten',
+    description: author.data.bio || description,
+    image: fullAvatarUrl,
+    sameAs: [
+      author.data.website,
+      author.data.instagram ? `https://instagram.com/${author.data.instagram.replace('@', '')}` : undefined,
+    ].filter(Boolean),
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Beranda', item: `${site}/id/` },
+    { '@type': 'ListItem', position: 2, name: 'Penulis', item: `${site}/id/author/` },
+    { '@type': 'ListItem', position: 3, name: author.data.name },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={authorAvatar}
+  schema={profileSchema}
+  canonical={currentUrl}
+  alternateEn={alternateEnUrl}
+  alternateId={currentUrl}
+  headerAlternateUrl={headerAlternateUrl}
+>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <main class="kk-template-page">
+    <div class="container py-5">
+      <!-- Breadcrumbs -->
+      <nav class="kk-breadcrumb-nav mb-3" aria-label="Breadcrumb">
+        <a href="/id/" class="text-decoration-none text-muted-kk">Beranda</a>
+        <span class="mx-1 text-muted-kk">/</span>
+        <a href="/id/author/" class="text-decoration-none text-muted-kk">Penulis</a>
+        <span class="mx-1 text-muted-kk">/</span>
+        <span class="text-muted-kk">{author.data.name}</span>
+        {page.currentPage > 1 && (
+          <>
+            <span class="mx-1 text-muted-kk">/</span>
+            <span class="text-muted-kk">Halaman {page.currentPage}</span>
+          </>
+        )}
+      </nav>
+
+      <!-- Author Profile Card -->
+      <div class="kk-card p-3 mb-4 bg-surface border rounded-3">
+        <div class="row align-items-center g-4">
+          <div class="col-auto text-center">
+            <img
+              src={authorAvatar}
+              alt={author.data.name}
+              class="rounded-circle border p-1"
+              width="120"
+              height="120"
+              style="object-fit: cover;"
+              loading="eager"
+            />
+          </div>
+          <div class="col">
+            <span class="badge text-bg-primary fw-normal mb-2">{author.data.role || 'Penulis'}</span>
+            <h1 class="h2 font-heading fw-bold mb-2">{author.data.name}</h1>
+            {author.data.bio && <p class="text-muted-kk fs-6 mb-3">{author.data.bio}</p>}
+
+            <!-- Social / Contact Links -->
+            <div class="d-flex gap-2 flex-wrap align-items-center mt-3">
+              {author.data.instagram && (
+                <a href={`https://instagram.com/${author.data.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" class="kk-icon-circle kk-icon-circle-small link-primary mb-0" aria-label="Instagram" title="Instagram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M8 12a4 4 0 1 1 8 0a4 4 0 0 1-8 0"/><path fill="currentColor" d="M12.05 1c1.827 0 3.266 0 4.42.105c1.178.106 2.156.328 3.03.833A7 7 0 0 1 22.062 4.5c.505.874.727 1.852.833 3.03C23 8.684 23 10.123 23 11.95v.1c0 1.827 0 3.266-.105 4.42c-.106 1.178-.328 2.156-.833 3.03a7 7 0 0 1-2.562 2.562c-.874.505-1.852.727-3.03.833c-1.154.105-2.593.105-4.42.105h-.1c-1.827 0-3.266 0-4.42-.105c-1.178-.106-2.156-.328-3.03-.833A7 7 0 0 1 1.938 19.5c-.505-.874-.727-1.852-.833-3.03C1 15.316 1 13.877 1 12.05v-.1c0-1.827 0-3.266.105-4.42c.106-1.178.328-2.156.833-3.03A7 7 0 0 1 4.5 1.938c.874-.505 1.852-.727 3.03-.833C8.684 1 10.123 1 11.95 1zm6.2 3.75a1 1 0 0 0-1 1v.004a1 1 0 0 0 1 1h.004a1 1 0 0 0 1-1V5.75a1 1 0 0 0-1-1zM12 6a6 6 0 1 0 0 12a6 6 0 0 0 0-12"/></svg>
+                </a>
+              )}
+              {author.data.website && (
+                <a href={author.data.website} target="_blank" rel="noopener noreferrer" class="kk-icon-circle kk-icon-circle-small link-primary mb-0" aria-label="Website" title="Website">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M18.64 2.89c-.8.09-1.63.48-2.47 1.13c-1.24-.65-2.62-1-4.06-1.02c-2.42 0-4.69.88-6.4 2.55A8.95 8.95 0 0 0 3 11.89a9 9 0 0 0 .58 3.31c-1.07 1.2-2.07 3.68-.83 5.08c.52.58 1.26.84 2.15.84c2.71 0 6.81-2.4 10.26-5.46c4.59-4.07 8.14-9.42 6.06-11.77a2.93 2.93 0 0 0-2.57-.98ZM4.24 18.94c-.22-.25 0-1.08.39-1.78c.28.39.58.77.92 1.12c.22.22.45.42.68.62c-1.05.32-1.76.3-1.99.03Zm15.25-11.9c-.31-.47-.65-.93-1.05-1.34c-.17-.17-.34-.33-.52-.48c.39-.22.7-.32.92-.35c.36-.04.63.06.86.32c.22.25.17.91-.22 1.84Zm-3.34 9.73c-1.64 1.46-3.67 2.96-5.72 4.08c.48.08.96.14 1.46.14h.12c2.37 0 4.59-.9 6.28-2.55c1.72-1.67 2.68-3.92 2.71-6.34c0-.23-.01-.45-.02-.68c-1.28 1.84-2.97 3.68-4.83 5.34Z"/></svg>
+                </a>
+              )}
+              {author.data.email && (
+                <a href={`mailto:${author.data.email}`} class="kk-icon-circle kk-icon-circle-small link-primary mb-0" aria-label="Email" title="Email">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M7.125 3.75h9.75c.813 0 1.468 0 2 .043c.546.045 1.026.14 1.47.366a3.75 3.75 0 0 1 1.64 1.639c.226.444.32.924.365 1.47q.01.12.016.247a.75.75 0 0 1 .014.336c.013.41.013.879.013 1.417v5.464c0 .813 0 1.469-.043 2c-.045.546-.14 1.026-.366 1.47a3.75 3.75 0 0 1-1.639 1.64c-.444.226-.924.32-1.47.365c-.532.043-1.187.043-2 .043h-9.75c-.813 0-1.468 0-2-.043c-.546-.045-1.026-.14-1.47-.366a3.75 3.75 0 0 1-1.639-1.639c-.226-.444-.32-.924-.365-1.47c-.044-.531-.044-1.187-.044-2V9.268c0-.538 0-1.007.013-1.417a.75.75 0 0 1 .014-.336q.007-.128.017-.246c.044-.547.139-1.027.365-1.471a3.75 3.75 0 0 1 1.639-1.64c.444-.226.924-.32 1.47-.365c.532-.043 1.187-.043 2-.043M20.85 7.341c-.038-.423-.105-.672-.202-.862a2.25 2.25 0 0 0-.983-.984c-.198-.1-.459-.17-.913-.207c-.462-.037-1.057-.038-1.909-.038H7.157c-.852 0-1.446 0-1.91.038c-.453.037-.714.107-.911.207a2.25 2.25 0 0 0-.984.984c-.096.19-.164.439-.202.862l6.604 4.403c1.01.674 1.363.895 1.722.981a2.25 2.25 0 0 0 1.048 0c.36-.086.711-.307 1.723-.981z"/></svg>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Articles Section -->
+      <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+          <p class="kk-eyebrow mb-1">Publikasi</p>
+          <h2 class="h3 font-heading fw-bold mb-0">Artikel oleh {author.data.name}</h2>
+        </div>
+        <span class="text-muted-kk small">{page.total} artikel</span>
+      </div>
+
+      <div class="row g-3">
+        {page.data.map((post) => {
+          const postSlug = post.data.custom_slug || post.id.replace(/^id\//, '');
+          const pubDateStr = post.data.pubDate.toISOString().split('T')[0];
+          return (
+            <div class="col-6 col-md-4">
+              <div class="kk-card p-2 h-100 d-flex flex-column">
+                <a href={`/id/article/${postSlug}/`} class="text-decoration-none text-reset flex-grow-1">
+                  {post.data.image && (
+                    <img
+                      src={post.data.image}
+                      alt={post.data.title}
+                      class="img-fluid rounded-3 w-100 aspect-ratio-16-9 bg-light"
+                      style="min-height: 120px; object-fit: cover;"
+                      loading="lazy"
+                    />
+                  )}
+                  <div class="m-2">
+                    <div id="meta-post" class="d-flex justify-content-between mt-3 mb-1">
+                      <span class="text-muted-kk small text-uppercase">{post.data.category}</span>
+                      <time datetime={pubDateStr} class="text-muted-kk small">{pubDateStr}</time>
+                    </div>
+                    <h3 class="h6 font-heading fw-bold mt-2 mb-1">{post.data.title}</h3>
+                    {post.data.description && (
+                      <p class="text-muted-kk small mb-0">{post.data.description}</p>
+                    )}
+                  </div>
+                </a>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {page.data.length === 0 && (
+        <div class="text-center py-5 border rounded-2 bg-surface">
+          <p class="text-muted-kk mb-0">Belum ada artikel yang diterbitkan oleh penulis ini.</p>
+        </div>
+      )}
+
+      <!-- Pagination Component -->
+      <Pagination page={page} />
+    </div>
+  </main>
+</BaseLayout>

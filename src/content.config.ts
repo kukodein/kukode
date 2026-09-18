@@ -206,7 +206,7 @@ const pages = defineCollection({
 
     // Polymorphic template object
     page: z.object({
-      template: z.enum(['default', 'about', 'contact']).default('default'),
+      template: z.enum(['default', 'about', 'contact', 'service']).default('default'),
       title: z.string().optional(),
       content: z.string().optional(),
       hero: z.object({
@@ -290,7 +290,14 @@ const portfolio = defineCollection({
     client: z.string().optional(),
     year: z.string().optional(),
     image: z.string().optional(),
-    gallery: z.array(z.string()).optional(),
+    gallery: z.union([
+      z.array(z.string()),
+      z.array(z.object({
+        image: z.string(),
+        caption: z.string().optional(),
+        alt: z.string().optional(),
+      })),
+    ]).optional(),
     live_url: z.string().optional(),
     tools: z.array(z.string()).optional(),
     featured: z.boolean().default(false),

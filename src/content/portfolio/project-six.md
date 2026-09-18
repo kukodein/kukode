@@ -6,6 +6,13 @@ client: "MetricFlow Technologies"
 year: "2024"
 description: "Interactive real-time telemetry dashboard interface for monitoring distributed cloud infrastructure metrics."
 image: "https://picsum.photos/600/400?46"
+gallery:
+  - image: "https://picsum.photos/1200/800?116"
+    caption: "Real-Time Telemetry Dashboard Overview & Metrics"
+  - image: "https://picsum.photos/1200/800?117"
+    caption: "Microservices Latency Matrix & Topology Graph"
+  - image: "https://picsum.photos/1200/800?118"
+    caption: "Alert Incident Management & Audit Log Feeds"
 live_url: "https://example.com/metricflow"
 tools:
   - React

@@ -6,62 +6,513 @@ interface Props {
 }
 
 const { page, pageData, contentHtml } = Astro.props;
-const title = pageData?.title || page?.data?.title || 'About Us';
-const hero = pageData?.hero || {};
-const heroTitle = hero.hero_title || title;
-const heroDescription = hero.hero_description || page?.data?.description || '';
-const heroImage = hero.hero_image || null;
+
+// Determine locale
+const currentLocale = Astro.currentLocale || (page?.id?.startsWith('id/') ? 'id' : 'en');
+const isId = currentLocale === 'id';
 ---
 
 <main class="kk-template-page">
-  <!-- Hero Section -->
+  <!-- 1. HERO SECTION V2 -->
   <section class="kk-hero py-5 border-bottom">
     <div class="container">
       <div class="row align-items-center g-5">
-        <div class={heroImage ? "col-lg-7 text-start" : "col-lg-8 mx-auto text-center"}>
-          <nav class="kk-badge-pill kk-breadcrumb-nav mb-3" aria-label="breadcrumb">
-            <span class="kk-dot"></span>
-            <a href="/" class="text-decoration-none">Home</a>
-            <span class="mx-1 text-muted-kk">/</span>
-            <span class="text-muted-kk">{title}</span>
-          </nav>
-          <h1 class="display-5 fw-bold mb-3">{heroTitle}</h1>
-          {heroDescription && (
-            <p class="lead text-muted-kk mb-0">{heroDescription}</p>
-          )}
-        </div>
-        {heroImage && (
-          <div class="col-lg-5">
-            <div class="p-2">
-              <img
-                src={heroImage}
-                alt={heroTitle}
-                class="img-fluid rounded-3 w-100 object-fit-cover"
-                style="max-height: 400px;"
-                loading="eager"
-              />
+        <div class="col-lg-7 text-start">
+          <!-- Status Pill -->
+          <div class="mb-3">
+            <div class="kk-glow-badge">
+              <span class="kk-pulse-dot"></span>
+              <span>{isId ? 'Kukode Web Engineering Studio' : 'Kukode Web Engineering Studio'}</span>
             </div>
           </div>
-        )}
+
+          <!-- Main Headline with Gradient Text -->
+          <h1 class="display-5 font-heading fw-bold mb-3 lh-tight">
+            {isId ? (
+              <>Bukan Sekadar Website Biasa. <br /><span class="kk-gradient-text">Kami Merekayasa Mesin Pertumbuhan Digital.</span></>
+            ) : (
+              <>We Don't Build Ordinary Websites. <br /><span class="kk-gradient-text">We Engineer High-Speed Digital Flags.</span></>
+            )}
+          </h1>
+
+          <p class="lead text-muted-kk mb-4" style="max-width: 620px;">
+            {isId 
+              ? 'Kukode Digital Technology lahir dari keyakinan bahwa website bisnis tidak boleh lambat, rentan error, atau sekadar brosur pajangan. Kami menggabungkan arsitektur web modern tanpa bloat dengan desain UI/UX berwibawa.'
+              : 'Kukode was founded on the conviction that corporate websites should never be slow, vulnerable, or passive brochures. We fuse lightweight modern Jamstack engineering with conversion-focused design.'}
+          </p>
+
+          <!-- Action Buttons & Social Proof -->
+          <div class="d-flex gap-3 flex-wrap align-items-center mb-4">
+            <a href={isId ? '/id/#contact' : '/#contact'} class="btn btn-primary d-inline-flex align-items-center gap-2">
+              <span>{isId ? 'Konsultasi Bersama Engineer' : 'Talk with Lead Engineer'}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="/portfolio/" class="btn btn-outline-kk">
+              {isId ? 'Lihat Karya Kami' : 'Explore Portfolio'}
+            </a>
+          </div>
+
+          <!-- Micro Trust Pills -->
+          <div class="d-flex flex-wrap gap-2 pt-2 text-muted-kk small">
+            <span class="kk-check-pill">
+              <span class="text-primary fw-bold">⚡</span> {isId ? 'Rata-rata Muat < 500ms' : '< 500ms Avg. Load Time'}
+            </span>
+            <span class="kk-check-pill">
+              <span class="text-primary fw-bold">🛡️</span> {isId ? 'Bebas Ketergantungan Plugin Rentan' : 'Zero Vulnerable Plugin Bloat'}
+            </span>
+            <span class="kk-check-pill">
+              <span class="text-primary fw-bold">🤝</span> {isId ? 'Tanpa Perantara Sales' : 'Direct Engineer Collaboration'}
+            </span>
+          </div>
+        </div>
+
+        <!-- Terminal / Engineering Showcase Mockup -->
+        <div class="col-lg-5">
+          <div class="kk-browser-frame shadow-lg">
+            <div class="kk-browser-bar bg-dark text-white px-3 py-2 d-flex align-items-center justify-content-between">
+              <div class="d-flex gap-2">
+                <span style="background: #ff5f56;"></span>
+                <span style="background: #ffbd2e;"></span>
+                <span style="background: #27c93f;"></span>
+              </div>
+              <span class="small font-monospace text-secondary" style="font-size: 0.72rem;">kukode-benchmark ~ bash</span>
+              <span style="width: 20px;"></span>
+            </div>
+            <div class="bg-dark p-3 p-md-4 font-monospace text-light" style="font-size: 0.8rem; line-height: 1.8;">
+              <div class="text-secondary mb-2"># Live Production Audit Benchmark</div>
+              <div class="text-white mb-2"><span class="text-success">$</span> kukode-cli audit --target https://client.com</div>
+              <div class="text-info">⚡ Analyzing Core Web Vitals...</div>
+              <div class="d-flex justify-content-between py-1 border-bottom border-secondary border-opacity-25">
+                <span class="text-light">Google PageSpeed Score</span>
+                <span class="badge bg-success text-white">100 / 100</span>
+              </div>
+              <div class="d-flex justify-content-between py-1 border-bottom border-secondary border-opacity-25">
+                <span class="text-light">First Contentful Paint (FCP)</span>
+                <span class="text-success fw-bold">0.28s</span>
+              </div>
+              <div class="d-flex justify-content-between py-1 border-bottom border-secondary border-opacity-25">
+                <span class="text-light">Cumulative Layout Shift (CLS)</span>
+                <span class="text-success fw-bold">0.00</span>
+              </div>
+              <div class="d-flex justify-content-between py-1 border-bottom border-secondary border-opacity-25">
+                <span class="text-light">Runtime Dependencies</span>
+                <span class="text-info fw-bold">0 Bloat (Static SSG)</span>
+              </div>
+              <div class="d-flex justify-content-between py-1">
+                <span class="text-light">Global Edge Latency</span>
+                <span class="text-warning fw-bold">&lt; 35ms</span>
+              </div>
+              <div class="mt-3 pt-2 text-success small">
+                ✔ Result: Passed all Google Core Web Vitals checks with zero bottlenecks.
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Content Section -->
+  <!-- 2. NUMBERS & BENCHMARKS -->
+  <section class="py-5 bg-surface border-bottom">
+    <div class="container">
+      <div class="row g-4 text-center">
+        <div class="col-6 col-md-3">
+          <div class="p-3">
+            <div class="kk-stat-num font-heading fw-bold kk-gradient-text">120+</div>
+            <h6 class="fw-bold mt-2 mb-1">{isId ? 'Proyek Web Selesai' : 'Websites Launched'}</h6>
+            <p class="text-muted-kk small mb-0">{isId ? 'Perusahaan, startup & UMKM' : 'Corporate, startups & brands'}</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3">
+            <div class="kk-stat-num font-heading fw-bold kk-gradient-text">98/100</div>
+            <h6 class="fw-bold mt-2 mb-1">{isId ? 'Rata-rata Skor PageSpeed' : 'Avg. Google PageSpeed'}</h6>
+            <p class="text-muted-kk small mb-0">{isId ? 'Kecepatan kilat di mobile' : 'Near-perfect Core Web Vitals'}</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3">
+            <div class="kk-stat-num font-heading fw-bold kk-gradient-text">5+ Thn</div>
+            <h6 class="fw-bold mt-2 mb-1">{isId ? 'Pengalaman Industri' : 'Years Experience'}</h6>
+            <p class="text-muted-kk small mb-0">{isId ? 'Fokus teknologi web modern' : 'Deep web engineering focus'}</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3">
+            <div class="kk-stat-num font-heading fw-bold kk-gradient-text">99%</div>
+            <h6 class="fw-bold mt-2 mb-1">{isId ? 'Klien Puas & Kembali' : 'Client Satisfaction'}</h6>
+            <p class="text-muted-kk small mb-0">{isId ? 'Kerja sama jangka panjang' : 'Long-term client partnerships'}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. THE MANIFESTO / OUR STORY -->
   <section class="kk-section py-5">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <div class="article-body">
-            {contentHtml ? (
-              <div set:html={contentHtml} />
-            ) : (
-              <slot />
-            )}
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="p-4 p-md-5 rounded-4 border bg-surface position-relative overflow-hidden">
+            <div class="d-inline-block kk-eyebrow mb-2">{isId ? 'Manifesto Studio' : 'Our Manifesto'}</div>
+            <h2 class="display-6 font-heading fw-bold mb-4">
+              {isId 
+                ? 'Mengapa Kami Memilih Membangun Website dengan Cara Berbeda?' 
+                : 'Why We Insist on Engineering Websites Differently'}
+            </h2>
+            <div class="row g-4 leading-relaxed text-muted-kk">
+              <div class="col-md-6">
+                <p>
+                  {isId 
+                    ? 'Banyak agensi web terjebak menjual website dengan template WordPress siap pakai yang ditumpuk oleh 30 hingga 50 plugin tambahan. Hasilnya? Website menjadi luar biasa lambat, mudah diretas hacker, dan menelan biaya langganan plugin tahunan yang mahal.'
+                    : 'Too many web agencies sell commoditized templates weighed down by 30 to 50 third-party plugins. The result? Painfully slow load times, frequent malware intrusions, and expensive recurring plugin maintenance fees that drain company resources.'}
+                </p>
+                <p class="mb-0">
+                  {isId
+                    ? 'Ketika calon klien Anda membuka website dan harus menunggu 5 detik, 53% dari mereka akan langsung menutup tab browser dan beralih ke kompetitor Anda.'
+                    : 'When high-value prospects wait more than 3 seconds for a page to load, over 53% immediately bounce to a competitor. Speed is not just a technical metric; it is pure business conversion.'}
+                </p>
+              </div>
+              <div class="col-md-6">
+                <p>
+                  {isId
+                    ? 'Di **Kukode**, kami mengambil jalan rekayasa perangkat lunak modern (**Jamstack Architecture**). Kami memisahkan konten dari kode, menghasilkan halaman HTML murni berkinerja tinggi, dan menyebarkannya ke edge CDN global.'
+                    : 'At **Kukode**, we adopted modern static architectures (**Astro & Headless CMS**). We decouple content from code, compile down to lean static HTML, and distribute assets across hundreds of edge CDN servers worldwide.'}
+                </p>
+                <p class="mb-0">
+                  {isId
+                    ? 'Hasilnya adalah website yang memuat dalam sepersekian detik, kebal dari serangan database hacker, dan dilengkapi dashboard Sveltia CMS yang sangat praktis bagi tim Anda.'
+                    : 'The result is a corporate presence that opens instantly, remains completely immune to database exploits, and gives your editorial team a friction-free CMS they genuinely love using.'}
+                </p>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. THE 4 PILLARS BENTO GRID V2 -->
+  <section class="kk-section py-5 bg-light-subtle border-top border-bottom">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Keunggulan Teknik' : 'The Engineering Edge'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? '4 Standar Rekayasa Kukode' : '4 Pillars of Kukode Engineering'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 600px;">
+          {isId ? 'Standar kualitas tinggi yang kami terapkan pada setiap baris kode yang kami rilis.' : 'The uncompromising technical foundation baked into every client deliverable.'}
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Pillar 1 -->
+        <div class="col-md-6">
+          <div class="kk-bento-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="kk-icon-circle fs-4 mb-0">⚡</div>
+              <span class="kk-score-pill">PageSpeed 98+</span>
+            </div>
+            <h3 class="h5 font-heading fw-bold mb-2">{isId ? 'Performa Tanpa Kompromi' : 'Sub-Second Page Loads'}</h3>
+            <p class="text-muted-kk small mb-3">
+              {isId 
+                ? 'Kami mengoptimalkan Core Web Vitals sejak awal: kompresi WebP/AVIF modern, zero runtime bloat, CSS modular, dan rendering instan di smartphone.'
+                : 'Obsessive Core Web Vitals optimization: modern WebP/AVIF compression, zero runtime bloat, modular critical CSS, and instant mobile responsiveness.'}
+            </p>
+            <div class="p-2 rounded-2 bg-surface border text-muted-kk font-monospace small" style="font-size: 0.76rem;">
+              FCP: 0.3s &bull; LCP: 0.8s &bull; TTFB: 25ms &bull; Score: 100/100
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="col-md-6">
+          <div class="kk-bento-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="kk-icon-circle fs-4 mb-0">🛡️</div>
+              <span class="badge text-bg-primary rounded-pill px-3 py-1">Zero Attack Surface</span>
+            </div>
+            <h3 class="h5 font-heading fw-bold mb-2">{isId ? 'Keamanan Mutlak Tanpa Database Lemah' : 'Impenetrable Static Security'}</h3>
+            <p class="text-muted-kk small mb-3">
+              {isId
+                ? 'Tanpa database MySQL publik atau endpoint login rapuh yang rentan disusupi hacker. Website statis murni kebal dari serangan injeksi dan malware.'
+                : 'No exposed SQL databases or vulnerable PHP endpoints. Static distribution eliminates brute-force threats and malware injections completely.'}
+            </p>
+            <div class="p-2 rounded-2 bg-surface border text-muted-kk font-monospace small" style="font-size: 0.76rem;">
+              Security: ISO-grade headers &bull; SSL A+ &bull; DDoS Resilient
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="col-md-6">
+          <div class="kk-bento-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="kk-icon-circle fs-4 mb-0">📝</div>
+              <span class="badge text-bg-info text-white rounded-pill px-3 py-1">Sveltia CMS</span>
+            </div>
+            <h3 class="h5 font-heading fw-bold mb-2">{isId ? 'Kemudahan CMS Mandiri Bebas Ribet' : 'Intuitive Headless Editorial'}</h3>
+            <p class="text-muted-kk small mb-3">
+              {isId
+                ? 'Tim Anda tidak perlu memahami koding. Sveltia CMS menyediakan panel admin visual bersih untuk menambah artikel, merilis proyek, dan edit teks dengan mudah.'
+                : 'Your non-technical team retains 100% control. A clean visual admin enables writing blogs, uploading case studies, and editing copy effortlessly.'}
+            </p>
+            <div class="p-2 rounded-2 bg-surface border text-muted-kk font-monospace small" style="font-size: 0.76rem;">
+              Git-backed Markdown &bull; Instant Preview &bull; Zero Plugin Conflicts
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="col-md-6">
+          <div class="kk-bento-card h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="kk-icon-circle fs-4 mb-0">🤝</div>
+              <span class="badge text-bg-success rounded-pill px-3 py-1">Direct Access</span>
+            </div>
+            <h3 class="h5 font-heading fw-bold mb-2">{isId ? 'Diskusi Langsung Bersama Developer' : 'Direct Engineer Collaboration'}</h3>
+            <p class="text-muted-kk small mb-3">
+              {isId
+                ? 'Tanpa birokrasi agency atau sales rep yang tidak paham teknis. Anda berkomunikasi langsung dengan software engineer yang bertanggung jawab atas proyek Anda.'
+                : 'Eliminate bureaucratic layers. You speak directly with the engineers architecting and coding your website for fast, precise iterations.'}
+            </p>
+            <div class="p-2 rounded-2 bg-surface border text-muted-kk font-monospace small" style="font-size: 0.76rem;">
+              WhatsApp Direct &bull; GitHub Transparency &bull; Fast Turnaround
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. MEET THE LEAD ENGINEER / FOUNDER -->
+  <section class="kk-section py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="kk-bento-card p-4 p-md-5">
+            <div class="row align-items-center g-4">
+              <div class="col-md-4 text-center">
+                <div class="position-relative d-inline-block">
+                  <img
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80"
+                    alt="Ahmad Muzakki - Lead Engineer"
+                    class="rounded-circle img-fluid border border-3 border-primary shadow"
+                    style="width: 160px; height: 160px; object-fit: cover;"
+                  />
+                  <span class="position-absolute bottom-0 end-0 bg-primary text-white p-2 rounded-circle shadow" title="Lead Engineer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                  </span>
+                </div>
+                <h4 class="h5 font-heading fw-bold mt-3 mb-1">Ahmad Muzakki</h4>
+                <p class="text-primary small mb-2">{isId ? 'Founder & Lead Web Engineer' : 'Founder & Lead Web Engineer'}</p>
+                <div class="d-flex justify-content-center gap-2">
+                  <a href="https://linkedin.com/in/ahmad-muzakki" target="_blank" rel="noopener noreferrer" class="kk-icon-circle kk-icon-circle-small text-decoration-none">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68zm1.39 9.94v-8.37H5.5v8.37z"></path></svg>
+                  </a>
+                  <a href="https://github.com/tonjoo" target="_blank" rel="noopener noreferrer" class="kk-icon-circle kk-icon-circle-small text-decoration-none">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"></path></svg>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="kk-eyebrow mb-2">{isId ? 'Dedikasi Rekayasa' : 'Engineering Philosophy'}</div>
+                <h3 class="h4 font-heading fw-bold mb-3">
+                  {isId ? '“Website bisnis adalah aset pendapatan, bukan beban teknis.”' : '“A business website is an asset for revenue, not a technical burden.”'}
+                </h3>
+                <p class="text-muted-kk leading-relaxed mb-3">
+                  {isId
+                    ? 'Saya mendirikan Kukode setelah bertahun-tahun melihat pemilik bisnis frustrasi dengan website lambat dan biaya perawatan yang membengkak. Fokus saya sederhana: membuat website yang sangat cepat, indah, mandiri, dan dapat diandalkan tanpa henti.'
+                    : 'I founded Kukode after witnessing countless business owners struggle with fragile, slow WordPress installations. My commitment is simple: build web assets that are shockingly fast, beautifully designed, and permanently reliable.'}
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="badge rounded-pill text-body border px-3 py-1 small">Astro Specialist</span>
+                  <span class="badge rounded-pill text-body border px-3 py-1 small">Jamstack Pioneer</span>
+                  <span class="badge rounded-pill text-body border px-3 py-1 small">Performance Engineer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. ROADMAP & EVOLUTION TIMELINE V2 -->
+  <section class="kk-section py-5 bg-surface border-top border-bottom">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Rekam Jejak' : 'Evolution'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? 'Perjalanan Inovasi Kukode' : 'The Kukode Journey'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 600px;">
+          {isId ? 'Dedikasi berkelanjutan dalam menyempurnakan standar arsitektur web modern.' : 'A continuous evolution in perfecting modern web engineering standards.'}
+        </p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="kk-timeline-v2">
+            <!-- 2020 -->
+            <div class="kk-timeline-v2-item">
+              <div class="kk-timeline-v2-dot">20</div>
+              <div class="p-3 rounded-3 border bg-body">
+                <span class="badge text-bg-primary fw-normal small mb-2">2020</span>
+                <h4 class="h6 font-heading fw-bold mb-1">{isId ? 'Awal Studio & Rekayasa Kustom' : 'Studio Inception & Custom Code'}</h4>
+                <p class="text-muted-kk small mb-0">
+                  {isId 
+                    ? 'Dimulai sebagai studio pengembang solo yang menolak penggunaan template instan, berfokus merancang website cepat berbasis kode bersih.'
+                    : 'Founded as a specialized engineering studio dedicated to rejecting bloated templates in favor of clean custom code.'}
+                </p>
+              </div>
+            </div>
+
+            <!-- 2022 -->
+            <div class="kk-timeline-v2-item">
+              <div class="kk-timeline-v2-dot">22</div>
+              <div class="p-3 rounded-3 border bg-body">
+                <span class="badge text-bg-primary fw-normal small mb-2">2022</span>
+                <h4 class="h6 font-heading fw-bold mb-1">{isId ? 'Ekspansi ke 60+ Klien Korporat' : 'Scaling to 60+ Corporate Clients'}</h4>
+                <p class="text-muted-kk small mb-0">
+                  {isId
+                    ? 'Melayani puluhan perusahaan manufaktur, logistik, hukum, dan startup dengan fokus meningkatkan konversi lead digital mereka.'
+                    : 'Expanded delivery to dozens of enterprise, manufacturing, legal, and tech firms with a sharp focus on inbound lead generation.'}
+                </p>
+              </div>
+            </div>
+
+            <!-- 2024 -->
+            <div class="kk-timeline-v2-item">
+              <div class="kk-timeline-v2-dot">24</div>
+              <div class="p-3 rounded-3 border bg-body">
+                <span class="badge text-bg-primary fw-normal small mb-2">2024</span>
+                <h4 class="h6 font-heading fw-bold mb-1">{isId ? 'Peralihan Penuh ke Modern Jamstack & Astro' : 'Full Jamstack & Astro Modernization'}</h4>
+                <p class="text-muted-kk small mb-0">
+                  {isId
+                    ? 'Menjadi pionir adopsi Astro SSG dan Sveltia CMS di Indonesia, menghasilkan website dengan skor Google PageSpeed 100/100 tanpa kompromi.'
+                    : 'Pioneered the adoption of Astro SSG and Sveltia CMS, unlocking consistent 100/100 Core Web Vitals benchmarks across all client deployments.'}
+                </p>
+              </div>
+            </div>
+
+            <!-- 2026 -->
+            <div class="kk-timeline-v2-item">
+              <div class="kk-timeline-v2-dot">26</div>
+              <div class="p-3 rounded-3 border bg-body border-primary">
+                <span class="badge text-bg-success fw-normal small mb-2">{isId ? 'Sekarang' : 'Present'} &bull; 2026</span>
+                <h4 class="h6 font-heading fw-bold text-primary mb-1">{isId ? 'Kukode Digital Technology Resmi' : 'Kukode Digital Technology Flagship'}</h4>
+                <p class="text-muted-kk small mb-0">
+                  {isId
+                    ? 'Studio rekayasa web terpercaya dengan portofolio dwibahasa, edge-caching global, dan sistem CMS mandiri yang telah terbukti di pasar.'
+                    : 'A fully established web engineering studio providing bilingual, edge-hosted digital flagships with zero ongoing maintenance friction.'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. TECH MATRIX -->
+  <section class="kk-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="kk-eyebrow mb-2">{isId ? 'Ekosistem Modern' : 'Our Technology Stack'}</p>
+        <h2 class="display-6 font-heading fw-bold">{isId ? 'Teknologi di Balik Performa Kukode' : 'Tools That Power Our Precision'}</h2>
+        <p class="text-muted-kk mx-auto" style="max-width: 580px;">
+          {isId ? 'Kami mengkurasi tumpukan teknologi modern terbaik dunia untuk memastikan keandalan jangka panjang.' : 'We meticulously curate modern technologies to ensure reliability, security, and velocity.'}
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="p-4 rounded-3 border bg-surface h-100">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="fs-5">🚀</span>
+              <h4 class="h6 font-heading fw-bold mb-0 text-primary">{isId ? 'Frontend & Engine' : 'Frontend & Engine'}</h4>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-body border text-body px-3 py-2">Astro 5</span>
+              <span class="badge bg-body border text-body px-3 py-2">TypeScript</span>
+              <span class="badge bg-body border text-body px-3 py-2">Bootstrap 5</span>
+              <span class="badge bg-body border text-body px-3 py-2">Tailwind CSS</span>
+              <span class="badge bg-body border text-body px-3 py-2">Svelte</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="p-4 rounded-3 border bg-surface h-100">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="fs-5">📝</span>
+              <h4 class="h6 font-heading fw-bold mb-0 text-primary">{isId ? 'Headless Content' : 'Headless Content'}</h4>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-body border text-body px-3 py-2">Sveltia CMS</span>
+              <span class="badge bg-body border text-body px-3 py-2">Markdown / MDX</span>
+              <span class="badge bg-body border text-body px-3 py-2">Git-based Workflow</span>
+              <span class="badge bg-body border text-body px-3 py-2">Decap CMS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="p-4 rounded-3 border bg-surface h-100">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="fs-5">🌐</span>
+              <h4 class="h6 font-heading fw-bold mb-0 text-primary">{isId ? 'Edge Hosting & Security' : 'Edge Hosting & Security'}</h4>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-body border text-body px-3 py-2">Cloudflare Pages</span>
+              <span class="badge bg-body border text-body px-3 py-2">Netlify Edge</span>
+              <span class="badge bg-body border text-body px-3 py-2">Vercel</span>
+              <span class="badge bg-body border text-body px-3 py-2">Linux VPS & Nginx</span>
+              <span class="badge bg-body border text-body px-3 py-2">Let's Encrypt SSL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. DYNAMIC MARKDOWN CONTENT (If any) -->
+  {(contentHtml || Astro.slots.has('default')) && (
+    <section class="kk-section py-4 border-top">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="article-body">
+              {contentHtml ? (
+                <div set:html={contentHtml} />
+              ) : (
+                <slot />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 9. HIGH-CONVERTING CTA BAND -->
+  <section class="kk-section py-5">
+    <div class="container">
+      <div class="kk-cta-band shadow-lg">
+        <p class="kk-eyebrow mb-2" style="color: rgba(255,255,255,0.85);">{isId ? 'Mulai Proyek Anda' : 'Ready to Elevate Your Website?'}</p>
+        <h2 class="display-6 font-heading fw-bold mb-3">{isId ? 'Ingin Website yang Mengungguli Kompetitor Anda?' : 'Ready for a Website That Truly Delivers Growth?'}</h2>
+        <p class="mb-4 mx-auto lead" style="max-width: 580px; font-size: 1.05rem;">
+          {isId 
+            ? 'Konsultasikan kebutuhan website perusahaan Anda langsung bersama developer Kukode. Dapatkan analisis arsitektur dan estimasi transparan tanpa biaya.'
+            : 'Schedule a free architectural consultation directly with our engineers. Transparent timelines, zero fluff, and clear technical roadmaps.'}
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="https://wa.me/62853293353541?text=Halo%20Kukode%2C%20saya%20tertarik%20untuk%20konsultasi%20mengenai%20pembuatan%20website." target="_blank" rel="noopener noreferrer" class="btn btn-light d-inline-flex align-items-center gap-2 shadow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.95 9.95 0 0 1-5.03-1.355L2.005 22l1.352-4.968A9.95 9.95 0 0 1 2.001 12c0-5.523 4.477-10 10-10M8.593 7.3l-.2.008a1 1 0 0 0-.372.1a1.3 1.3 0 0 0-.294.228c-.12.113-.188.211-.261.306A2.73 2.73 0 0 0 6.9 9.62c.002.49.13.967.33 1.413c.409.902 1.082 1.857 1.97 2.742c.214.213.424.427.65.626a9.45 9.45 0 0 0 3.84 2.046l.568.087c.185.01.37-.004.556-.013a2 2 0 0 0 .833-.231a5 5 0 0 0 .383-.22q.001.002.125-.09c.135-.1.218-.171.33-.288q.126-.13.21-.302c.078-.163.156-.474.188-.733c.024-.198.017-.306.014-.373c-.004-.107-.093-.218-.19-.265l-.582-.261s-.87-.379-1.402-.621a.5.5 0 0 0-.176-.041a.48.48 0 0 0-.378.127c-.005-.002-.072.055-.795.931a.35.35 0 0 1-.368.13a1.4 1.4 0 0 1-.191-.066c-.124-.052-.167-.072-.252-.108a6 6 0 0 1-1.575-1.003c-.126-.11-.243-.23-.363-.346a6.3 6.3 0 0 1-1.02-1.268l-.059-.095a1 1 0 0 1-.102-.205c-.038-.147.061-.265.061-.265s.243-.266.356-.41c.11-.14.203-.276.263-.373c.118-.19.155-.385.093-.536q-.42-1.026-.868-2.041c-.059-.134-.234-.23-.393-.249q-.081-.01-.162-.016a3 3 0 0 0-.403.004z"></path></svg>
+            <span>{isId ? 'Konsultasi via WhatsApp' : 'Chat on WhatsApp'}</span>
+          </a>
+          <a href={isId ? '/id/#contact' : '/#contact'} class="btn btn-outline-light">
+            {isId ? 'Kirim Brief Proyek' : 'Send Project Inquiry'}
+          </a>
         </div>
       </div>
     </div>
   </section>
 </main>
-

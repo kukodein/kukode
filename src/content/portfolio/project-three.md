@@ -6,6 +6,13 @@ client: "Nova Analytics"
 year: "2024"
 description: "High-converting B2B SaaS landing page focused on product feature demonstrations and free trial signups."
 image: "https://picsum.photos/600/400?43"
+gallery:
+  - image: "https://picsum.photos/1200/800?107"
+    caption: "High-Converting B2B Hero Section & Call to Action"
+  - image: "https://picsum.photos/1200/800?108"
+    caption: "Interactive Predictive Analytics Feature Walkthrough"
+  - image: "https://picsum.photos/1200/800?109"
+    caption: "Transparent Pricing Tiers & Enterprise FAQ"
 live_url: "https://example.com/novasaas"
 tools:
   - Astro

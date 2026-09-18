@@ -1,16 +1,45 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
-const title = '404 - Page Not Found | Kukode';
+const allSettings = await getCollection('settings');
+const notFoundSettings = (
+  allSettings.find((s) => s.id === 'en/404' || s.id === 'en/404.json')
+)?.data;
+
+const title = notFoundSettings?.seo?.title || '404 - Page Not Found | Kukode';
+const description = notFoundSettings?.seo?.description || "Sorry, the page you're looking for doesn't exist.";
+const seoImage = notFoundSettings?.seo?.image || '/image/default-thumbnail.jpg';
+
+const eyebrow = notFoundSettings?.eyebrow || 'Error 404';
+const heading = notFoundSettings?.heading || '404';
+const subheading = notFoundSettings?.subheading || 'Page Not Found';
+const message = notFoundSettings?.description || "Sorry, the page you're looking for doesn't exist, has been removed, or is temporarily unavailable.";
+const btnText = notFoundSettings?.button_text || 'Back to Home';
+const btnLink = notFoundSettings?.button_link || '/';
 ---
 
-<BaseLayout title={title} noindex={true}>
+<BaseLayout title={title} description={description} image={seoImage} noindex={true}>
+  <Fragment slot="head">
+    <!-- Redirect to Indonesian 404 if visitor accessed an /id/ URL -->
+    <script is:inline>
+      if (window.location.pathname.startsWith('/id/')) {
+        window.location.replace('/id/404');
+      }
+    </script>
+  </Fragment>
+
   <main class="kk-template-page">
-    <div class="kk-hero flex-grow-1 d-flex align-items-center justify-content-center flex-column min-vh-100">
-      <div class="kk-hero-content text-center py-5">
-        <h1 class="display-4">404</h1>
-        <p class="lead mb-5">Sorry, the page you're looking for doesn't exist.</p>
-        <a href="/" class="btn btn-primary">Home</a>
+    <div class="kk-hero flex-grow-1 d-flex align-items-center justify-content-center flex-column min-vh-100 py-5">
+      <div class="container text-center py-5">
+        {eyebrow && <div class="kk-badge-pill mb-3 d-inline-flex"><span class="kk-dot"></span>{eyebrow}</div>}
+        <h1 class="display-1 font-heading fw-bold mb-2">{heading}</h1>
+        {subheading && <h2 class="h3 font-heading fw-semibold mb-3">{subheading}</h2>}
+        <p class="lead text-muted-kk mb-4 mx-auto" style="max-width: 520px;">{message}</p>
+        <div class="d-flex gap-3 justify-content-center">
+          <a href={btnLink} class="btn btn-primary px-4 py-2">{btnText}</a>
+          <a href="/article/" class="btn btn-outline-kk px-4 py-2">Read Articles</a>
+        </div>
       </div>
     </div>
   </main>

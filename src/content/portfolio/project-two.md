@@ -6,6 +6,13 @@ client: "UrbanStyle Apparel"
 year: "2025"
 description: "Modern e-commerce platform with zero commission, seamless payment gateway integration, and rapid mobile checkout."
 image: "https://picsum.photos/600/400?42"
+gallery:
+  - image: "https://picsum.photos/1200/800?104"
+    caption: "Modern E-Commerce Storefront & Collection Grid"
+  - image: "https://picsum.photos/1200/800?105"
+    caption: "Product Showcase with Interactive Zoom & Color Variations"
+  - image: "https://picsum.photos/1200/800?106"
+    caption: "Frictionless Mobile Cart & Payment Gateway Checkout"
 live_url: "https://example.com/urbanstyle"
 tools:
   - WooCommerce

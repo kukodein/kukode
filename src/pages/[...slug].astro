@@ -5,6 +5,7 @@ import { marked } from 'marked';
 import DefaultTemplate from '../page-template/Default.astro';
 import AboutTemplate from '../page-template/About.astro';
 import ContactTemplate from '../page-template/Contact.astro';
+import ServiceTemplate from '../page-template/Service.astro';
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages', ({ id, data }) =>
@@ -54,6 +55,7 @@ const templateMap: Record<string, any> = {
   default: DefaultTemplate,
   about: AboutTemplate,
   contact: ContactTemplate,
+  service: ServiceTemplate,
 };
 const TemplateComponent = templateMap[template] || DefaultTemplate;
 ---

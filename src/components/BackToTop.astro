@@ -1,0 +1,52 @@
+---
+---
+
+<button
+  type="button"
+  id="kkBackToTop"
+  class="kk-back-to-top"
+  aria-label="Back to top"
+  title="Back to top"
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m18 15-6-6-6 6"/>
+  </svg>
+</button>
+
+<script is:inline>
+  (function () {
+    function initBackToTop() {
+      const btn = document.getElementById('kkBackToTop');
+      if (!btn) return;
+
+      function checkScroll() {
+        if (window.scrollY > 300) {
+          btn.classList.add('show');
+        } else {
+          btn.classList.remove('show');
+        }
+      }
+
+      window.addEventListener('scroll', checkScroll, { passive: true });
+      checkScroll();
+
+      if (!btn._bttBound) {
+        btn._bttBound = true;
+        btn.addEventListener('click', function () {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          });
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBackToTop);
+    } else {
+      initBackToTop();
+    }
+    document.addEventListener('astro:page-load', initBackToTop);
+  })();
+</script>
+

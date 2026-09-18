@@ -1,0 +1,14 @@
+{
+  "seo": {
+    "title": "404 - Halaman Tidak Ditemukan | Kukode",
+    "description": "Maaf, halaman yang Anda cari tidak ditemukan atau telah dipindahkan.",
+    "image": "/image/default-thumbnail.jpg"
+  },
+  "eyebrow": "Galat 404",
+  "heading": "404",
+  "subheading": "Halaman Tidak Ditemukan",
+  "description": "Maaf, halaman yang Anda tuju tidak ditemukan, telah dihapus, atau sedang tidak tersedia.",
+  "button_text": "Kembali ke Beranda",
+  "button_link": "/id/"
+}
+

@@ -6,6 +6,13 @@ client: "Studio Arch Architects"
 year: "2024"
 description: "Minimalist visual portfolio showcasing architectural projects with immersive imagery and subtle transitions."
 image: "https://picsum.photos/600/400?45"
+gallery:
+  - image: "https://picsum.photos/1200/800?113"
+    caption: "Full-Bleed Architectural Portfolio Hero"
+  - image: "https://picsum.photos/1200/800?114"
+    caption: "High-Resolution Project Gallery with GLightbox Zoom"
+  - image: "https://picsum.photos/1200/800?115"
+    caption: "Architectural Blueprint Drawings & Specifications"
 live_url: "https://example.com/studioarch"
 tools:
   - HTML5
