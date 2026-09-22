@@ -236,7 +236,7 @@ const breadcrumbSchema = {
             <div class="row mt-4">
               <div class="col-sm-6">
                 {prevPost && (
-                  <a href={`/id/article/${prevPost.data.custom_slug || prevPost.id.replace(/^id\//, '')}/`} class="kk-post-nav card p-3 h-100 text-decoration-none">
+                  <a href={`/id/article/${prevPost.data.custom_slug || prevPost.id.replace(/^id\//, '')}/`} class="kk-post-nav card p-3 h-100 text-decoration-none rounded-3">
                     <small class="text-muted-kk mb-1 d-block">Artikel Sebelumnya</small>
                     <span class="fw-bold fs-6">{prevPost.data.title}</span>
                   </a>
@@ -244,7 +244,7 @@ const breadcrumbSchema = {
               </div>
               <div class="col-sm-6 text-sm-end">
                 {nextPost && (
-                  <a href={`/id/article/${nextPost.data.custom_slug || nextPost.id.replace(/^id\//, '')}/`} class="kk-post-nav card p-3 h-100 text-decoration-none">
+                  <a href={`/id/article/${nextPost.data.custom_slug || nextPost.id.replace(/^id\//, '')}/`} class="kk-post-nav card p-3 h-100 text-decoration-none rounded-3">
                     <small class="text-muted-kk mb-1 d-block">Artikel Selanjutnya</small>
                     <span class="fw-bold fs-6">{nextPost.data.title}</span>
                   </a>
