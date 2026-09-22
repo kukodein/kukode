@@ -73,7 +73,8 @@ def generate_article(category, keyword, research_data, lang="id", translation_ke
 ---
 title: "Judul Artikel Menarik dan SEO Friendly"
 description: "Deskripsi singkat 1-2 kalimat untuk Meta Description."
-pubDate: {today_date}
+pubDate: {today_date} 00:00:00
+image: "/image/default-thumbnail.jpg"
 category: "{category}"
 author: "{AUTHOR_NAME}"
 draft: false
@@ -105,7 +106,8 @@ seo:
 ---
 title: "Catchy and SEO Friendly Article Title"
 description: "Short 1-2 sentence description for Meta Description."
-pubDate: {today_date}
+pubDate: {today_date} 00:00:00
+image: "/image/default-thumbnail.jpg"
 category: "{category}"
 author: "{AUTHOR_NAME}"
 draft: false

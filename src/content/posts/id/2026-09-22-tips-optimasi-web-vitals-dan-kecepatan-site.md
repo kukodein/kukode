@@ -1,17 +1,16 @@
 ---
 title: 'Jaminan Pengguna Bahagia: Tips Jitu Optimasi Web Vitals & Kecepatan Situs Anda'
-custom_slug: ''
-translation_key: post-tips-optimasi-web-vitals-dan-kecepatan-site
-description: Pelajari cara meningkatkan performa website Anda dengan tips optimasi Web Vitals dan kecepatan situs yang terbukti efektif untuk pengalaman pengguna dan SEO.
+custom_slug: 'optimasi-web-vitals'
+translation_key: "post-tips-optimasi-web-vitals-dan-kecepatan-site"
+description: "Pelajari cara meningkatkan performa website Anda dengan tips optimasi Web Vitals dan kecepatan situs yang terbukti efektif untuk pengalaman pengguna dan SEO."
 seo:
   title: 'Optimasi Web Vitals & Kecepatan Situs: Panduan Lengkap Kukode'
-  description: Dapatkan panduan komprehensif dari Kukode Digital Technology tentang cara mengoptimalkan Core Web Vitals dan kecepatan website Anda. Tingkatkan SEO dan kepuasan pengguna sekarang!
-  image: /image/default-thumbnail.jpg
-pubDate: 2026-09-22
-updatedDate: ''
-image: ''
-category: Web Development
-author: Kukode Team
+  description: "Dapatkan panduan komprehensif dari Kukode Digital Technology tentang cara mengoptimalkan Core Web Vitals dan kecepatan website Anda. Tingkatkan SEO dan kepuasan pengguna sekarang!"
+  image: "/image/default-thumbnail.jpg"
+pubDate: 2026-09-22 00:00:00
+image: "/image/default-thumbnail.jpg"
+category: "Web Development"
+author: "Kukode Team"
 draft: false
 ---
 

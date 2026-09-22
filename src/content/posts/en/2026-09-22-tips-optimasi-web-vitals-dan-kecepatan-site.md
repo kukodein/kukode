@@ -1,17 +1,16 @@
 ---
 title: 'Boost Your Website: Essential Tips for Optimizing Web Vitals and Site Speed'
-custom_slug: boost-your-website
-translation_key: post-tips-optimasi-web-vitals-dan-kecepatan-site
-description: Discover crucial strategies to optimize your website's Core Web Vitals and enhance site speed, improving user experience and SEO.
+custom_slug: "boost-your-website"
+translation_key: "post-tips-optimasi-web-vitals-dan-kecepatan-site"
+description: "Discover crucial strategies to optimize your website's Core Web Vitals and enhance site speed, improving user experience and SEO."
 seo:
   title: 'Optimasi Web Vitals & Site Speed: Boost Your Website Performance'
-  description: Learn how to optimize your website's Core Web Vitals and site speed with practical tips. Improve user experience, SEO, and conversions with Kukode Digital Technology.
-  image: /image/default-thumbnail.jpg
-pubDate: 2026-09-22
-updatedDate: ''
-image: /image/default-thumbnail.jpg
-category: Information
-author: Ahmad Muzakki
+  description: "Learn how to optimize your website's Core Web Vitals and site speed with practical tips. Improve user experience, SEO, and conversions with Kukode Digital Technology."
+  image: "/image/default-thumbnail.jpg"
+pubDate: 2026-09-22 00:00:00
+image: "/image/default-thumbnail.jpg"
+category: "Information"
+author: "Ahmad Muzakki"
 draft: false
 ---
 
