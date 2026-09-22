@@ -2,15 +2,14 @@ import os
 import random
 import re
 from datetime import datetime
-from duckduckgo_search import DDGS
-import google.generativeai as genai
+from ddgs import DDGS
+from google import genai
 
-# Konfigurasi Gemini API
+# Konfigurasi Client Gemini SDK Terbaru
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-genai.configure(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 # 1. Kategori & Kata Kunci Riset
-# Catatan: Nama kategori harus cocok dengan yang ada di folder src/content/categories/
 CATEGORIES = {
     "Teknologi": [
         "Astro JS framework update",
@@ -29,7 +28,6 @@ CATEGORIES = {
     ]
 }
 
-# Nama Author default yang ada di src/content/authors
 AUTHOR_NAME = "Kukode Team"
 
 def get_random_topic():
@@ -47,30 +45,30 @@ def search_latest_news(query):
                 news_results = list(ddgs.news(keywords=query, max_results=5, region="wt-wt"))
             
             for item in news_results:
-                results_text += f"- Judul: {item.get('title')}\n  Ringkasan: {item.get('body')}\n  Sumber: {item.get('url')}\n\n"
+                results_text += f"- Title: {item.get('title')}\n  Summary: {item.get('body')}\n  Source: {item.get('url')}\n\n"
     except Exception as e:
         print(f"Peringatan riset: {e}")
         results_text = "Gunakan pengetahuan umum mengenai topik ini."
         
     return results_text
 
-def generate_article(category, keyword, research_data):
-    model = genai.GenerativeModel('gemini-1.5-flash')
+def generate_article(category, keyword, research_data, lang="id", translation_key=""):
     today_date = datetime.now().strftime('%Y-%m-%d')
     
-    prompt = f"""
-    Kamu adalah Content Writer profesional untuk Kukode Digital Technology.
-    
-    Kategori Utama: {category}
-    Kata Kunci Utama: {keyword}
-    
-    Data Riset Terkini:
-    {research_data}
-    
-    Tugasmu:
-    Buat 1 artikel blog baru berbahasa Indonesia yang informatif, rapi, dan menarik.
-    
-    Format output HARUS persis seperti Frontmatter Markdown berikut tanpa kode unik ekstra:
+    if lang == "id":
+        prompt = f"""
+        Kamu adalah Content Writer profesional untuk Kukode Digital Technology.
+        
+        Kategori Utama: {category}
+        Kata Kunci Utama: {keyword}
+        
+        Data Riset Terkini:
+        {research_data}
+        
+        Tugasmu:
+        Buat 1 artikel blog baru berbahasa Indonesia yang informatif, rapi, dan menarik.
+        
+        Format output HARUS persis seperti Frontmatter Markdown berikut tanpa pemformatan markdown tambahan (seperti ```markdown):
 
 ---
 title: "Judul Artikel Menarik dan SEO Friendly"
@@ -79,7 +77,7 @@ pubDate: {today_date}
 category: "{category}"
 author: "{AUTHOR_NAME}"
 draft: false
-translation_key: "{re.sub(r'[^a-z0-9]', '-', keyword.lower())}"
+translation_key: "{translation_key}"
 seo:
   title: "Judul SEO Artikel"
   description: "Deskripsi SEO untuk Google Search."
@@ -89,8 +87,43 @@ seo:
 ## Pendahuluan
 [Tulis isi artikel lengkap dalam format Markdown, sertakan pembahasan dari riset di atas jika relevan.]
 """
+    else: # Language: EN
+        prompt = f"""
+        You are a professional Content Writer for Kukode Digital Technology.
+        
+        Main Category: {category}
+        Main Keyword: {keyword}
+        
+        Latest Research Data:
+        {research_data}
+        
+        Task:
+        Write 1 new blog article in English that is informative, well-structured, and engaging.
+        
+        The output format MUST match the Frontmatter Markdown below exactly without additional markdown code fences:
 
-    response = model.generate_content(prompt)
+---
+title: "Catchy and SEO Friendly Article Title"
+description: "Short 1-2 sentence description for Meta Description."
+pubDate: {today_date}
+category: "{category}"
+author: "{AUTHOR_NAME}"
+draft: false
+translation_key: "{translation_key}"
+seo:
+  title: "SEO Title of Article"
+  description: "SEO Description for Google Search."
+  image: "/image/default-thumbnail.jpg"
+---
+
+## Introduction
+[Write full article in Markdown format based on the research above.]
+"""
+
+    response = client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=prompt,
+    )
     return response.text
 
 def slugify(text):
@@ -102,27 +135,32 @@ def main():
     category, keyword = get_random_topic()
     print(f"Topik Terpilih: [{category}] -> '{keyword}'")
     
-    # 1. Riset Berita
-    research_data = search_latest_news(keyword)
-    
-    # 2. Generate Konten
-    content = generate_article(category, keyword, research_data)
-    
-    # 3. Simpan ke Folder i18n ID (src/content/posts/id/)
+    # Kunci relasi i18n untuk menghubungkan versi ID dan EN
+    translation_key = f"post-{slugify(keyword)}"
     today_str = datetime.now().strftime('%Y-%m-%d')
     file_slug = slugify(keyword)
     file_name = f"{today_str}-{file_slug}.md"
+
+    # 1. Riset Berita
+    research_data = search_latest_news(keyword)
     
-    # Sesuai dengan config.yml (structure: multiple_folders)
-    output_dir = "src/content/posts/id"
-    os.makedirs(output_dir, exist_ok=True)
-    
-    file_path = os.path.join(output_dir, file_name)
-    
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(content)
-        
-    print(f"Berhasil menyimpan artikel di: {file_path}")
+    # 2. Generate Konten Bahasa Indonesia (ID)
+    print("Generating postingan Bahasa Indonesia (ID)...")
+    content_id = generate_article(category, keyword, research_data, lang="id", translation_key=translation_key)
+    output_dir_id = "src/content/posts/id"
+    os.makedirs(output_dir_id, exist_ok=True)
+    with open(os.path.join(output_dir_id, file_name), "w", encoding="utf-8") as f:
+        f.write(content_id)
+    print(f"Berhasil menyimpan artikel ID: {output_dir_id}/{file_name}")
+
+    # 3. Generate Konten Bahasa Inggris (EN)
+    print("Generating postingan Bahasa Inggris (EN)...")
+    content_en = generate_article(category, keyword, research_data, lang="en", translation_key=translation_key)
+    output_dir_en = "src/content/posts/en"
+    os.makedirs(output_dir_en, exist_ok=True)
+    with open(os.path.join(output_dir_en, file_name), "w", encoding="utf-8") as f:
+        f.write(content_en)
+    print(f"Berhasil menyimpan artikel EN: {output_dir_en}/{file_name}")
 
 if __name__ == "__main__":
     main()

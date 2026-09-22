@@ -2,9 +2,8 @@ name: Auto Generate Daily Post for Kukode
 
 on:
   schedule:
-    # Berjalan setiap hari jam 07:00 WIB (00:00 UTC)
     - cron: '0 0 * * *'
-  workflow_dispatch: # Pemicu manual dari tab Actions di GitHub
+  workflow_dispatch:
 
 jobs:
   generate-and-commit:
@@ -16,11 +15,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Install Dependencies
         run: |
-          pip install google-generativeai duckduckgo_search
+          pip install google-genai ddgs
 
       - name: Generate Post
         env:
