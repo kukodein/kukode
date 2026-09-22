@@ -14,7 +14,7 @@ const posts = defineCollection({
       image: z.string().optional(),
     }).optional(),
     pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
+    // updatedDate: z.coerce.date().optional(),
     image: z.string().optional(),
     category: z.string().optional(), // atau reference('categories') jika menggunakan relasi
     author: z.string().optional(),   // atau reference('authors') jika menggunakan relasi
