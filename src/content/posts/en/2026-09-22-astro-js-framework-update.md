@@ -1,16 +1,18 @@
 ---
 title: "Unveiling the Future: What's New and Exciting in Astro JS Framework Updates"
-description: "Stay ahead with the latest Astro JS framework updates! Discover new features, performance enhancements, and improved developer experience that make Astro an unstoppable force for modern web development."
-pubDate: 2026-09-22 00:00:00
-image: "/image/default-thumbnail.jpg"
-category: "Teknologi"
-author: "Kukode Team"
-draft: false
-translation_key: "post-astro-js-framework-update"
+custom_slug: ''
+translation_key: post-astro-js-framework-update
+description: Stay ahead with the latest Astro JS framework updates! Discover new features, performance enhancements, and improved developer experience that make Astro an unstoppable force for modern web development.
 seo:
-  title: "Astro JS Framework Updates: New Features & Performance Insights"
-  description: "Explore the ongoing evolution of the Astro JS framework. Learn about the latest updates, performance improvements, enhanced developer tools, and why Astro remains a top choice for content-driven and performant websites."
-  image: "/image/default-thumbnail.jpg"
+  title: 'Astro JS Framework Updates: New Features & Performance Insights'
+  description: Explore the ongoing evolution of the Astro JS framework. Learn about the latest updates, performance improvements, enhanced developer tools, and why Astro remains a top choice for content-driven and performant websites.
+  image: /image/default-thumbnail.jpg
+pubDate: 2026-09-22 00:00:00
+updatedDate: ''
+image: /image/default-thumbnail.jpg
+category: Information
+author: Ahmad Muzakki
+draft: false
 ---
 
 ## Introduction
@@ -23,9 +25,10 @@ This article delves into the general themes and exciting advancements typically 
 
 ## Astro JS: A Quick Refresher
 
-Before diving into updates, let's briefly recall what makes Astro JS stand out. Astro is a content-focused web framework designed for building fast websites with less client-side JavaScript. Its core philosophy revolves around shipping *zero JavaScript by default* to the browser, only hydrating interactive components when necessary using its "island architecture."
+Before diving into updates, let's briefly recall what makes Astro JS stand out. Astro is a content-focused web framework designed for building fast websites with less client-side JavaScript. Its core philosophy revolves around shipping _zero JavaScript by default_ to the browser, only hydrating interactive components when necessary using its "island architecture."
 
 Key benefits of Astro include:
+
 *   **Performance First:** Delivering lightning-fast load times and superior Lighthouse scores.
 *   **Content-Focused:** Excellent support for Markdown, MDX, and static content generation.
 *   **Framework Agnostic:** Allowing you to use UI components from React, Vue, Svelte, Solid, or Lit within your Astro project.
@@ -48,6 +51,7 @@ While specific version numbers bring unique changes, general knowledge of Astro'
 ### 1. Enhanced Developer Experience
 
 Astro's team consistently strives to make the developer workflow smoother. This often translates to:
+
 *   **Faster Build & Dev Server Performance:** Reducing waiting times during development and deployment.
 *   **Better Error Reporting:** Providing clearer, more actionable feedback when something goes wrong.
 *   **More Intuitive Configuration:** Streamlining project setup and customization.
@@ -56,6 +60,7 @@ Astro's team consistently strives to make the developer workflow smoother. This 
 ### 2. Powerful Integrations
 
 Astro's strength lies in its flexibility. Updates frequently expand its integration capabilities:
+
 *   **UI Framework Adapters:** Adding or improving support for the latest versions of popular UI frameworks (e.g., React, Vue, Svelte) to ensure seamless interoperability.
 *   **Image Optimization:** Built-in or improved integrations for optimized image delivery.
 *   **Data Fetching & Storage:** Better support for various data sources, including advancements like **Astro DB**, which provides a type-safe, database-agnostic solution for data management directly within your Astro project.
@@ -63,6 +68,7 @@ Astro's strength lies in its flexibility. Updates frequently expand its integrat
 ### 3. Advanced Rendering & Interactivity
 
 Astro's rendering model is continuously refined:
+
 *   **View Transitions API:** A significant recent addition that allows for smooth, beautiful page transitions without complex JavaScript, greatly enhancing the user experience on multi-page applications.
 *   **Middleware:** Providing server-side logic that runs before or after routes, enabling powerful features like authentication, redirects, and custom header manipulation at the edge.
 *   **Hybrid Rendering:** Further optimizing the balance between static site generation (SSG) and server-side rendering (SSR) for more flexible and performant solutions.
@@ -70,6 +76,7 @@ Astro's rendering model is continuously refined:
 ### 4. Content Authoring & Management
 
 Given Astro's content-first approach, improvements in this area are always a priority:
+
 *   **Content Collections:** Continued enhancements to content collections for better organization, validation, and querying of Markdown and MDX content.
 *   **MDX Enhancements:** Deeper support for embedding dynamic components within Markdown files.
 
