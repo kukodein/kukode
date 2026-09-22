@@ -1032,6 +1032,10 @@ ul.checklist li::before {
   height: 100%;
   transition: border-color 0.2s ease;
 }
-.kk-addon-box:hover {
-  border-color: var(--bs-primary);
+.kk-addon-box:hover { border-color: var(--bs-primary); }
+.kk-breadcrumb-nav { max-width: 100%; }
+.kk-breadcrumb-nav > span:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
