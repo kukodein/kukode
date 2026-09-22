@@ -8,7 +8,6 @@ seo:
   description: Explore the ongoing evolution of the Astro JS framework. Learn about the latest updates, performance improvements, enhanced developer tools, and why Astro remains a top choice for content-driven and performant websites.
   image: /image/default-thumbnail.jpg
 pubDate: 2026-09-22 00:00:00
-updatedDate: ''
 image: /image/default-thumbnail.jpg
 category: Information
 author: Ahmad Muzakki

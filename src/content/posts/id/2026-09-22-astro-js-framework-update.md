@@ -8,7 +8,6 @@ seo:
   description: Dapatkan informasi lengkap mengenai pembaruan terkini pada framework Astro JS, termasuk peningkatan performa, DX, dan integrasi, untuk pengembangan web modern yang lebih efisien.
   image: /image/default-thumbnail.jpg
 pubDate: 2026-09-22 00:00:00
-updatedDate: ''
 image: /image/default-thumbnail.jpg
 category: Teknologi
 author: Kukode Team
