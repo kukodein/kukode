@@ -166,7 +166,7 @@ src/page-template/
 1. Daftarkan opsi tipe template baru di bawah `fields.page.types` pada [`public/admin/config.yml`](public/admin/config.yml).
 2. Perbarui enum template pada skema Zod di [`src/content.config.ts`](src/content.config.ts).
 3. Buat file layout baru di `src/page-template/NamaTemplate.astro`.
-4. Daftarkan import dan mapping template pada [`src/pages/[...slug].astro`](src/pages/[...slug].astro) dan [`src/pages/id/[...slug].astro`](src/pages/id/[...slug].astro).
+4. Daftarkan import dan mapping template pada [`src/pages/[slug].astro`](src/pages/[slug].astro) dan [`src/pages/id/[slug].astro`](src/pages/id/[slug].astro).
 
 ---
 
