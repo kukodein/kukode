@@ -9,7 +9,7 @@ seo:
   image: /image/default-thumbnail.jpg
 pubDate: 2026-09-22
 updatedDate: ''
-image: ''
+image: /image/default-thumbnail.jpg
 category: Information
 author: Ahmad Muzakki
 draft: false
