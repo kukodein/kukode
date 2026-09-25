@@ -52,6 +52,30 @@ const headerDesc =
 
 const currentUrl = page.currentPage === 1 ? `${site}/article/` : `${site}/article/${page.currentPage}/`;
 const alternateId = page.currentPage === 1 ? `${site}/id/article/` : `${site}/id/article/${page.currentPage}/`;
+
+// Fetch categories from CMS and only show those that have posts
+const allCategories = await getCollection('categories', ({ id }) =>
+  id.startsWith('en/')
+);
+const activeCategories = allCategories
+  .map((cat) => {
+    const catName = cat.data.name.toLowerCase();
+    const count = allEnPosts.filter((p) => {
+      const postCat = p.data.category?.toLowerCase();
+      return (
+        postCat === catName ||
+        (catName === 'information' && postCat === 'informasi') ||
+        (catName === 'website' && postCat === 'situs web') ||
+        (catName === 'tutorial' && postCat === 'panduan')
+      );
+    }).length;
+    const catSlug =
+      cat.data.custom_slug ||
+      cat.data.slug_en ||
+      cat.id.replace(/^en\//, '').replace(/\.(md|json)$/, '');
+    return { ...cat, count, slug: catSlug };
+  })
+  .filter((cat) => cat.count > 0);
 ---
 
 <BaseLayout
@@ -85,11 +109,13 @@ const alternateId = page.currentPage === 1 ? `${site}/id/article/` : `${site}/id
 
       <div class="d-flex mb-4 justify-content-between align-items-center">
         <!-- Category Filter Buttons -->
-        <div class="d-flex gap-2" id="category-filters">
+        <div class="d-flex gap-2 flex-wrap" id="category-filters">
           <a href="/article/" class="btn px-3 py-1 btn-primary">All</a>
-          <a href="/category/information/" class="btn px-3 py-1 btn-outline-kk">Information</a>
-          <a href="/category/website/" class="btn px-3 py-1 btn-outline-kk">Website</a>
-          <a href="/category/tutorial/" class="btn px-3 py-1 btn-outline-kk">Tutorial</a>
+          {activeCategories.map((cat) => (
+            <a href={`/category/${cat.slug}/`} class="btn px-3 py-1 btn-outline-kk">
+              {cat.data.name}
+            </a>
+          ))}
         </div>
   
         <!-- Live Search Input -->

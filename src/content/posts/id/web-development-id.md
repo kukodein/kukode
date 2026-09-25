@@ -9,7 +9,7 @@ seo:
   image: "/image/post/IMG-Web-Design.jpg"
 pubDate: 2025-08-13 14:34:58
 image: "/image/post/IMG-Web-Design.jpg"
-category: "Situs Web"
+category: "Website"
 author: "Ahmad Muzakki"
 draft: false
 ---

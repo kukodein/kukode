@@ -9,7 +9,7 @@ seo:
   image: "/image/post/IMG-Website.jpg"
 pubDate: 2025-08-06 22:19:34
 image: "/image/post/IMG-Website.jpg"
-category: "Panduan"
+category: "Tutorial"
 author: "Ahmad Muzakki"
 draft: false
 ---

@@ -24,13 +24,17 @@ export async function getStaticPaths({ paginate }) {
         const catName = category.data.name.toLowerCase();
         return (
           postCat === catName ||
-          (catName === 'informasi' && postCat === 'information')
+          (catName === 'informasi' && postCat === 'information') ||
+          (catName === 'website' && postCat === 'situs web') ||
+          (catName === 'tutorial' && postCat === 'panduan')
         );
       })
       .sort(
         (a, b) =>
           new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
       );
+
+    if (posts.length === 0) return [];
 
     return paginate(posts, {
       params: { category: slug },
@@ -44,10 +48,34 @@ const { page, category, categorySlug } = Astro.props;
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
 const slug = categorySlug;
 
-// Fetch all Indonesian categories for filter buttons
+// Fetch all published Indonesian posts
+const allPosts = await getCollection('posts', ({ id, data }) =>
+  id.startsWith('id/') && !data.draft
+);
+
+// Fetch all Indonesian categories for filter buttons and only keep active ones
 const allCategories = await getCollection('categories', ({ id }) =>
   id.startsWith('id/')
 );
+const activeCategories = allCategories
+  .map((cat) => {
+    const cName = cat.data.name.toLowerCase();
+    const count = allPosts.filter((p) => {
+      const postCat = p.data.category?.toLowerCase();
+      return (
+        postCat === cName ||
+        (cName === 'informasi' && postCat === 'information') ||
+        (cName === 'website' && postCat === 'situs web') ||
+        (cName === 'tutorial' && postCat === 'panduan')
+      );
+    }).length;
+    const catSlug =
+      cat.data.custom_slug ||
+      cat.data.slug_id ||
+      cat.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
+    return { ...cat, count, slug: catSlug };
+  })
+  .filter((cat) => cat.count > 0);
 
 // Find counterpart English category
 const allEnCategories = await getCollection('categories', ({ id }) =>
@@ -65,17 +93,16 @@ const enSlug = enCounterpart
     enCounterpart.id.replace(/^en\//, '').replace(/\.(md|json)$/, '')
   : null;
 
-// Fetch all published Indonesian posts in this category for client-side search
-const allPosts = await getCollection('posts', ({ id, data }) =>
-  id.startsWith('id/') && !data.draft
-);
+// Filter published Indonesian posts in this category for client-side search
 const catName = category.data.name.toLowerCase();
 const allCategoryPosts = allPosts
   .filter((post) => {
     const postCat = post.data.category?.toLowerCase();
     return (
       postCat === catName ||
-      (catName === 'informasi' && postCat === 'information')
+      (catName === 'informasi' && postCat === 'information') ||
+      (catName === 'website' && postCat === 'situs web') ||
+      (catName === 'tutorial' && postCat === 'panduan')
     );
   })
   .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
@@ -138,15 +165,11 @@ const description =
       <div class="d-flex mb-4 justify-content-between align-items-center flex-wrap gap-3">
         <div class="d-flex gap-2 flex-wrap" id="category-filters">
           <a href="/id/article/" class="btn px-3 py-1 btn-outline-kk">Semua</a>
-          {allCategories.map((cat) => {
-            const catSlug =
-              cat.data.custom_slug ||
-              cat.data.slug_id ||
-              cat.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
-            const isActive = catSlug === slug;
+          {activeCategories.map((cat) => {
+            const isActive = cat.slug === slug;
             return (
               <a
-                href={`/id/category/${catSlug}/`}
+                href={`/id/category/${cat.slug}/`}
                 class={`btn px-3 py-1 ${isActive ? 'btn-primary' : 'btn-outline-kk'}`}
               >
                 {cat.data.name}

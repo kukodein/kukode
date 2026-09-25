@@ -191,10 +191,36 @@ export const GET: APIRoute = async ({ site }) => {
     });
   }
 
-  // 4. Categories Collection
+  // 4. Categories Collection (only active categories with posts)
   const allCategories = await getCollection('categories');
-  const enCategories = allCategories.filter((c) => c.id.startsWith('en/'));
-  const idCategories = allCategories.filter((c) => c.id.startsWith('id/'));
+  const enCategories = allCategories
+    .filter((c) => c.id.startsWith('en/'))
+    .filter((cat) => {
+      const catName = cat.data.name.toLowerCase();
+      return enPosts.some((p) => {
+        const postCat = p.data.category?.toLowerCase();
+        return (
+          postCat === catName ||
+          (catName === 'information' && postCat === 'informasi') ||
+          (catName === 'website' && postCat === 'situs web') ||
+          (catName === 'tutorial' && postCat === 'panduan')
+        );
+      });
+    });
+  const idCategories = allCategories
+    .filter((c) => c.id.startsWith('id/'))
+    .filter((cat) => {
+      const catName = cat.data.name.toLowerCase();
+      return idPosts.some((p) => {
+        const postCat = p.data.category?.toLowerCase();
+        return (
+          postCat === catName ||
+          (catName === 'informasi' && postCat === 'information') ||
+          (catName === 'website' && postCat === 'situs web') ||
+          (catName === 'tutorial' && postCat === 'panduan')
+        );
+      });
+    });
 
   for (const cat of enCategories) {
     const slug = cat.data.slug || cat.data.custom_slug || cat.id.replace(/^en\//, '').replace(/\.(md|json)$/, '');

@@ -12,21 +12,29 @@ export async function getStaticPaths({ paginate }) {
     ({ id, data }) => id.startsWith('id/') && !data.draft
   );
 
-  const categoriesWithCount = categories.map((cat) => {
-    const catName = cat.data.name;
-    const count = posts.filter(
-      (p) => p.data.category?.toLowerCase() === catName.toLowerCase()
-    ).length;
-    const slug =
-      cat.data.custom_slug ||
-      cat.data.slug_id ||
-      cat.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
-    return {
-      ...cat,
-      count,
-      slug,
-    };
-  });
+  const categoriesWithCount = categories
+    .map((cat) => {
+      const catName = cat.data.name.toLowerCase();
+      const count = posts.filter((p) => {
+        const postCat = p.data.category?.toLowerCase();
+        return (
+          postCat === catName ||
+          (catName === 'informasi' && postCat === 'information') ||
+          (catName === 'website' && postCat === 'situs web') ||
+          (catName === 'tutorial' && postCat === 'panduan')
+        );
+      }).length;
+      const slug =
+        cat.data.custom_slug ||
+        cat.data.slug_id ||
+        cat.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
+      return {
+        ...cat,
+        count,
+        slug,
+      };
+    })
+    .filter((cat) => cat.count > 0);
 
   return paginate(categoriesWithCount, { pageSize: 12 });
 }

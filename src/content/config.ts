@@ -28,6 +28,7 @@ const categories = defineCollection({
   schema: z.object({
     name: z.string(),
     slug: z.string().optional(),
+    custom_slug: z.string().optional(),
     translation_key: z.string().optional(),
     description: z.string().optional(),
   }),

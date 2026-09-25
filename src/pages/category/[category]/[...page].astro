@@ -19,14 +19,22 @@ export async function getStaticPaths({ paginate }) {
       category.id.replace(/^en\//, '').replace(/\.(md|json)$/, '');
 
     const posts = allPosts
-      .filter(
-        (post) =>
-          post.data.category?.toLowerCase() === category.data.name.toLowerCase()
-      )
+      .filter((post) => {
+        const postCat = post.data.category?.toLowerCase();
+        const catName = category.data.name.toLowerCase();
+        return (
+          postCat === catName ||
+          (catName === 'information' && postCat === 'informasi') ||
+          (catName === 'website' && postCat === 'situs web') ||
+          (catName === 'tutorial' && postCat === 'panduan')
+        );
+      })
       .sort(
         (a, b) =>
           new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
       );
+
+    if (posts.length === 0) return [];
 
     return paginate(posts, {
       params: { category: slug },
@@ -40,10 +48,34 @@ const { page, category, categorySlug } = Astro.props;
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
 const slug = categorySlug;
 
-// Fetch all categories for filter buttons
+// Fetch all English published posts
+const allEnPosts = await getCollection('posts', ({ id, data }) =>
+  id.startsWith('en/') && !data.draft
+);
+
+// Fetch all categories for filter buttons and only keep active ones
 const allCategories = await getCollection('categories', ({ id }) =>
   id.startsWith('en/')
 );
+const activeCategories = allCategories
+  .map((cat) => {
+    const catName = cat.data.name.toLowerCase();
+    const count = allEnPosts.filter((p) => {
+      const postCat = p.data.category?.toLowerCase();
+      return (
+        postCat === catName ||
+        (catName === 'information' && postCat === 'informasi') ||
+        (catName === 'website' && postCat === 'situs web') ||
+        (catName === 'tutorial' && postCat === 'panduan')
+      );
+    }).length;
+    const catSlug =
+      cat.data.custom_slug ||
+      cat.data.slug_en ||
+      cat.id.replace(/^en\//, '').replace(/\.(md|json)$/, '');
+    return { ...cat, count, slug: catSlug };
+  })
+  .filter((cat) => cat.count > 0);
 
 // Find counterpart Indonesian category
 const allIdCategories = await getCollection('categories', ({ id }) =>
@@ -126,15 +158,11 @@ const description =
       <div class="d-flex mb-4 justify-content-between align-items-center flex-wrap gap-3">
         <div class="d-flex gap-2 flex-wrap" id="category-filters">
           <a href="/article/" class="btn px-3 py-1 btn-outline-kk">All</a>
-          {allCategories.map((cat) => {
-            const catSlug =
-              cat.data.custom_slug ||
-              cat.data.slug_en ||
-              cat.id.replace(/^en\//, '').replace(/\.(md|json)$/, '');
-            const isActive = catSlug === slug;
+          {activeCategories.map((cat) => {
+            const isActive = cat.slug === slug;
             return (
               <a
-                href={`/category/${catSlug}/`}
+                href={`/category/${cat.slug}/`}
                 class={`btn px-3 py-1 ${isActive ? 'btn-primary' : 'btn-outline-kk'}`}
               >
                 {cat.data.name}
