@@ -1,14 +1,15 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Pagination from '../../../components/Pagination.astro';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Pagination from '../../../../components/Pagination.astro';
 import { getCollection } from 'astro:content';
+import { formatDate } from '../../../../utils/date';
 
 export async function getStaticPaths({ paginate }) {
-  const authors = await getCollection('authors', ({ id }) => id.startsWith('en/'));
-  const allPosts = await getCollection('posts', ({ id, data }) => id.startsWith('en/') && !data.draft);
+  const authors = await getCollection('authors', ({ id }) => id.startsWith('id/'));
+  const allPosts = await getCollection('posts', ({ id, data }) => id.startsWith('id/') && !data.draft);
 
   return authors.flatMap((author) => {
-    const slug = author.data.custom_slug || author.id.replace(/^en\//, '').replace(/\.(md|json)$/, '');
+    const slug = author.data.custom_slug || author.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
     const authorPosts = allPosts
       .filter((p) => p.data.author.toLowerCase() === author.data.name.toLowerCase())
       .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
@@ -25,31 +26,31 @@ const { page, author, authorSlug } = Astro.props;
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
 const slug = authorSlug;
 
-// Check for Indonesian author counterpart
+// Check for English author counterpart
 const allAuthors = await getCollection('authors');
-const idAuthor = allAuthors.find((a) => {
-  if (!a.id.startsWith('id/')) return false;
+const enAuthor = allAuthors.find((a) => {
+  if (!a.id.startsWith('en/')) return false;
   return (
     a.data.name.toLowerCase() === author.data.name.toLowerCase() ||
-    a.id.replace(/^id\//, '').replace(/\.(md|json)$/, '') === slug
+    a.id.replace(/^en\//, '').replace(/\.(md|json)$/, '') === slug
   );
 });
 
-const idSlug = idAuthor
-  ? idAuthor.data.custom_slug || idAuthor.id.replace(/^id\//, '').replace(/\.(md|json)$/, '')
+const enSlug = enAuthor
+  ? enAuthor.data.custom_slug || enAuthor.id.replace(/^en\//, '').replace(/\.(md|json)$/, '')
   : null;
 
-const currentUrl = page.currentPage === 1 ? `${site}/author/${slug}/` : `${site}/author/${slug}/${page.currentPage}/`;
-const alternateIdUrl = idSlug ? (page.currentPage === 1 ? `${site}/id/author/${idSlug}/` : `${site}/id/author/${idSlug}/${page.currentPage}/`) : undefined;
-const headerAlternateUrl = idSlug ? (page.currentPage === 1 ? `/id/author/${idSlug}/` : `/id/author/${idSlug}/${page.currentPage}/`) : '/id/author/';
+const currentUrl = page.currentPage === 1 ? `${site}/id/author/${slug}/` : `${site}/id/author/${slug}/${page.currentPage}/`;
+const alternateEnUrl = enSlug ? (page.currentPage === 1 ? `${site}/author/${enSlug}/` : `${site}/author/${enSlug}/${page.currentPage}/`) : undefined;
+const headerAlternateUrl = enSlug ? (page.currentPage === 1 ? `/author/${enSlug}/` : `/author/${enSlug}/${page.currentPage}/`) : '/author/';
 
-const baseTitle = author.data.seo?.title || author.data.seo_title || `${author.data.name} - Author at Kukode`;
-const title = page.currentPage > 1 ? `${author.data.name} - Page ${page.currentPage} | Author at Kukode` : baseTitle;
+const baseTitle = author.data.seo?.title || author.data.seo_title || `${author.data.name} - Penulis di Kukode`;
+const title = page.currentPage > 1 ? `${author.data.name} - Halaman ${page.currentPage} | Penulis di Kukode` : baseTitle;
 const description =
   author.data.seo?.description ||
   author.data.seo_description ||
   author.data.bio ||
-  `Read articles and guides written by ${author.data.name} at Kukode.`;
+  `Baca artikel dan panduan yang ditulis oleh ${author.data.name} di Kukode.`;
 const authorAvatar = author.data.seo?.image || author.data.seo_image || author.data.avatar || '/image/kukode-logo-transparent.png';
 const fullAvatarUrl = authorAvatar.startsWith('http') ? authorAvatar : `${site}${authorAvatar}`;
 
@@ -59,7 +60,7 @@ const profileSchema = {
   mainEntity: {
     '@type': 'Person',
     name: author.data.name,
-    jobTitle: author.data.role || 'Author',
+    jobTitle: author.data.role || 'Penulis Konten',
     description: author.data.bio || description,
     image: fullAvatarUrl,
     sameAs: [
@@ -73,8 +74,8 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
-    { '@type': 'ListItem', position: 2, name: 'Authors', item: `${site}/author/` },
+    { '@type': 'ListItem', position: 1, name: 'Beranda', item: `${site}/id/` },
+    { '@type': 'ListItem', position: 2, name: 'Penulis', item: `${site}/id/author/` },
     { '@type': 'ListItem', position: 3, name: author.data.name },
   ],
 };
@@ -86,8 +87,8 @@ const breadcrumbSchema = {
   image={authorAvatar}
   schema={profileSchema}
   canonical={currentUrl}
-  alternateEn={currentUrl}
-  alternateId={alternateIdUrl}
+  alternateEn={alternateEnUrl}
+  alternateId={currentUrl}
   headerAlternateUrl={headerAlternateUrl}
 >
   <Fragment slot="head">
@@ -97,16 +98,16 @@ const breadcrumbSchema = {
   <main class="kk-template-page">
     <div class="container py-5">
       <!-- Breadcrumbs -->
-      <nav class="kk-breadcrumb-nav mb-3 small" aria-label="breadcrumb">
-        <a href="/" class="text-decoration-none">Home</a>
+      <nav class="kk-breadcrumb-nav mb-3" aria-label="Breadcrumb">
+        <a href="/id/" class="text-decoration-none text-muted-kk">Beranda</a>
         <span class="mx-1 text-muted-kk">/</span>
-        <a href="/author/" class="text-decoration-none">Authors</a>
+        <a href="/id/author/" class="text-decoration-none text-muted-kk">Penulis</a>
         <span class="mx-1 text-muted-kk">/</span>
         <span class="text-muted-kk">{author.data.name}</span>
         {page.currentPage > 1 && (
           <>
             <span class="mx-1 text-muted-kk">/</span>
-            <span class="text-muted-kk">Page {page.currentPage}</span>
+            <span class="text-muted-kk">Halaman {page.currentPage}</span>
           </>
         )}
       </nav>
@@ -114,7 +115,7 @@ const breadcrumbSchema = {
       <!-- Author Profile Card -->
       <div class="kk-card p-3 mb-4 bg-surface border rounded-3">
         <div class="row align-items-center g-4">
-          <div class="col-12 col-md-auto text-center">
+          <div class="col-auto text-center">
             <img
               src={authorAvatar}
               alt={author.data.name}
@@ -126,7 +127,7 @@ const breadcrumbSchema = {
             />
           </div>
           <div class="col">
-            <span class="badge text-bg-primary fw-normal mb-2">{author.data.role || 'Author'}</span>
+            <span class="badge text-bg-primary fw-normal mb-2">{author.data.role || 'Penulis'}</span>
             <h1 class="h2 font-heading fw-bold mb-2">{author.data.name}</h1>
             {author.data.bio && <p class="text-muted-kk fs-6 mb-3">{author.data.bio}</p>}
 
@@ -155,20 +156,20 @@ const breadcrumbSchema = {
       <!-- Articles Section -->
       <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-          <p class="kk-eyebrow mb-1">Publications</p>
-          <h2 class="h3 font-heading fw-bold mb-0">Articles by {author.data.name}</h2>
+          <p class="kk-eyebrow mb-1">Publikasi</p>
+          <h2 class="h3 font-heading fw-bold mb-0">Artikel oleh {author.data.name}</h2>
         </div>
-        <span class="text-muted-kk small">{page.total} {page.total === 1 ? 'article' : 'articles'}</span>
+        <span class="text-muted-kk small">{page.total} artikel</span>
       </div>
 
       <div class="row g-3">
         {page.data.map((post) => {
-          const postSlug = post.data.custom_slug || post.id.replace(/^en\//, '');
+          const postSlug = post.data.custom_slug || post.id.replace(/^id\//, '');
           const pubDateStr = post.data.pubDate.toISOString().split('T')[0];
           return (
             <div class="col-6 col-md-4">
               <div class="kk-card p-2 h-100 d-flex flex-column">
-                <a href={`/article/${postSlug}/`} class="text-decoration-none text-reset flex-grow-1">
+                <a href={`/id/article/${postSlug}/`} class="text-decoration-none text-reset flex-grow-1">
                   {post.data.image && (
                     <img
                       src={post.data.image}
@@ -181,7 +182,7 @@ const breadcrumbSchema = {
                   <div class="m-2">
                     <div id="meta-post" class="d-flex justify-content-between mt-3 mb-1">
                       <span class="text-muted-kk small text-uppercase">{post.data.category}</span>
-                      <time datetime={pubDateStr} class="text-muted-kk small">{pubDateStr}</time>
+                      <time datetime={pubDateStr} class="text-muted-kk small">{formatDate(post.data.pubDate, 'id')}</time>
                     </div>
                     <h3 class="h6 font-heading fw-bold mt-2 mb-1">{post.data.title}</h3>
                     {post.data.description && (
@@ -197,7 +198,7 @@ const breadcrumbSchema = {
 
       {page.data.length === 0 && (
         <div class="text-center py-5 border rounded-2 bg-surface">
-          <p class="text-muted-kk mb-0">No articles published by this author yet.</p>
+          <p class="text-muted-kk mb-0">Belum ada artikel yang diterbitkan oleh penulis ini.</p>
         </div>
       )}
 
@@ -206,4 +207,3 @@ const breadcrumbSchema = {
     </div>
   </main>
 </BaseLayout>
-

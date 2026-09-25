@@ -1,75 +1,112 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Pagination from '../../components/Pagination.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Pagination from '../../../components/Pagination.astro';
 import { getCollection } from 'astro:content';
+import { formatDate } from '../../../utils/date';
 
 export async function getStaticPaths({ paginate }) {
+  const categories = await getCollection('categories', ({ id }) =>
+    id.startsWith('en/')
+  );
   const allPosts = await getCollection('posts', ({ id, data }) =>
     id.startsWith('en/') && !data.draft
   );
-  const posts = allPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 
-  return paginate(posts, { pageSize: 12 });
+  return categories.flatMap((category) => {
+    const slug =
+      category.data.custom_slug ||
+      category.data.slug_en ||
+      category.id.replace(/^en\//, '').replace(/\.(md|json)$/, '');
+
+    const posts = allPosts
+      .filter(
+        (post) =>
+          post.data.category?.toLowerCase() === category.data.name.toLowerCase()
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+      );
+
+    return paginate(posts, {
+      params: { category: slug },
+      pageSize: 12,
+      props: { category, categorySlug: slug },
+    });
+  });
 }
 
-const { page } = Astro.props;
+const { page, category, categorySlug } = Astro.props;
 const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+const slug = categorySlug;
 
-// Fetch archive settings
-const allSettings = await getCollection('settings');
-const archiveSettings = (
-  allSettings.find((s) => s.id === 'en/archives' || s.id === 'en/archives.json') ||
-  allSettings.find((s) => s.id === 'archives' || s.id === 'archives.json')
-)?.data?.articles;
+// Fetch all categories for filter buttons
+const allCategories = await getCollection('categories', ({ id }) =>
+  id.startsWith('en/')
+);
 
-// Fetch all published English posts for the client-side search index
-const allEnPosts = (await getCollection('posts', ({ id, data }) =>
-  id.startsWith('en/') && !data.draft
+// Find counterpart Indonesian category
+const allIdCategories = await getCollection('categories', ({ id }) =>
+  id.startsWith('id/')
+);
+const idCounterpart = allIdCategories.find((c) => {
+  if (category.data.translation_key && c.data.translation_key) {
+    return c.data.translation_key === category.data.translation_key;
+  }
+  return c.id.replace(/^id\//, '').replace(/\.(md|json)$/, '') === slug;
+});
+const idSlug = idCounterpart
+  ? idCounterpart.data.custom_slug ||
+    idCounterpart.data.slug_id ||
+    idCounterpart.id.replace(/^id\//, '').replace(/\.(md|json)$/, '')
+  : null;
+
+// Fetch all published English posts in this category for client-side search
+const allCategoryPosts = (await getCollection('posts', ({ id, data }) =>
+  id.startsWith('en/') &&
+  !data.draft &&
+  data.category?.toLowerCase() === category.data.name.toLowerCase()
 )).sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 
-const searchIndex = allEnPosts.map((p) => ({
+const searchIndex = allCategoryPosts.map((p) => ({
   title: p.data.title,
   slug: p.data.custom_slug || p.id.replace(/^en\//, ''),
   description: p.data.description || '',
-  category: p.data.category || 'Information',
-  pubDate: p.data.pubDate.toISOString().split('T')[0],
+  category: p.data.category || category.data.name,
+  pubDate: formatDate(p.data.pubDate, 'en'),
+  pubDateIso: p.data.pubDate.toISOString().split('T')[0],
   image: p.data.image || '/image/default-thumbnail.jpg',
 }));
 
-const baseTitle = archiveSettings?.seo?.title || archiveSettings?.seo_title || 'Articles & News | Kukode';
-const title = page.currentPage > 1 ? `${baseTitle.replace(/ \| Kukode$/, '')} - Page ${page.currentPage} | Kukode` : baseTitle;
-const description =
-  archiveSettings?.seo?.description ||
-  archiveSettings?.seo_description ||
-  'Read the latest articles about web development, business, and technology from Kukode.';
-const seoImage = archiveSettings?.seo?.image || archiveSettings?.seo_image || '/image/default-thumbnail.jpg';
-const headerTitle = archiveSettings?.header_title || 'What can We help you with your business?';
-const headerDesc =
-  archiveSettings?.header_description ||
-  'Insights, tutorials, and news from the world of web development and digital business.';
+const currentUrl = page.currentPage === 1 ? `${site}/category/${slug}/` : `${site}/category/${slug}/${page.currentPage}/`;
+const alternateIdUrl = idSlug ? (page.currentPage === 1 ? `${site}/id/category/${idSlug}/` : `${site}/id/category/${idSlug}/${page.currentPage}/`) : undefined;
+const headerAlternateUrl = idSlug ? (page.currentPage === 1 ? `/id/category/${idSlug}/` : `/id/category/${idSlug}/${page.currentPage}/`) : '/id/article/';
 
-const currentUrl = page.currentPage === 1 ? `${site}/article/` : `${site}/article/${page.currentPage}/`;
-const alternateId = page.currentPage === 1 ? `${site}/id/article/` : `${site}/id/article/${page.currentPage}/`;
+const baseTitle = `${category.data.name} | Articles & News | Kukode`;
+const title = page.currentPage > 1 ? `${category.data.name} - Page ${page.currentPage} | Articles & News | Kukode` : baseTitle;
+const description =
+  category.data.description ||
+  `Explore articles, tutorials, and insights in ${category.data.name} from Kukode.`;
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  image={seoImage}
   canonical={currentUrl}
   alternateEn={currentUrl}
-  alternateId={alternateId}
-  headerAlternateUrl={page.currentPage === 1 ? '/id/article/' : `/id/article/${page.currentPage}/`}
+  alternateId={alternateIdUrl}
+  headerAlternateUrl={headerAlternateUrl}
 >
   <main class="kk-template-page">
     <div class="container py-5">
       <div class="text-center mb-5">
-        <!-- Breadcrumbs -->
         <nav class="kk-badge-pill kk-breadcrumb-nav mb-2" aria-label="breadcrumb">
           <span class="kk-dot"></span>
           <a href="/" class="text-decoration-none">Home</a>
           <span class="mx-1 text-muted-kk">/</span>
-          <span class="text-muted-kk">Articles & News</span>
+          <a href="/article/" class="text-decoration-none">Articles</a>
+          <span class="mx-1 text-muted-kk">/</span>
+          <span class="text-muted-kk">{category.data.name}</span>
           {page.currentPage > 1 && (
             <>
               <span class="mx-1 text-muted-kk">/</span>
@@ -77,19 +114,35 @@ const alternateId = page.currentPage === 1 ? `${site}/id/article/` : `${site}/id
             </>
           )}
         </nav>
-        <h1 class="mb-3">{headerTitle}</h1>
-        <p class="text-muted-kk mx-auto" style="max-width: 580px;">{headerDesc}</p>
+        <h1 class="mb-3">{category.data.name}</h1>
+        {category.data.description && (
+          <p class="text-muted-kk mx-auto" style="max-width: 600px;">
+            {category.data.description}
+          </p>
+        )}
       </div>
 
-      <div class="d-flex mb-4 justify-content-between align-items-center">
-        <!-- Category Filter Buttons -->
-        <div class="d-flex gap-2" id="category-filters">
-          <a href="/article/" class="btn px-3 py-1 btn-primary">All</a>
-          <a href="/category/information/" class="btn px-3 py-1 btn-outline-kk">Information</a>
-          <a href="/category/website/" class="btn px-3 py-1 btn-outline-kk">Website</a>
-          <a href="/category/tutorial/" class="btn px-3 py-1 btn-outline-kk">Tutorial</a>
+      <!-- Category Filter Tabs & Live Search Input -->
+      <div class="d-flex mb-4 justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-flex gap-2 flex-wrap" id="category-filters">
+          <a href="/article/" class="btn px-3 py-1 btn-outline-kk">All</a>
+          {allCategories.map((cat) => {
+            const catSlug =
+              cat.data.custom_slug ||
+              cat.data.slug_en ||
+              cat.id.replace(/^en\//, '').replace(/\.(md|json)$/, '');
+            const isActive = catSlug === slug;
+            return (
+              <a
+                href={`/category/${catSlug}/`}
+                class={`btn px-3 py-1 ${isActive ? 'btn-primary' : 'btn-outline-kk'}`}
+              >
+                {cat.data.name}
+              </a>
+            );
+          })}
         </div>
-  
+
         <!-- Live Search Input -->
         <div class="position-relative">
           <svg class="kk-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -99,7 +152,7 @@ const alternateId = page.currentPage === 1 ? `${site}/id/article/` : `${site}/id
             class="form-control kk-search-input"
             placeholder="Search by title or keyword..."
             autocomplete="off"
-            aria-label="Search articles"
+            aria-label={`Search in ${category.data.name}`}
           />
           <button type="button" id="articleSearchClear" class="kk-search-clear d-none" aria-label="Clear search">&times;</button>
         </div>
@@ -123,21 +176,37 @@ const alternateId = page.currentPage === 1 ? `${site}/id/article/` : `${site}/id
       <div id="paginated-posts-wrap">
         <div class="row g-3">
           {page.data.map((post) => {
-            const slug = post.data.custom_slug || post.id.replace(/^en\//, '');
+            const postSlug =
+              post.data.custom_slug || post.id.replace(/^en\//, '');
             return (
               <div class="col-6 col-md-4">
                 <div class="kk-card p-2 h-100 d-flex flex-column">
-                  <a href={`/article/${slug}/`} class="text-decoration-none text-reset flex-grow-1">
+                  <a href={`/article/${postSlug}/`} class="text-decoration-none text-reset flex-grow-1">
                     {post.data.image && (
-                      <img src={post.data.image} alt={post.data.title} class="img-fluid rounded-3 w-100 aspect-ratio-16-9 bg-light" style="min-height:100px; object-fit: cover;" loading="lazy" decoding="async" />
+                      <img
+                        src={post.data.image}
+                        alt={post.data.title}
+                        class="img-fluid rounded-3 w-100 aspect-ratio-16-9 bg-light"
+                        style="min-height:100px; object-fit: cover;"
+                        loading="lazy"
+                      />
                     )}
                     <div class="m-2">
                       <div id="meta-post" class="d-flex justify-content-between mt-3">
-                        <span class="text-muted-kk small text-uppercase">{post.data.category}</span>
-                        <time datetime={post.data.pubDate.toISOString().split('T')[0]} class="text-muted-kk small mb-1 d-block">{post.data.pubDate.toISOString().split('T')[0]}</time>
+                        <span class="text-muted-kk small text-uppercase">
+                          {post.data.category}
+                        </span>
+                        <time
+                          datetime={post.data.pubDate.toISOString().split('T')[0]}
+                          class="text-muted-kk small mb-1 d-block"
+                        >
+                          {formatDate(post.data.pubDate, 'en')}
+                        </time>
                       </div>
                       <h3 class="h6 font-heading mt-2">{post.data.title}</h3>
-                      {post.data.description && <p class="text-muted-kk small line-clamp-2">{post.data.description}</p>}
+                      {post.data.description && (
+                        <p class="text-muted-kk small">{post.data.description}</p>
+                      )}
                     </div>
                   </a>
                 </div>
@@ -148,7 +217,8 @@ const alternateId = page.currentPage === 1 ? `${site}/id/article/` : `${site}/id
 
         {page.data.length === 0 && (
           <div class="text-center py-5">
-            <p class="text-muted-kk">No articles yet. Check back soon!</p>
+            <p class="text-muted-kk">No articles found in this category yet.</p>
+            <a href="/article/" class="btn btn-outline-kk btn-sm mt-2">View All Articles</a>
           </div>
         )}
 
@@ -229,7 +299,7 @@ const alternateId = page.currentPage === 1 ? `${site}/id/article/` : `${site}/id
                     <div class="m-2">
                       <div id="meta-post" class="d-flex justify-content-between mt-3">
                         <span class="text-muted-kk small text-uppercase">${escapeHtml(p.category)}</span>
-                        <time datetime="${escapeHtml(p.pubDate)}" class="text-muted-kk small mb-1 d-block">${escapeHtml(p.pubDate)}</time>
+                        <time datetime="${escapeHtml(p.pubDateIso || p.pubDate)}" class="text-muted-kk small mb-1 d-block">${escapeHtml(p.pubDate)}</time>
                       </div>
                       <h3 class="h6 font-heading mt-2">${escapeHtml(p.title)}</h3>
                       ${p.description ? `<p class="text-muted-kk small line-clamp-2">${escapeHtml(p.description)}</p>` : ''}

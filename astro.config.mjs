@@ -78,32 +78,43 @@ function serverHeadersIntegration() {
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^article/?$ /article/1/ [R=301,L]
-  RewriteRule ^id/article/?$ /id/article/1/ [R=301,L]
-  RewriteRule ^portfolio/?$ /portfolio/1/ [R=301,L]
-  RewriteRule ^category/?$ /category/1/ [R=301,L]
-  RewriteRule ^id/category/?$ /id/category/1/ [R=301,L]
-  RewriteRule ^author/?$ /author/1/ [R=301,L]
-  RewriteRule ^id/author/?$ /id/author/1/ [R=301,L]
-  RewriteRule ^category/([^/]+)/?$ /category/$1/1/ [R=301,L]
-  RewriteRule ^id/category/([^/]+)/?$ /id/category/$1/1/ [R=301,L]
-  RewriteRule ^author/([^/]+)/?$ /author/$1/1/ [R=301,L]
-  RewriteRule ^id/author/([^/]+)/?$ /id/author/$1/1/ [R=301,L]
+  RewriteRule ^article/1/?$ /article/ [R=301,L]
+  RewriteRule ^id/article/1/?$ /id/article/ [R=301,L]
+  RewriteRule ^portfolio/1/?$ /portfolio/ [R=301,L]
+  RewriteRule ^category/1/?$ /category/ [R=301,L]
+  RewriteRule ^id/category/1/?$ /id/category/ [R=301,L]
+  RewriteRule ^author/1/?$ /author/ [R=301,L]
+  RewriteRule ^id/author/1/?$ /id/author/ [R=301,L]
+  RewriteRule ^category/([^/]+)/1/?$ /category/$1/ [R=301,L]
+  RewriteRule ^id/category/([^/]+)/1/?$ /id/category/$1/ [R=301,L]
+  RewriteRule ^author/([^/]+)/1/?$ /author/$1/ [R=301,L]
+  RewriteRule ^id/author/([^/]+)/1/?$ /id/author/$1/ [R=301,L]
 </IfModule>
 `;
         // 3. Build _redirects (Netlify)
-        let redirectsContent = `# Pagination root redirects (from root to page 1)
-/article  /article/1/  301!
-/id/article  /id/article/1/  301!
-/portfolio  /portfolio/1/  301!
-/category  /category/1/  301!
-/id/category  /id/category/1/  301!
-/author  /author/1/  301!
-/id/author  /id/author/1/  301!
-/category/:category  /category/:category/1/  301!
-/id/category/:category  /id/category/:category/1/  301!
-/author/:author  /author/:author/1/  301!
-/id/author/:author  /id/author/:author/1/  301!
+        let redirectsContent = `# Pagination redirects (from /1/ back to root canonical URL)
+/article/1/  /article/  301!
+/article/1  /article/  301!
+/id/article/1/  /id/article/  301!
+/id/article/1  /id/article/  301!
+/portfolio/1/  /portfolio/  301!
+/portfolio/1  /portfolio/  301!
+/category/1/  /category/  301!
+/category/1  /category/  301!
+/id/category/1/  /id/category/  301!
+/id/category/1  /id/category/  301!
+/author/1/  /author/  301!
+/author/1  /author/  301!
+/id/author/1/  /id/author/  301!
+/id/author/1  /id/author/  301!
+/category/:category/1/  /category/:category/  301!
+/category/:category/1  /category/:category/  301!
+/id/category/:category/1/  /id/category/:category/  301!
+/id/category/:category/1  /id/category/:category/  301!
+/author/:author/1/  /author/:author/  301!
+/author/:author/1  /author/:author/  301!
+/id/author/:author/1/  /id/author/:author/  301!
+/id/author/:author/1  /id/author/:author/  301!
 `;
         await fs.writeFile(path.join(outDir, '_redirects'), redirectsContent, 'utf-8');
       },
@@ -113,13 +124,13 @@ function serverHeadersIntegration() {
 
 export default defineConfig({
   redirects: {
-    '/article': '/article/1/',
-    '/id/article': '/id/article/1/',
-    '/portfolio': '/portfolio/1/',
-    '/category': '/category/1/',
-    '/id/category': '/id/category/1/',
-    '/author': '/author/1/',
-    '/id/author': '/id/author/1/',
+    '/article/1': '/article/',
+    '/id/article/1': '/id/article/',
+    '/portfolio/1': '/portfolio/',
+    '/category/1': '/category/',
+    '/id/category/1': '/id/category/',
+    '/author/1': '/author/',
+    '/id/author/1': '/id/author/',
   },
   site: siteUrl,
   server: {

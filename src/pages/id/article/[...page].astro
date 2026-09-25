@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Pagination from '../../../components/Pagination.astro';
 import { getCollection } from 'astro:content';
+import { formatDate } from '../../../utils/date';
 
 export async function getStaticPaths({ paginate }) {
   const allPosts = await getCollection('posts', ({ id, data }) =>
@@ -31,7 +32,8 @@ const searchIndex = allIdPosts.map((p) => ({
   slug: p.data.custom_slug || p.id.replace(/^id\//, ''),
   description: p.data.description || '',
   category: p.data.category || 'Informasi',
-  pubDate: p.data.pubDate.toISOString().split('T')[0],
+  pubDate: formatDate(p.data.pubDate, 'id'),
+  pubDateIso: p.data.pubDate.toISOString().split('T')[0],
   image: p.data.image || '/image/default-thumbnail.jpg',
 }));
 
@@ -133,7 +135,7 @@ const alternateEn = page.currentPage === 1 ? `${site}/article/` : `${site}/artic
                     <div class="m-2">
                       <div id="meta-post" class="d-flex justify-content-between mt-3">
                         <span class="text-muted-kk small text-uppercase">{post.data.category}</span>
-                        <time datetime={post.data.pubDate.toISOString().split('T')[0]} class="text-muted-kk small mb-1 d-block">{post.data.pubDate.toISOString().split('T')[0]}</time>
+                        <time datetime={post.data.pubDate.toISOString().split('T')[0]} class="text-muted-kk small mb-1 d-block">{formatDate(post.data.pubDate, 'id')}</time>
                       </div>
                       <h3 class="h6 font-heading mt-2">{post.data.title}</h3>
                       {post.data.description && <p class="text-muted-kk small line-clamp-2">{post.data.description}</p>}
@@ -228,7 +230,7 @@ const alternateEn = page.currentPage === 1 ? `${site}/article/` : `${site}/artic
                     <div class="m-2">
                       <div id="meta-post" class="d-flex justify-content-between mt-3">
                         <span class="text-muted-kk small text-uppercase">${escapeHtml(p.category)}</span>
-                        <time datetime="${escapeHtml(p.pubDate)}" class="text-muted-kk small mb-1 d-block">${escapeHtml(p.pubDate)}</time>
+                        <time datetime="${escapeHtml(p.pubDateIso || p.pubDate)}" class="text-muted-kk small mb-1 d-block">${escapeHtml(p.pubDate)}</time>
                       </div>
                       <h3 class="h6 font-heading mt-2">${escapeHtml(p.title)}</h3>
                       ${p.description ? `<p class="text-muted-kk small line-clamp-2">${escapeHtml(p.description)}</p>` : ''}

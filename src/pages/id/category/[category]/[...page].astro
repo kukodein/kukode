@@ -1,0 +1,341 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../../../utils/date';
+
+export async function getStaticPaths({ paginate }) {
+  const categories = await getCollection('categories', ({ id }) =>
+    id.startsWith('id/')
+  );
+  const allPosts = await getCollection('posts', ({ id, data }) =>
+    id.startsWith('id/') && !data.draft
+  );
+
+  return categories.flatMap((category) => {
+    const slug =
+      category.data.custom_slug ||
+      category.data.slug_id ||
+      category.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
+
+    const posts = allPosts
+      .filter((post) => {
+        const postCat = post.data.category?.toLowerCase();
+        const catName = category.data.name.toLowerCase();
+        return (
+          postCat === catName ||
+          (catName === 'informasi' && postCat === 'information')
+        );
+      })
+      .sort(
+        (a, b) =>
+          new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+      );
+
+    return paginate(posts, {
+      params: { category: slug },
+      pageSize: 12,
+      props: { category, categorySlug: slug },
+    });
+  });
+}
+
+const { page, category, categorySlug } = Astro.props;
+const site = Astro.site?.toString().replace(/\/$/, '') || 'https://kukode.com';
+const slug = categorySlug;
+
+// Fetch all Indonesian categories for filter buttons
+const allCategories = await getCollection('categories', ({ id }) =>
+  id.startsWith('id/')
+);
+
+// Find counterpart English category
+const allEnCategories = await getCollection('categories', ({ id }) =>
+  id.startsWith('en/')
+);
+const enCounterpart = allEnCategories.find((c) => {
+  if (category.data.translation_key && c.data.translation_key) {
+    return c.data.translation_key === category.data.translation_key;
+  }
+  return c.id.replace(/^id\//, '').replace(/\.(md|json)$/, '') === slug;
+});
+const enSlug = enCounterpart
+  ? enCounterpart.data.custom_slug ||
+    enCounterpart.data.slug_en ||
+    enCounterpart.id.replace(/^en\//, '').replace(/\.(md|json)$/, '')
+  : null;
+
+// Fetch all published Indonesian posts in this category for client-side search
+const allPosts = await getCollection('posts', ({ id, data }) =>
+  id.startsWith('id/') && !data.draft
+);
+const catName = category.data.name.toLowerCase();
+const allCategoryPosts = allPosts
+  .filter((post) => {
+    const postCat = post.data.category?.toLowerCase();
+    return (
+      postCat === catName ||
+      (catName === 'informasi' && postCat === 'information')
+    );
+  })
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+const searchIndex = allCategoryPosts.map((p) => ({
+  title: p.data.title,
+  slug: p.data.custom_slug || p.id.replace(/^id\//, ''),
+  description: p.data.description || '',
+  category: p.data.category || category.data.name,
+  pubDate: formatDate(p.data.pubDate, 'id'),
+  pubDateIso: p.data.pubDate.toISOString().split('T')[0],
+  image: p.data.image || '/image/default-thumbnail.jpg',
+}));
+
+const currentUrl = page.currentPage === 1 ? `${site}/id/category/${slug}/` : `${site}/id/category/${slug}/${page.currentPage}/`;
+const alternateEnUrl = enSlug ? (page.currentPage === 1 ? `${site}/category/${enSlug}/` : `${site}/category/${enSlug}/${page.currentPage}/`) : undefined;
+const headerAlternateUrl = enSlug ? (page.currentPage === 1 ? `/category/${enSlug}/` : `/category/${enSlug}/${page.currentPage}/`) : '/article/';
+
+const baseTitle = `${category.data.name} | Artikel & Berita | Kukode`;
+const title = page.currentPage > 1 ? `${category.data.name} - Halaman ${page.currentPage} | Artikel & Berita | Kukode` : baseTitle;
+const description =
+  category.data.description ||
+  `Temukan artikel, tutorial, dan wawasan seputar ${category.data.name} dari Kukode.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={currentUrl}
+  alternateEn={alternateEnUrl}
+  alternateId={currentUrl}
+  headerAlternateUrl={headerAlternateUrl}
+>
+  <main class="kk-template-page">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <nav class="kk-badge-pill kk-breadcrumb-nav mb-2" aria-label="breadcrumb">
+          <span class="kk-dot"></span>
+          <a href="/id/" class="text-decoration-none">Beranda</a>
+          <span class="mx-1 text-muted-kk">/</span>
+          <a href="/id/article/" class="text-decoration-none">Artikel</a>
+          <span class="mx-1 text-muted-kk">/</span>
+          <span class="text-muted-kk">{category.data.name}</span>
+          {page.currentPage > 1 && (
+            <>
+              <span class="mx-1 text-muted-kk">/</span>
+              <span class="text-muted-kk">Halaman {page.currentPage}</span>
+            </>
+          )}
+        </nav>
+        <h1 class="mb-3">{category.data.name}</h1>
+        {category.data.description && (
+          <p class="text-muted-kk mx-auto" style="max-width: 600px;">
+            {category.data.description}
+          </p>
+        )}
+      </div>
+
+      <!-- Category Filter Tabs & Live Search Input -->
+      <div class="d-flex mb-4 justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-flex gap-2 flex-wrap" id="category-filters">
+          <a href="/id/article/" class="btn px-3 py-1 btn-outline-kk">Semua</a>
+          {allCategories.map((cat) => {
+            const catSlug =
+              cat.data.custom_slug ||
+              cat.data.slug_id ||
+              cat.id.replace(/^id\//, '').replace(/\.(md|json)$/, '');
+            const isActive = catSlug === slug;
+            return (
+              <a
+                href={`/id/category/${catSlug}/`}
+                class={`btn px-3 py-1 ${isActive ? 'btn-primary' : 'btn-outline-kk'}`}
+              >
+                {cat.data.name}
+              </a>
+            );
+          })}
+        </div>
+
+        <!-- Live Search Input -->
+        <div class="position-relative">
+          <svg class="kk-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input
+            type="search"
+            id="articleSearchInput"
+            class="form-control kk-search-input"
+            placeholder="Search by title or keyword..."
+            autocomplete="off"
+            aria-label={`Cari di kategori ${category.data.name}`}
+          />
+          <button type="button" id="articleSearchClear" class="kk-search-clear d-none" aria-label="Hapus pencarian">&times;</button>
+        </div>
+      </div>
+
+      <h2 class="visually-hidden">Daftar Artikel</h2>
+
+      <!-- Search Results Container (Hidden by default) -->
+      <div id="search-results-wrap" class="d-none">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <p id="search-feedback" class="text-muted-kk mb-0 small fw-semibold"></p>
+        </div>
+        <div class="row g-3" id="search-results-grid"></div>
+        <div id="search-empty" class="text-center py-5 d-none">
+          <p class="text-muted-kk fs-5 mb-1">Tidak ada artikel yang cocok dengan pencarian Anda.</p>
+          <p class="text-muted-kk small">Coba cari dengan istilah atau kata kunci lain.</p>
+        </div>
+      </div>
+
+      <!-- Paginated Default Container -->
+      <div id="paginated-posts-wrap">
+        <div class="row g-3">
+          {page.data.map((post) => {
+            const postSlug =
+              post.data.custom_slug || post.id.replace(/^id\//, '');
+            return (
+              <div class="col-6 col-md-4">
+                <div class="kk-card p-2 h-100 d-flex flex-column">
+                  <a href={`/id/article/${postSlug}/`} class="text-decoration-none text-reset flex-grow-1">
+                    {post.data.image && (
+                      <img
+                        src={post.data.image}
+                        alt={post.data.title}
+                        class="img-fluid rounded-3 w-100 aspect-ratio-16-9 bg-light"
+                        style="min-height:100px; object-fit: cover;"
+                        loading="lazy"
+                      />
+                    )}
+                    <div class="m-2">
+                      <div id="meta-post" class="d-flex justify-content-between mt-3">
+                        <span class="text-muted-kk small text-uppercase">
+                          {post.data.category}
+                        </span>
+                        <time
+                          datetime={post.data.pubDate.toISOString().split('T')[0]}
+                          class="text-muted-kk small mb-1 d-block"
+                        >
+                          {formatDate(post.data.pubDate, 'id')}
+                        </time>
+                      </div>
+                      <h3 class="h6 font-heading mt-2">{post.data.title}</h3>
+                      {post.data.description && (
+                        <p class="text-muted-kk small">{post.data.description}</p>
+                      )}
+                    </div>
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {page.data.length === 0 && (
+          <div class="text-center py-5">
+            <p class="text-muted-kk">Belum ada artikel di kategori ini.</p>
+            <a href="/id/article/" class="btn btn-outline-kk btn-sm mt-2">Lihat Semua Artikel</a>
+          </div>
+        )}
+
+        <!-- Pagination Component -->
+        <Pagination page={page} />
+      </div>
+    </div>
+  </main>
+
+  <!-- Embed Search Index JSON -->
+  <script id="all-posts-data" type="application/json" set:html={JSON.stringify(searchIndex)} />
+
+  <!-- Client-Side Search Script -->
+  <script is:inline>
+    (function () {
+      function initArticleSearch() {
+        const input = document.getElementById('articleSearchInput');
+        const clearBtn = document.getElementById('articleSearchClear');
+        const searchWrap = document.getElementById('search-results-wrap');
+        const paginatedWrap = document.getElementById('paginated-posts-wrap');
+        const resultsGrid = document.getElementById('search-results-grid');
+        const feedback = document.getElementById('search-feedback');
+        const emptyState = document.getElementById('search-empty');
+        const dataEl = document.getElementById('all-posts-data');
+
+        if (!input || !dataEl || !searchWrap || !paginatedWrap || !resultsGrid) return;
+
+        let posts = [];
+        try {
+          posts = JSON.parse(dataEl.textContent || '[]');
+        } catch {
+          posts = [];
+        }
+
+        function escapeHtml(text) {
+          const div = document.createElement('div');
+          div.textContent = text;
+          return div.innerHTML;
+        }
+
+        function handleSearch() {
+          const q = (input.value || '').trim().toLowerCase();
+
+          if (!q) {
+            clearBtn.classList.add('d-none');
+            searchWrap.classList.add('d-none');
+            paginatedWrap.classList.remove('d-none');
+            resultsGrid.innerHTML = '';
+            return;
+          }
+
+          clearBtn.classList.remove('d-none');
+          paginatedWrap.classList.add('d-none');
+          searchWrap.classList.remove('d-none');
+
+          const matched = posts.filter(
+            (p) =>
+              (p.title || '').toLowerCase().includes(q) ||
+              (p.description || '').toLowerCase().includes(q) ||
+              (p.category || '').toLowerCase().includes(q)
+          );
+
+          if (matched.length === 0) {
+            resultsGrid.innerHTML = '';
+            feedback.textContent = `0 artikel ditemukan untuk "${input.value.trim()}"`;
+            emptyState.classList.remove('d-none');
+          } else {
+            emptyState.classList.add('d-none');
+            feedback.textContent = `Ditemukan ${matched.length} artikel untuk "${input.value.trim()}"`;
+
+            resultsGrid.innerHTML = matched
+              .map(
+                (p) => `
+              <div class="col-6 col-md-4">
+                <div class="kk-card p-2 h-100 d-flex flex-column">
+                  <a href="/id/article/${encodeURIComponent(p.slug)}/" class="text-decoration-none text-reset flex-grow-1">
+                    <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" class="img-fluid rounded-3 w-100 aspect-ratio-16-9 bg-light" style="min-height:100px; object-fit: cover;" loading="lazy" decoding="async" />
+                    <div class="m-2">
+                      <div id="meta-post" class="d-flex justify-content-between mt-3">
+                        <span class="text-muted-kk small text-uppercase">${escapeHtml(p.category)}</span>
+                        <time datetime="${escapeHtml(p.pubDateIso || p.pubDate)}" class="text-muted-kk small mb-1 d-block">${escapeHtml(p.pubDate)}</time>
+                      </div>
+                      <h3 class="h6 font-heading mt-2">${escapeHtml(p.title)}</h3>
+                      ${p.description ? `<p class="text-muted-kk small line-clamp-2">${escapeHtml(p.description)}</p>` : ''}
+                    </div>
+                  </a>
+                </div>
+              </div>
+            `
+              )
+              .join('');
+          }
+        }
+
+        input.addEventListener('input', handleSearch);
+
+        clearBtn.addEventListener('click', () => {
+          input.value = '';
+          handleSearch();
+          input.focus();
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', initArticleSearch);
+      document.addEventListener('astro:page-load', initArticleSearch);
+    })();
+  </script>
+</BaseLayout>
