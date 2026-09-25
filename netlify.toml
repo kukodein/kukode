@@ -1,0 +1,6 @@
+# Redirect URL
+[[redirects]]
+  from = "https://kukode.netlify.app/*"
+  to = "https://kukode.my.id/:splat"
+  status = 301
+  force = true
