@@ -75,14 +75,52 @@ function serverHeadersIntegration() {
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType text/javascript "access plus 1 year"
 </IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^article/?$ /article/1/ [R=301,L]
+  RewriteRule ^id/article/?$ /id/article/1/ [R=301,L]
+  RewriteRule ^portfolio/?$ /portfolio/1/ [R=301,L]
+  RewriteRule ^category/?$ /category/1/ [R=301,L]
+  RewriteRule ^id/category/?$ /id/category/1/ [R=301,L]
+  RewriteRule ^author/?$ /author/1/ [R=301,L]
+  RewriteRule ^id/author/?$ /id/author/1/ [R=301,L]
+  RewriteRule ^category/([^/]+)/?$ /category/$1/1/ [R=301,L]
+  RewriteRule ^id/category/([^/]+)/?$ /id/category/$1/1/ [R=301,L]
+  RewriteRule ^author/([^/]+)/?$ /author/$1/1/ [R=301,L]
+  RewriteRule ^id/author/([^/]+)/?$ /id/author/$1/1/ [R=301,L]
+</IfModule>
 `;
-        await fs.writeFile(path.join(outDir, '.htaccess'), htaccessContent, 'utf-8');
+        // 3. Build _redirects (Netlify)
+        let redirectsContent = `# Pagination root redirects (from root to page 1)
+/article  /article/1/  301!
+/id/article  /id/article/1/  301!
+/portfolio  /portfolio/1/  301!
+/category  /category/1/  301!
+/id/category  /id/category/1/  301!
+/author  /author/1/  301!
+/id/author  /id/author/1/  301!
+/category/:category  /category/:category/1/  301!
+/id/category/:category  /id/category/:category/1/  301!
+/author/:author  /author/:author/1/  301!
+/id/author/:author  /id/author/:author/1/  301!
+`;
+        await fs.writeFile(path.join(outDir, '_redirects'), redirectsContent, 'utf-8');
       },
     },
   };
 }
 
 export default defineConfig({
+  redirects: {
+    '/article': '/article/1/',
+    '/id/article': '/id/article/1/',
+    '/portfolio': '/portfolio/1/',
+    '/category': '/category/1/',
+    '/id/category': '/id/category/1/',
+    '/author': '/author/1/',
+    '/id/author': '/id/author/1/',
+  },
   site: siteUrl,
   server: {
     headers: isNotProduction ? { 'X-Robots-Tag': 'noindex, nofollow' } : {},

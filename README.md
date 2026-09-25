@@ -208,6 +208,16 @@ src/page-template/
 │   ├── layouts/               # Layout dasar (BaseLayout.astro)
 │   ├── page-template/         # Komponen template halaman dinamis
 │   ├── pages/                 # Rute halaman Astro (EN & /id/)
+│   │   ├── [slug].astro       # Halaman statis custom slug (EN)
+│   │   ├── article/           # Rute artikel (EN) ([page].astro & [slug].astro)
+│   │   ├── author/            # Rute author (EN) ([page].astro & [author]/[page].astro)
+│   │   ├── category/          # Rute kategori (EN) ([page].astro & [category]/[page].astro)
+│   │   ├── portfolio/         # Rute portofolio (EN) ([page].astro & [slug].astro)
+│   │   └── id/                # Rute multibahasa Indonesia (/id/)
+│   │       ├── [slug].astro   # Halaman statis custom slug (ID)
+│   │       ├── article/       # Rute artikel (ID) ([page].astro & [slug].astro)
+│   │       ├── author/        # Rute author (ID)
+│   │       └── category/      # Rute kategori (ID)
 │   └── content.config.ts      # Definisi skema Astro Content Collections (Zod)
 ├── astro.config.mjs           # Konfigurasi Astro (i18n, sitemap, hooks)
 ├── package.json               # Dependensi & NPM scripts
