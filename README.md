@@ -1,4 +1,4 @@
-# Kukode - Astro v5 + Sveltia CMS
+# Kukode - Astro + Sveltia CMS
 
 Website resmi Kukode Digital Technology berbasis **Astro v5**, **Sveltia CMS** (Git-based headless CMS), dan **Bootstrap 5**. Mendukung penuh arsitektur multi-bahasa (English & Bahasa Indonesia), optimasi SEO tingkat lanjut, sistem Page Template polymorphic, XML Sitemap bergaya RankMath/Yoast SEO, serta fitur dark/light mode tanpa flicker (anti-FOUC).
 
