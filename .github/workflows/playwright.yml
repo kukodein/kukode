@@ -1,0 +1,72 @@
+# Untuk CONFIG A (di dalam repo kukode). Salin ke kukode/.github/workflows/playwright.yml
+# Tiap grup tes berjalan sebagai job terpisah → saat gagal, langsung terlihat grup mana yang bermasalah.
+name: Playwright (kukode)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'src/content/**'      # hindari trigger dari commit artikel otomatis (auto-post.yml); hapus baris ini bila ingin tes tiap artikel
+  workflow_dispatch:
+    inputs:
+      visual:
+        description: 'Jalankan juga tes visual (butuh baseline snapshot ter-commit)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: playwright-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    name: ${{ matrix.group }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [smoke, ui, forms, content, seo, quality]
+    env:
+      CI: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Cache browser Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      # Build + astro preview dijalankan otomatis oleh webServer di playwright.config.ts
+      - name: Jalankan tes grup ${{ matrix.group }}
+        run: >
+          npx playwright test tests/${{ matrix.group }}
+          --grep-invert ${{ inputs.visual && '__none__' || '@visual' }}
+
+      - name: Unggah laporan HTML
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ matrix.group }}
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Unggah trace & screenshot saat gagal
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: traces-${{ matrix.group }}
+          path: test-results/
+          retention-days: 14

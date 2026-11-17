@@ -143,6 +143,7 @@ article img { width: 100%; border-radius: 6px; }
   transition: padding-top 0.2s ease;
 }
 @media (max-width: 991px) {
+  .kk-navbar { border-radius: 25px !important; }
   /*.kk-navbar-wrap { padding-top: 1.5rem; }*/
   /*.kk-navbar-wrap.kk-scrolled { padding-top: 36px; }*/
 }
@@ -154,7 +155,9 @@ article img { width: 100%; border-radius: 6px; }
   box-shadow: 0 4px 20px rgba(20,22,31,0.06);
   _padding: 0.55rem 0.6rem;
 }
-@media (min-width: 992px) { .border-lg-0 {border: 0 !important;} }
+@media (min-width: 992px) { 
+  .border-lg-0 {border: 0 !important;} 
+}
 
 .kk-navbar .nav-link { color: var(--kk-muted); font-size: 0.88rem; font-weight: 500; padding: 0.45rem 0.8rem !important; }
 .kk-navbar .nav-link:hover { color: var(--bs-primary); }
@@ -770,7 +773,7 @@ ul.checklist li::before {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1030;
+  z-index: 1050;
   background: var(--bs-body-bg);
   border-top: 1px solid var(--bs-border-color);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
