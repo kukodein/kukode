@@ -1,0 +1,150 @@
+backend:
+  name: github
+  repo: username/repo-name
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: pages
+    label: Pages
+    label_singular: Page
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    extension: md
+    fields:
+      - name: page
+        label: Page
+        widget: object
+        typeKey: template
+        types:
+          # ----------------------------------------------------------
+          # TEMPLATE: DEFAULT
+          # ----------------------------------------------------------
+          - name: default
+            label: "Default Page"
+            fields:
+              - name: title
+                label: Title
+                widget: string
+
+              - name: content
+                label: Content
+                widget: markdown
+
+              - name: seo
+                label: SEO
+                widget: object
+                collapsed: true
+                summary: "{{fields.meta_title}}"
+                fields:
+                  - name: meta_title
+                    label: Meta Title
+                    widget: string
+                    required: false
+                  - name: meta_description
+                    label: Meta Description
+                    widget: text
+                    required: false
+                  - name: og_image
+                    label: OG Image
+                    widget: image
+                    required: false
+
+          # ----------------------------------------------------------
+          # TEMPLATE: ABOUT
+          # ----------------------------------------------------------
+          - name: about
+            label: "About Page"
+            fields:
+              - name: title
+                label: Title
+                widget: string
+
+              - name: hero
+                label: Hero Section
+                widget: object
+                collapsed: false
+                fields:
+                  - name: hero_title
+                    label: Hero Title
+                    widget: string
+                  - name: hero_description
+                    label: Hero Description
+                    widget: text
+                  - name: hero_image
+                    label: Hero Image
+                    widget: image
+
+              - name: content
+                label: Content
+                widget: markdown
+
+              - name: seo
+                label: SEO
+                widget: object
+                collapsed: true
+                summary: "{{fields.meta_title}}"
+                fields:
+                  - name: meta_title
+                    label: Meta Title
+                    widget: string
+                    required: false
+                  - name: meta_description
+                    label: Meta Description
+                    widget: text
+                    required: false
+                  - name: og_image
+                    label: OG Image
+                    widget: image
+                    required: false
+
+          # ----------------------------------------------------------
+          # TEMPLATE: CONTACT
+          # ----------------------------------------------------------
+          - name: contact
+            label: "Contact Page"
+            fields:
+              - name: title
+                label: Title
+                widget: string
+
+              - name: hero
+                label: Hero Section
+                widget: object
+                collapsed: false
+                fields:
+                  - name: hero_title
+                    label: Hero Title
+                    widget: string
+
+              - name: content
+                label: Content
+                widget: markdown
+
+              - name: form_email_forward
+                label: Form Email Forward
+                widget: string
+                hint: "Email tujuan pengiriman form kontak"
+
+              - name: seo
+                label: SEO
+                widget: object
+                collapsed: true
+                summary: "{{fields.meta_title}}"
+                fields:
+                  - name: meta_title
+                    label: Meta Title
+                    widget: string
+                    required: false
+                  - name: meta_description
+                    label: Meta Description
+                    widget: text
+                    required: false
+                  - name: og_image
+                    label: OG Image
+                    widget: image
+                    required: false
